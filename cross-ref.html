@@ -5,48 +5,106 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AROMA — Taxonomy Cross-Reference</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="cross-ref.css">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="global.css">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['Space Grotesk', 'system-ui', 'sans-serif'],
+          mono: ['DM Mono', 'monospace'],
+          serif: ['DM Serif Display', 'serif'],
+        },
+        colors: {
+          border: "hsl(var(--border))",
+          input: "hsl(var(--input))",
+          ring: "hsl(var(--ring))",
+          background: "hsl(var(--background))",
+          foreground: "hsl(var(--foreground))",
+          primary: {
+            DEFAULT: "hsl(var(--primary))",
+            foreground: "hsl(var(--primary-foreground))",
+          },
+          secondary: {
+            DEFAULT: "hsl(var(--secondary))",
+            foreground: "hsl(var(--secondary-foreground))",
+          },
+          destructive: {
+            DEFAULT: "hsl(var(--destructive))",
+            foreground: "hsl(var(--destructive-foreground))",
+          },
+          muted: {
+            DEFAULT: "hsl(var(--muted))",
+            foreground: "hsl(var(--muted-foreground))",
+          },
+          accent: {
+            DEFAULT: "hsl(var(--accent))",
+            foreground: "hsl(var(--accent-foreground))",
+          },
+          card: {
+            DEFAULT: "hsl(var(--card))",
+            foreground: "hsl(var(--card-foreground))",
+          },
+        }
+      }
+    }
+  }
+</script>
+<style>
+  /* Base functional styles that Tailwind utilities won't cleanly handle */
+  .tab-page { display: none; }
+  .tab-page.active { display: block; }
+  th.sticky, td.sticky { position: sticky; left: 0; z-index: 5; }
+  th.sticky { z-index: 10; }
+</style>
 </head>
-<body>
+<body class="dark bg-background text-foreground antialiased min-h-screen flex flex-col">
 
-<header>
-  <h1>AROMA — Taxonomy Cross-Reference Map</h1>
-  <div class="sub">Affective Role Ontology for Mental-health Assistance &nbsp;·&nbsp; How existing taxonomies map onto AROMA's 5 dimensions</div>
+<header class="px-10 py-8 border-b-2 border-primary bg-card text-card-foreground">
+  <h1 class="font-serif text-3xl tracking-tight mb-2">AROMA — Taxonomy Cross-Reference Map</h1>
+  <div class="text-[10px] tracking-[0.12em] uppercase text-muted-foreground font-mono">Affective Role Ontology for Mental-health Assistance &nbsp;·&nbsp; How existing taxonomies map onto AROMA's 5 dimensions</div>
 </header>
 
-<div id="tabs">
-  <button class="tab-btn active" onclick="switchTab('table')">① Cross-Reference Table</button>
-  <button class="tab-btn" onclick="switchTab('graph')">② Knowledge Graph</button>
-  <button class="tab-btn" onclick="switchTab('papers')">③ Literature Review</button>
+
+<div id="tabs" class="flex bg-card px-10 border-b border-border">
+  <button class="tab-btn active font-mono text-[10px] tracking-[0.09em] uppercase px-5 py-3 text-muted-foreground border-b-2 border-transparent hover:text-foreground transition-all" onclick="switchTab('table')">① Cross-Reference Table</button>
+  <button class="tab-btn font-mono text-[10px] tracking-[0.09em] uppercase px-5 py-3 text-muted-foreground border-b-2 border-transparent hover:text-foreground transition-all" onclick="switchTab('graph')">② Knowledge Graph</button>
+  <button class="tab-btn font-mono text-[10px] tracking-[0.09em] uppercase px-5 py-3 text-muted-foreground border-b-2 border-transparent hover:text-foreground transition-all" onclick="switchTab('papers')">③ Literature Review</button>
 </div>
 
-<div id="table-page" class="tab-page active">
-  <span class="legend-label">Coverage:</span>
-  <div class="legend-item"><div class="pip pip-full">✓</div> Fully addressed</div>
-  <div class="legend-item"><div class="pip pip-partial">~</div> Partially / implicitly</div>
-  <div class="legend-item"><div class="pip pip-absent">✗</div> Absent / not addressed</div>
-  <div class="legend-item"><div class="pip pip-na">—</div> N/A or out of scope</div>
-  &nbsp;&nbsp;
-  <span class="legend-label">Domain:</span>
-  <div class="legend-item"><div class="pip" style="background:#DDE3F5;color:#2D3A8C;font-size:7px;">TH</div> Foundational theory</div>
-  <div class="legend-item"><div class="pip" style="background:#D8EDE0;color:#2D6B45;font-size:7px;">PH</div> Peer / H-H support</div>
-  <div class="legend-item"><div class="pip" style="background:#EDD8F5;color:#7A2D8C;font-size:7px;">AI</div> Human-AI</div>
-</div>
+<div id="table-page" class="tab-page active flex-1">
+  <div class="flex flex-wrap items-center gap-6 px-10 py-3 bg-secondary border-b border-border">
+    <div class="flex items-center gap-4">
+      <span class="text-[9.5px] uppercase tracking-[0.08em] text-muted-foreground font-mono">Coverage:</span>
+      <div class="flex items-center gap-1.5 text-[10px] font-mono"><div class="w-3.5 h-3.5 rounded-sm flex items-center justify-center text-[8px] font-bold bg-[#D6EEC2] text-[#2D5016]">✓</div> Fully addressed</div>
+      <div class="flex items-center gap-1.5 text-[10px] font-mono"><div class="w-3.5 h-3.5 rounded-sm flex items-center justify-center text-[8px] font-bold bg-[#FFF0C0] text-[#7A5A00]">~</div> Partially / implicitly</div>
+      <div class="flex items-center gap-1.5 text-[10px] font-mono"><div class="w-3.5 h-3.5 rounded-sm flex items-center justify-center text-[8px] font-bold bg-[#FFE0E0] text-[#6B1515]">✗</div> Absent / not addressed</div>
+      <div class="flex items-center gap-1.5 text-[10px] font-mono"><div class="w-3.5 h-3.5 rounded-sm flex items-center justify-center text-[8px] font-bold bg-[#E8E4DE] text-[#4A4540]">—</div> N/A or out of scope</div>
+    </div>
+    <div class="flex items-center gap-4">
+      <span class="text-[9.5px] uppercase tracking-[0.08em] text-muted-foreground font-mono">Domain:</span>
+      <div class="flex items-center gap-1.5 text-[10px] font-mono"><div class="w-3.5 h-3.5 rounded-sm flex items-center justify-center text-[7px] font-bold" style="background:#DDE3F5;color:#2D3A8C;">TH</div> Foundational theory</div>
+      <div class="flex items-center gap-1.5 text-[10px] font-mono"><div class="w-3.5 h-3.5 rounded-sm flex items-center justify-center text-[7px] font-bold" style="background:#D8EDE0;color:#2D6B45;">PH</div> Peer / H-H support</div>
+      <div class="flex items-center gap-1.5 text-[10px] font-mono"><div class="w-3.5 h-3.5 rounded-sm flex items-center justify-center text-[7px] font-bold" style="background:#EDD8F5;color:#7A2D8C;">AI</div> Human-AI</div>
+    </div>
+  </div>
 
-<div class="dim-header">
-  <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.09em;color:var(--muted);">AROMA's 5 dimensions →</span>
-  <div class="dim-strip">
-    <div class="dim-tag d1">D1 · Support Type</div>
-    <div class="dim-tag d2">D2 · Care Role</div>
-    <div class="dim-tag d3">D3 · Core Function</div>
-    <div class="dim-tag d4">D4 · Support Strategy</div>
-    <div class="dim-tag d5">D5 · Interaction Modality</div>
+<div class="px-10 pt-6">
+  <span class="text-[10px] uppercase tracking-[0.09em] text-muted-foreground font-mono">AROMA's 5 dimensions →</span>
+  <div class="flex gap-1.5 mt-2.5">
+    <div class="text-[9px] tracking-[0.07em] uppercase px-2.5 py-1 rounded-sm font-medium bg-[#1B3A6B] text-white whitespace-nowrap">D1 · Support Type</div>
+    <div class="text-[9px] tracking-[0.07em] uppercase px-2.5 py-1 rounded-sm font-medium bg-[#2D5016] text-white whitespace-nowrap">D2 · Care Role</div>
+    <div class="text-[9px] tracking-[0.07em] uppercase px-2.5 py-1 rounded-sm font-medium bg-[#6B2D00] text-white whitespace-nowrap">D3 · Core Function</div>
+    <div class="text-[9px] tracking-[0.07em] uppercase px-2.5 py-1 rounded-sm font-medium bg-[#5B0070] text-white whitespace-nowrap">D4 · Support Strategy</div>
+    <div class="text-[9px] tracking-[0.07em] uppercase px-2.5 py-1 rounded-sm font-medium bg-[#003D4A] text-white whitespace-nowrap">D5 · Interaction Modality</div>
   </div>
 </div>
 
-<div class="table-wrap">
-<table>
+<div class="overflow-x-auto px-10 py-6 pb-10">
+<table class="w-full min-w-[1100px] border-collapse text-left">
 <colgroup>
   <col style="width:210px">
   <col style="width:120px"><!-- D1 -->
@@ -58,80 +116,80 @@
 </colgroup>
 <thead>
   <tr class="group-row">
-    <th class="sticky" rowspan="2" style="text-align:left;padding-left:14px;">Existing Taxonomy</th>
-    <th colspan="5" class="aroma-group">AROMA Dimension Coverage</th>
-    <th rowspan="2" style="min-width:200px">Net Gap for AROMA's Novelty Claim</th>
+    <th class="sticky bg-secondary text-[8.5px] tracking-[0.1em] uppercase border border-border text-muted-foreground p-2 text-left pl-4" rowspan="2">Existing Taxonomy</th>
+    <th colspan="5" class="bg-foreground text-background text-[8.5px] tracking-[0.1em] uppercase border border-border text-center p-2">AROMA Dimension Coverage</th>
+    <th rowspan="2" class="bg-secondary text-[8.5px] tracking-[0.1em] uppercase border border-border text-muted-foreground p-2 text-center" style="min-width:200px">Net Gap for AROMA's Novelty Claim</th>
   </tr>
   <tr class="col-row">
-    <th class="d1">D1<br>Support Type</th>
-    <th class="d2">D2<br>Care Role</th>
-    <th class="d3">D3<br>Core Function</th>
-    <th class="d4">D4<br>Support Strategy</th>
-    <th class="d5">D5<br>Interaction Modality</th>
+    <th class="bg-[#E8EEF8] text-[#1B3A6B] border-b-2 border-b-[#1B3A6B] border border-border text-[9px] tracking-[0.08em] uppercase font-medium text-center p-2 whitespace-nowrap">D1<br>Support Type</th>
+    <th class="bg-[#EBF4E8] text-[#2D5016] border-b-2 border-b-[#2D5016] border border-border text-[9px] tracking-[0.08em] uppercase font-medium text-center p-2 whitespace-nowrap">D2<br>Care Role</th>
+    <th class="bg-[#FBF0E8] text-[#6B2D00] border-b-2 border-b-[#6B2D00] border border-border text-[9px] tracking-[0.08em] uppercase font-medium text-center p-2 whitespace-nowrap">D3<br>Core Function</th>
+    <th class="bg-[#F5E8FB] text-[#5B0070] border-b-2 border-b-[#5B0070] border border-border text-[9px] tracking-[0.08em] uppercase font-medium text-center p-2 whitespace-nowrap">D4<br>Support Strategy</th>
+    <th class="bg-[#E8F4F6] text-[#003D4A] border-b-2 border-b-[#003D4A] border border-border text-[9px] tracking-[0.08em] uppercase font-medium text-center p-2 whitespace-nowrap">D5<br>Interaction Modality</th>
   </tr>
 </thead>
 <tbody>
 
 <tbody id="taxonomy-table-body">
 <!-- ─── SUMMARY ROW ─── -->
-<tr class="summary-row">
-  <td class="sticky">Coverage Summary (% of 11 taxonomies per dimension)</td>
-  <td style="text-align:center;">
+<tr class="summary-row bg-foreground text-background">
+  <td class="sticky left-0 bg-foreground text-[#CCC] p-2.5 text-[10px] border-r border-[#333]">Coverage Summary (% of 11 taxonomies per dimension)</td>
+  <td class="p-2.5 border-r border-[#333] text-center text-[10px]">
     <div>D1: Support Type</div>
-    <div style="font-size:16px;font-weight:700;margin:4px 0;">8 / 11</div>
-    <div style="font-size:9px;color:#AAA;">Most-covered — already well-theorized</div>
-    <div class="score-bar">
-      <div class="score-dot full"></div><div class="score-dot full"></div><div class="score-dot full"></div>
-      <div class="score-dot full"></div><div class="score-dot full"></div><div class="score-dot full"></div>
-      <div class="score-dot partial"></div><div class="score-dot partial"></div>
-      <div class="score-dot absent"></div><div class="score-dot absent"></div><div class="score-dot absent"></div>
+    <div class="text-base font-bold my-1">8 / 11</div>
+    <div class="text-[9px] text-[#AAA]">Most-covered — already well-theorized</div>
+    <div class="flex justify-center gap-0.5 mt-1">
+      <div class="w-2 h-2 rounded-[1px] bg-[#D6EEC2]"></div><div class="w-2 h-2 rounded-[1px] bg-[#D6EEC2]"></div><div class="w-2 h-2 rounded-[1px] bg-[#D6EEC2]"></div>
+      <div class="w-2 h-2 rounded-[1px] bg-[#D6EEC2]"></div><div class="w-2 h-2 rounded-[1px] bg-[#D6EEC2]"></div><div class="w-2 h-2 rounded-[1px] bg-[#D6EEC2]"></div>
+      <div class="w-2 h-2 rounded-[1px] bg-[#FFF0C0]"></div><div class="w-2 h-2 rounded-[1px] bg-[#FFF0C0]"></div>
+      <div class="w-2 h-2 rounded-[1px] bg-[#FFE0E0] opacity-50"></div><div class="w-2 h-2 rounded-[1px] bg-[#FFE0E0] opacity-50"></div><div class="w-2 h-2 rounded-[1px] bg-[#FFE0E0] opacity-50"></div>
     </div>
   </td>
-  <td style="text-align:center;">
+  <td class="p-2.5 border-r border-[#333] text-center text-[10px]">
     <div>D2: Care Role</div>
-    <div style="font-size:16px;font-weight:700;margin:4px 0;">3 full + 5 partial</div>
-    <div style="font-size:9px;color:#AAA;">Key gap — partial coverage only in AI lit</div>
-    <div class="score-bar">
-      <div class="score-dot full"></div><div class="score-dot full"></div><div class="score-dot full"></div>
-      <div class="score-dot partial"></div><div class="score-dot partial"></div><div class="score-dot partial"></div>
-      <div class="score-dot partial"></div><div class="score-dot partial"></div>
-      <div class="score-dot absent"></div><div class="score-dot absent"></div><div class="score-dot absent"></div>
+    <div class="text-base font-bold my-1">3 full + 5 partial</div>
+    <div class="text-[9px] text-[#AAA]">Key gap — partial coverage only in AI lit</div>
+    <div class="flex justify-center gap-0.5 mt-1">
+      <div class="w-2 h-2 rounded-[1px] bg-[#D6EEC2]"></div><div class="w-2 h-2 rounded-[1px] bg-[#D6EEC2]"></div><div class="w-2 h-2 rounded-[1px] bg-[#D6EEC2]"></div>
+      <div class="w-2 h-2 rounded-[1px] bg-[#FFF0C0]"></div><div class="w-2 h-2 rounded-[1px] bg-[#FFF0C0]"></div><div class="w-2 h-2 rounded-[1px] bg-[#FFF0C0]"></div>
+      <div class="w-2 h-2 rounded-[1px] bg-[#FFF0C0]"></div><div class="w-2 h-2 rounded-[1px] bg-[#FFF0C0]"></div>
+      <div class="w-2 h-2 rounded-[1px] bg-[#FFE0E0] opacity-50"></div><div class="w-2 h-2 rounded-[1px] bg-[#FFE0E0] opacity-50"></div><div class="w-2 h-2 rounded-[1px] bg-[#FFE0E0] opacity-50"></div>
     </div>
   </td>
-  <td style="text-align:center;">
+  <td class="p-2.5 border-r border-[#333] text-center text-[10px]">
     <div>D3: Core Function</div>
-    <div style="font-size:16px;font-weight:700;margin:4px 0;">2 full + 6 partial</div>
-    <div style="font-size:9px;color:#AAA;">Implied but never formalized</div>
-    <div class="score-bar">
-      <div class="score-dot full"></div><div class="score-dot full"></div>
-      <div class="score-dot partial"></div><div class="score-dot partial"></div><div class="score-dot partial"></div>
-      <div class="score-dot partial"></div><div class="score-dot partial"></div><div class="score-dot partial"></div>
-      <div class="score-dot absent"></div><div class="score-dot absent"></div><div class="score-dot absent"></div>
+    <div class="text-base font-bold my-1">2 full + 6 partial</div>
+    <div class="text-[9px] text-[#AAA]">Implied but never formalized</div>
+    <div class="flex justify-center gap-0.5 mt-1">
+      <div class="w-2 h-2 rounded-[1px] bg-[#D6EEC2]"></div><div class="w-2 h-2 rounded-[1px] bg-[#D6EEC2]"></div>
+      <div class="w-2 h-2 rounded-[1px] bg-[#FFF0C0]"></div><div class="w-2 h-2 rounded-[1px] bg-[#FFF0C0]"></div><div class="w-2 h-2 rounded-[1px] bg-[#FFF0C0]"></div>
+      <div class="w-2 h-2 rounded-[1px] bg-[#FFF0C0]"></div><div class="w-2 h-2 rounded-[1px] bg-[#FFF0C0]"></div><div class="w-2 h-2 rounded-[1px] bg-[#FFF0C0]"></div>
+      <div class="w-2 h-2 rounded-[1px] bg-[#FFE0E0] opacity-50"></div><div class="w-2 h-2 rounded-[1px] bg-[#FFE0E0] opacity-50"></div><div class="w-2 h-2 rounded-[1px] bg-[#FFE0E0] opacity-50"></div>
     </div>
   </td>
-  <td style="text-align:center;">
+  <td class="p-2.5 border-r border-[#333] text-center text-[10px]">
     <div>D4: Support Strategy</div>
-    <div style="font-size:16px;font-weight:700;margin:4px 0;">1 full + 3 partial</div>
-    <div style="font-size:9px;color:#AAA;">Largest gap — almost entirely novel</div>
-    <div class="score-bar">
-      <div class="score-dot full"></div>
-      <div class="score-dot partial"></div><div class="score-dot partial"></div><div class="score-dot partial"></div>
-      <div class="score-dot absent"></div><div class="score-dot absent"></div><div class="score-dot absent"></div>
-      <div class="score-dot absent"></div><div class="score-dot absent"></div><div class="score-dot absent"></div><div class="score-dot absent"></div>
+    <div class="text-base font-bold my-1">1 full + 3 partial</div>
+    <div class="text-[9px] text-[#AAA]">Largest gap — almost entirely novel</div>
+    <div class="flex justify-center gap-0.5 mt-1">
+      <div class="w-2 h-2 rounded-[1px] bg-[#D6EEC2]"></div>
+      <div class="w-2 h-2 rounded-[1px] bg-[#FFF0C0]"></div><div class="w-2 h-2 rounded-[1px] bg-[#FFF0C0]"></div><div class="w-2 h-2 rounded-[1px] bg-[#FFF0C0]"></div>
+      <div class="w-2 h-2 rounded-[1px] bg-[#FFE0E0] opacity-50"></div><div class="w-2 h-2 rounded-[1px] bg-[#FFE0E0] opacity-50"></div><div class="w-2 h-2 rounded-[1px] bg-[#FFE0E0] opacity-50"></div>
+      <div class="w-2 h-2 rounded-[1px] bg-[#FFE0E0] opacity-50"></div><div class="w-2 h-2 rounded-[1px] bg-[#FFE0E0] opacity-50"></div><div class="w-2 h-2 rounded-[1px] bg-[#FFE0E0] opacity-50"></div><div class="w-2 h-2 rounded-[1px] bg-[#FFE0E0] opacity-50"></div>
     </div>
   </td>
-  <td style="text-align:center;">
+  <td class="p-2.5 border-r border-[#333] text-center text-[10px]">
     <div>D5: Interaction Modality</div>
-    <div style="font-size:16px;font-weight:700;margin:4px 0;">0 full + 2 partial</div>
-    <div style="font-size:9px;color:#AAA;">Entirely untheorized in prior work</div>
-    <div class="score-bar">
-      <div class="score-dot partial"></div><div class="score-dot partial"></div>
-      <div class="score-dot absent"></div><div class="score-dot absent"></div><div class="score-dot absent"></div>
-      <div class="score-dot absent"></div><div class="score-dot absent"></div><div class="score-dot absent"></div>
-      <div class="score-dot absent"></div><div class="score-dot absent"></div><div class="score-dot absent"></div>
+    <div class="text-base font-bold my-1">0 full + 2 partial</div>
+    <div class="text-[9px] text-[#AAA]">Entirely untheorized in prior work</div>
+    <div class="flex justify-center gap-0.5 mt-1">
+      <div class="w-2 h-2 rounded-[1px] bg-[#FFF0C0]"></div><div class="w-2 h-2 rounded-[1px] bg-[#FFF0C0]"></div>
+      <div class="w-2 h-2 rounded-[1px] bg-[#FFE0E0] opacity-50"></div><div class="w-2 h-2 rounded-[1px] bg-[#FFE0E0] opacity-50"></div><div class="w-2 h-2 rounded-[1px] bg-[#FFE0E0] opacity-50"></div>
+      <div class="w-2 h-2 rounded-[1px] bg-[#FFE0E0] opacity-50"></div><div class="w-2 h-2 rounded-[1px] bg-[#FFE0E0] opacity-50"></div><div class="w-2 h-2 rounded-[1px] bg-[#FFE0E0] opacity-50"></div>
+      <div class="w-2 h-2 rounded-[1px] bg-[#FFE0E0] opacity-50"></div><div class="w-2 h-2 rounded-[1px] bg-[#FFE0E0] opacity-50"></div><div class="w-2 h-2 rounded-[1px] bg-[#FFE0E0] opacity-50"></div>
     </div>
   </td>
-  <td style="font-size:10px;color:#BBB;font-style:italic;">
+  <td class="text-[10px] text-[#BBB] italic p-2.5 border-r border-[#333]">
     Reading: The field has well-theorized support types (D1) and partially named roles (D2) — but has no formalized Core Function layer (D3), almost no Support Strategy layer (D4), and zero modality theory (D5). AROMA fills D3–D5 entirely and formalizes D2.
   </td>
 </tr>
@@ -144,33 +202,33 @@
 <!-- ═══════════════════════════════════════════════════ -->
 <!-- KNOWLEDGE GRAPH PAGE                                 -->
 <!-- ═══════════════════════════════════════════════════ -->
-<div id="graph-page" class="tab-page">
-  <div id="kg-controls">
-    <button class="kg-ctrl-btn active" id="btn-all" onclick="filterGraph('all')">All edges</button>
-    <button class="kg-ctrl-btn" id="btn-full" onclick="filterGraph('full')">Full coverage only</button>
-    <button class="kg-ctrl-btn" id="btn-partial" onclick="filterGraph('partial')">+ Partial</button>
+<div id="graph-page" class="tab-page flex-1 relative overflow-hidden flex flex-col items-stretch">
+  <div id="kg-controls" class="absolute top-4 right-10 flex gap-1.5 z-10">
+    <button class="kg-ctrl-btn active font-mono text-[9.5px] tracking-[0.05em] uppercase px-3 py-1.5 border border-border bg-background text-foreground hover:bg-foreground hover:text-background hover:border-foreground transition-all" id="btn-all" onclick="filterGraph('all')">All edges</button>
+    <button class="kg-ctrl-btn font-mono text-[9.5px] tracking-[0.05em] uppercase px-3 py-1.5 border border-border bg-background text-foreground hover:bg-foreground hover:text-background hover:border-foreground transition-all" id="btn-full" onclick="filterGraph('full')">Full coverage only</button>
+    <button class="kg-ctrl-btn font-mono text-[9.5px] tracking-[0.05em] uppercase px-3 py-1.5 border border-border bg-background text-foreground hover:bg-foreground hover:text-background hover:border-foreground transition-all" id="btn-partial" onclick="filterGraph('partial')">+ Partial</button>
   </div>
-  <svg id="kg-canvas"></svg>
-  <div id="kg-tooltip"></div>
-  <div id="kg-legend">
-    <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.09em;color:var(--muted);margin-bottom:6px;">Node type</div>
-    <div class="lg-row"><div class="lg-dot" style="background:#2D3A8C"></div> Foundational theory</div>
-    <div class="lg-row"><div class="lg-dot" style="background:#2D6B45"></div> Peer / H-H support</div>
-    <div class="lg-row"><div class="lg-dot" style="background:#7A2D8C"></div> Human-AI taxonomy</div>
-    <div class="lg-row"><div class="lg-dot" style="background:#1A1612;border:2px solid #E8C87A"></div> AROMA dimension</div>
-    <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.09em;color:var(--muted);margin:8px 0 6px;">Edge coverage</div>
-    <div class="lg-row"><div class="lg-line" style="background:#2D5016"></div> Full coverage</div>
-    <div class="lg-row"><div class="lg-line" style="background:#B8860B;opacity:0.7"></div> Partial coverage</div>
-    <div class="lg-row"><div class="lg-line" style="background:#CEC9BF;border-top:2px dashed #CEC9BF;height:0"></div> Absent (dashed)</div>
+  <svg id="kg-canvas" class="w-full flex-1"></svg>
+  <div id="kg-tooltip" class="absolute bg-foreground text-background px-3.5 py-2.5 font-mono text-[10.5px] leading-relaxed max-w-[280px] rounded-sm pointer-events-none opacity-0 transition-opacity z-50"></div>
+  <div id="kg-legend" class="absolute bottom-6 left-10 bg-[#F7F4EF]/90 border border-border p-3 px-4 text-[10px] leading-loose z-10 text-slate-800">
+    <div class="text-[9px] uppercase tracking-[0.09em] font-medium text-slate-500 mb-1.5">Node type</div>
+    <div class="flex items-center gap-2 text-slate-600"><div class="w-3 h-3 rounded-full shrink-0 bg-[#2D3A8C]"></div> Foundational theory</div>
+    <div class="flex items-center gap-2 text-slate-600"><div class="w-3 h-3 rounded-full shrink-0 bg-[#2D6B45]"></div> Peer / H-H support</div>
+    <div class="flex items-center gap-2 text-slate-600"><div class="w-3 h-3 rounded-full shrink-0 bg-[#7A2D8C]"></div> Human-AI taxonomy</div>
+    <div class="flex items-center gap-2 text-slate-600"><div class="w-3 h-3 rounded-full shrink-0 bg-[#1A1612] border-2 border-[#E8C87A]"></div> AROMA dimension</div>
+    <div class="text-[9px] uppercase tracking-[0.09em] font-medium text-slate-500 mt-2 mb-1.5">Edge coverage</div>
+    <div class="flex items-center gap-2 text-slate-600"><div class="w-7 h-[3px] rounded-[1px] shrink-0 bg-[#2D5016]"></div> Full coverage</div>
+    <div class="flex items-center gap-2 text-slate-600"><div class="w-7 h-[3px] rounded-[1px] shrink-0 bg-[#B8860B] opacity-70"></div> Partial coverage</div>
+    <div class="flex items-center gap-2 text-slate-600"><div class="w-7 h-[3px] border-t-2 border-dashed border-[#CEC9BF] shrink-0"></div> Absent (dashed)</div>
   </div>
 </div>
 
 <!-- ═══════════════════════════════════════════════════ -->
 <!-- PAPERS PAGE                                          -->
 <!-- ═══════════════════════════════════════════════════ -->
-<div id="papers-page" class="tab-page">
-  <div class="table-wrap" style="overflow-x:auto;">
-    <table class="aroma-table papers-table" style="min-width:2800px;">
+<div id="papers-page" class="tab-page flex-1 overflow-x-auto">
+  <div class="px-10 py-6 pb-10 min-w-[2800px]">
+    <table class="w-full border-collapse text-left">
       <colgroup>
         <col style="width:250px"><!-- Paper Name -->
         <col style="width:150px"><!-- Source -->
@@ -193,27 +251,28 @@
       </colgroup>
       <thead>
         <tr class="group-row">
-          <th class="sticky" style="left:0; z-index:10; text-align:left; padding-left:14px;">Paper Name</th>
-          <th>Source</th>
-          <th>Year</th>
-          <th>Venue</th>
-          <th>Brief Description</th>
-          <th>Roles Explored</th>
-          <th>Relationship Type</th>
-          <th>H-H or H-AI</th>
-          <th>Method</th>
-          <th>N / Sample</th>
-          <th>Study Context</th>
-          <th>Theoretical Lens</th>
-          <th>Key Constructs</th>
-          <th>Who Defines Role?</th>
-          <th>Static or Dynamic?</th>
-          <th>Directionality</th>
-          <th>Power Asymmetry</th>
-          <th>Limitation / Gap</th>
+          <th class="sticky left-0 z-10 bg-secondary text-[8.5px] tracking-[0.1em] uppercase border border-border text-muted-foreground p-2 text-left pl-4">Paper Name</th>
+          <th class="bg-secondary text-[8.5px] tracking-[0.1em] uppercase border border-border text-muted-foreground p-2 text-center">Source</th>
+          <th class="bg-secondary text-[8.5px] tracking-[0.1em] uppercase border border-border text-muted-foreground p-2 text-center">Year</th>
+          <th class="bg-secondary text-[8.5px] tracking-[0.1em] uppercase border border-border text-muted-foreground p-2 text-center">Venue</th>
+          <th class="bg-secondary text-[8.5px] tracking-[0.1em] uppercase border border-border text-muted-foreground p-2 text-center">Brief Description</th>
+          <th class="bg-secondary text-[8.5px] tracking-[0.1em] uppercase border border-border text-muted-foreground p-2 text-center">Roles Explored</th>
+          <th class="bg-secondary text-[8.5px] tracking-[0.1em] uppercase border border-border text-muted-foreground p-2 text-center">Relationship Type</th>
+          <th class="bg-secondary text-[8.5px] tracking-[0.1em] uppercase border border-border text-muted-foreground p-2 text-center">H-H or H-AI</th>
+          <th class="bg-secondary text-[8.5px] tracking-[0.1em] uppercase border border-border text-muted-foreground p-2 text-center">Method</th>
+          <th class="bg-secondary text-[8.5px] tracking-[0.1em] uppercase border border-border text-muted-foreground p-2 text-center">N / Sample</th>
+          <th class="bg-secondary text-[8.5px] tracking-[0.1em] uppercase border border-border text-muted-foreground p-2 text-center">Study Context</th>
+          <th class="bg-secondary text-[8.5px] tracking-[0.1em] uppercase border border-border text-muted-foreground p-2 text-center">Theoretical Lens</th>
+          <th class="bg-secondary text-[8.5px] tracking-[0.1em] uppercase border border-border text-muted-foreground p-2 text-center">Key Constructs</th>
+          <th class="bg-secondary text-[8.5px] tracking-[0.1em] uppercase border border-border text-muted-foreground p-2 text-center">Who Defines Role?</th>
+          <th class="bg-secondary text-[8.5px] tracking-[0.1em] uppercase border border-border text-muted-foreground p-2 text-center">Static or Dynamic?</th>
+          <th class="bg-secondary text-[8.5px] tracking-[0.1em] uppercase border border-border text-muted-foreground p-2 text-center">Directionality</th>
+          <th class="bg-secondary text-[8.5px] tracking-[0.1em] uppercase border border-border text-muted-foreground p-2 text-center">Power Asymmetry</th>
+          <th class="bg-secondary text-[8.5px] tracking-[0.1em] uppercase border border-border text-muted-foreground p-2 text-center">Limitation / Gap</th>
         </tr>
       </thead>
       <tbody id="papers-table-body">
+
       </tbody>
     </table>
   </div>

@@ -44,28 +44,32 @@ function renderTable() {
 
   let html = '';
 
+  const typeBorder = { theory: 'border-l-[#2D3A8C]', peer: 'border-l-[#2D6B45]', ai: 'border-l-[#7A2D8C]' };
+  const badgeColor = { theory: 'bg-[#DDE3F5] text-[#2D3A8C]', peer: 'bg-[#D8EDE0] text-[#2D6B45]', ai: 'bg-[#EDD8F5] text-[#7A2D8C]' };
+
   sections.forEach(sec => {
     const items = TAXONOMIES.filter(t => t.type === sec.type);
     if (items.length === 0) return;
 
     html += `
-      <tr class="section-head">
-        <td colspan="7">${sec.title}</td>
+      <tr class="bg-secondary text-[9px] uppercase tracking-[0.1em] text-muted-foreground border-t-2 border-border">
+        <td colspan="7" class="py-[6px] px-[10px]">${sec.title}</td>
       </tr>
     `;
 
     items.forEach(tx => {
       if (!tx.table) return;
 
-      const badgeClass = `badge-${tx.type}`;
+      const borderColor = typeBorder[tx.type];
+      const badgeStyle = badgeColor[tx.type];
       const badgeText = tx.type === 'theory' ? 'Theory' : (tx.type === 'peer' ? 'Peer H-H' : 'Human-AI');
 
       html += `
-        <tr class="type-${tx.type}">
-          <td class="sticky">
-            <span class="tx-name">${tx.table.name}</span>
-            <span class="tx-cite">${tx.table.cite}</span>
-            <span class="tx-badge ${badgeClass}">${badgeText}</span>
+        <tr class="hover:bg-black/5 border-b border-border">
+          <td class="sticky left-0 bg-background border-l-[4px] border-r border-border py-[9px] pl-[10px] pr-[14px] ${borderColor}">
+            <span class="font-medium text-[11px] block mb-[2px]">${tx.table.name}</span>
+            <span class="text-[9.5px] text-muted-foreground block">${tx.table.cite}</span>
+            <span class="inline-block text-[8.5px] px-[6px] py-[1px] rounded-[2px] mt-[3px] font-medium tracking-[0.05em] uppercase ${badgeStyle}">${badgeText}</span>
           </td>
       `;
 
@@ -73,23 +77,22 @@ function renderTable() {
         const cov = tx.cover[d.id];
         const note = tx.table.notes[d.id];
         
-        let pillClass = '';
-        let pillText = '';
-        if (cov === 'full') { pillClass = 'full'; pillText = '✓ Full'; }
-        else if (cov === 'partial') { pillClass = 'partial'; pillText = '~ Partial'; }
-        else if (cov === 'absent') { pillClass = 'absent'; pillText = '✗ Absent'; }
-        else { pillClass = 'na'; pillText = '— N/A'; }
+        const pillColors = {
+          full: 'bg-[#D6EEC2] text-[#2D5016]', partial: 'bg-[#FFF0C0] text-[#7A5A00]',
+          absent: 'bg-[#FFE0E0] text-[#6B1515]', na: 'bg-[#E8E4DE] text-[#4A4540]'
+        };
+        const pillText = { full: '✓ Full', partial: '~ Partial', absent: '✗ Absent', na: '— N/A' };
 
         html += `
-          <td class="cov">
-            <span class="cov-pill ${pillClass}">${pillText}</span>
-            ${note ? `<span class="cov-note">${note}</span>` : ''}
+          <td class="text-center align-middle min-w-[110px] max-w-[140px] px-[10px] py-[9px] border-r border-border">
+            <span class="inline-flex items-center gap-1 px-[7px] py-[3px] rounded-[3px] text-[9.5px] font-medium leading-[1.3] text-left ${pillColors[cov]}">${pillText[cov]}</span>
+            ${note ? `<span class="block text-[9px] text-muted-foreground mt-[3px] text-left px-1 leading-[1.4]">${note}</span>` : ''}
           </td>
         `;
       });
 
       html += `
-          <td class="gap-cell">${tx.table.gap}</td>
+          <td class="min-w-[200px] max-w-[240px] text-[10.5px] text-foreground italic px-[10px] py-[9px] border-r border-border">${tx.table.gap}</td>
         </tr>
       `;
     });
@@ -109,29 +112,31 @@ function renderPapersTable() {
   papers.forEach(p => {
     if (p.Section && p.Section !== currentSection) {
       currentSection = p.Section;
-      html += `<tr class="section-head"><td colspan="18">${currentSection}</td></tr>`;
+      html += `<tr class="bg-secondary text-[9px] uppercase tracking-[0.1em] text-muted-foreground border-t-2 border-border"><td colspan="18" class="py-[6px] px-[10px]">${currentSection}</td></tr>`;
     }
 
+    const ttd = 'px-[10px] py-[9px] border-r border-border text-[11px] align-top';
+
     html += `
-      <tr class="tx-row">
-        <td class="sticky" style="left:0; z-index:1; font-weight:600;">${p['Paper Name'] || ''}</td>
-        <td>${p['Source'] || ''}</td>
-        <td>${p['Year'] || ''}</td>
-        <td>${p['Venue'] || ''}</td>
-        <td style="font-size:11px; line-height:1.4;">${p['Brief Description'] || ''}</td>
-        <td>${p['Roles Explored'] || ''}</td>
-        <td>${p['Relationship Type'] || ''}</td>
-        <td>${p['Human-Human or Human-AI'] || ''}</td>
-        <td>${p['Method'] || ''}</td>
-        <td>${p['N / Sample'] || ''}</td>
-        <td>${p['Study Context / Domain'] || ''}</td>
-        <td>${p['Theoretical Lens'] || ''}</td>
-        <td>${p['Key Construct(s) Measured'] || ''}</td>
-        <td>${p['Who Defines the Role?'] || ''}</td>
-        <td>${p['Static or Dynamic Role?'] || ''}</td>
-        <td>${p['Directionality'] || ''}</td>
-        <td>${p['Power Asymmetry'] || ''}</td>
-        <td>${p['Key Limitation / Gap Noted'] || ''}</td>
+      <tr class="hover:bg-black/5 border-b border-border transition-colors">
+        <td class="sticky left-0 z-10 bg-background border-l-[4px] border-l-transparent font-semibold border-r border-border px-[10px] py-[9px] pr-[14px] text-[11px] align-top">${p['Paper Name'] || ''}</td>
+        <td class="${ttd}">${p['Source'] || ''}</td>
+        <td class="${ttd}">${p['Year'] || ''}</td>
+        <td class="${ttd}">${p['Venue'] || ''}</td>
+        <td class="${ttd} line-clamp-3">${p['Brief Description'] || ''}</td>
+        <td class="${ttd}">${p['Roles Explored'] || ''}</td>
+        <td class="${ttd}">${p['Relationship Type'] || ''}</td>
+        <td class="${ttd}">${p['Human-Human or Human-AI'] || ''}</td>
+        <td class="${ttd}">${p['Method'] || ''}</td>
+        <td class="${ttd}">${p['N / Sample'] || ''}</td>
+        <td class="${ttd}">${p['Study Context / Domain'] || ''}</td>
+        <td class="${ttd}">${p['Theoretical Lens'] || ''}</td>
+        <td class="${ttd}">${p['Key Construct(s) Measured'] || ''}</td>
+        <td class="${ttd}">${p['Who Defines the Role?'] || ''}</td>
+        <td class="${ttd}">${p['Static or Dynamic Role?'] || ''}</td>
+        <td class="${ttd}">${p['Directionality'] || ''}</td>
+        <td class="${ttd}">${p['Power Asymmetry'] || ''}</td>
+        <td class="${ttd}">${p['Key Limitation / Gap Noted'] || ''}</td>
       </tr>
     `;
   });
@@ -336,7 +341,7 @@ function showTooltip(event, d) {
     html += '</div>';
   }
   tip.innerHTML = html;
-  tip.classList.add('visible');
+  tip.style.opacity = '1';
   moveTooltip(event);
 }
 
@@ -350,7 +355,7 @@ function moveTooltip(event) {
 }
 
 function hideTooltip() {
-  tip.classList.remove('visible');
+  tip.style.opacity = '0';
 }
 
 // ── HIGHLIGHT ────────────────────────────────────
