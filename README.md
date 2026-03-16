@@ -23,14 +23,16 @@ Our core research question is: *"What is the role structure of AI-mediated menta
 
 This repository tracks the progress of the AROMA project toward a CHI paper submission. The project is organized into the following phases:
 
-*   **Phase 0: Theoretical Framework** (Complete) - Formalizing the dimensions and the core theoretical argument (Authority-Agency Paradox).
-*   **Phase 1: Taxonomy Development** (In Progress) - Generating candidate roles and drafting the coding book.
-*   **Phase 2: Data Collection** - Gathering conversational datasets for analysis.
-*   **Phase 3: Human Coding** - Applying the codebook to the data and establishing inter-rater reliability.
-*   **Phase 4: Expert Validation** - Interviewing clinical and HCI experts to refine the taxonomy.
-*   **Phase 5: Classification Pipeline** - Building an automated classification pipeline using the validated taxonomy.
-*   **Phase 6: Evaluation** - Evaluating the pipeline's performance and qualitative impact.
-*   **Phase 7: Writing** - Drafting the final manuscript.
+| Phase | Status | Description | Deliverables |
+| :--- | :--- | :--- | :--- |
+| **0. Theoretical Framework** | Complete | Formalizing the dimensions and the core theoretical argument (Authority-Agency Paradox). | • AROMA Framework Spec<br>• Human-Role Compatibility Matrix<br>• Core Theoretical Argument |
+| **1. Taxonomy Development** | In Progress | Generating candidate roles grounded in existing literature and building the initial codebook. | • Codebook v0.1<br>• Literature-Grounded Role Definitions |
+| **2. Data Collection** | Not Started | Gathering and preprocessing conversational datasets that feature AI-mediated mental health support. | • Fully Preprocessed Dataset<br>• Selected Unit of Analysis |
+| **3. Human Coding** | Not Started | Applying the codebook to the primary dataset, resolving inter-rater reliability (IRR) conflicts. | • Validated Coding Protocol<br>• Inter-Rater Reliability Scores |
+| **4. Expert Validation** | Not Started | Interviewing clinical and HCI experts to refine the theoretical taxonomy against real-world use cases. | • Expert Interview Protocol<br>• Finalized Codebook v1.0 |
+| **5. Classification Pipeline** | Not Started | Building an automated NLP classification pipeline using the validated taxonomy. | • Training Data<br>• Baseline Evaluation Metrics |
+| **6. Evaluation** | Not Started | Evaluating the pipeline's performance and conducting a qualitative analysis of its impact. | • Blind Human Review Results<br>• Comprehensive Error Analysis |
+| **7. Writing** | Not Started | Drafting the final manuscript for CHI. | • Final CHI Submission |
 
 ## Repository Contents
 
