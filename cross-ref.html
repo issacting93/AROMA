@@ -15,9 +15,10 @@
   <div class="sub">Affective Role Ontology for Mental-health Assistance &nbsp;·&nbsp; How existing taxonomies map onto AROMA's 5 dimensions</div>
 </header>
 
-<div class="tab-nav">
+<div id="tabs">
   <button class="tab-btn active" onclick="switchTab('table')">① Cross-Reference Table</button>
   <button class="tab-btn" onclick="switchTab('graph')">② Knowledge Graph</button>
+  <button class="tab-btn" onclick="switchTab('papers')">③ Literature Review</button>
 </div>
 
 <div id="table-page" class="tab-page active">
@@ -161,6 +162,60 @@
     <div class="lg-row"><div class="lg-line" style="background:#2D5016"></div> Full coverage</div>
     <div class="lg-row"><div class="lg-line" style="background:#B8860B;opacity:0.7"></div> Partial coverage</div>
     <div class="lg-row"><div class="lg-line" style="background:#CEC9BF;border-top:2px dashed #CEC9BF;height:0"></div> Absent (dashed)</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- PAPERS PAGE                                          -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div id="papers-page" class="tab-page">
+  <div class="table-wrap" style="overflow-x:auto;">
+    <table class="aroma-table papers-table" style="min-width:2800px;">
+      <colgroup>
+        <col style="width:250px"><!-- Paper Name -->
+        <col style="width:150px"><!-- Source -->
+        <col style="width:80px"> <!-- Year -->
+        <col style="width:150px"><!-- Venue -->
+        <col style="width:250px"><!-- Brief Description -->
+        <col style="width:200px"><!-- Roles Explored -->
+        <col style="width:180px"><!-- Relationship Type -->
+        <col style="width:100px"><!-- H-H or H-AI -->
+        <col style="width:150px"><!-- Method -->
+        <col style="width:120px"><!-- N / Sample -->
+        <col style="width:180px"><!-- Study Context -->
+        <col style="width:180px"><!-- Theoretical Lens -->
+        <col style="width:180px"><!-- Key Constructs -->
+        <col style="width:150px"><!-- Who Defines -->
+        <col style="width:120px"><!-- Static/Dynamic -->
+        <col style="width:150px"><!-- Directionality -->
+        <col style="width:180px"><!-- Power Asymmetry -->
+        <col style="width:250px"><!-- Key Limitation -->
+      </colgroup>
+      <thead>
+        <tr class="group-row">
+          <th class="sticky" style="left:0; z-index:10; text-align:left; padding-left:14px;">Paper Name</th>
+          <th>Source</th>
+          <th>Year</th>
+          <th>Venue</th>
+          <th>Brief Description</th>
+          <th>Roles Explored</th>
+          <th>Relationship Type</th>
+          <th>H-H or H-AI</th>
+          <th>Method</th>
+          <th>N / Sample</th>
+          <th>Study Context</th>
+          <th>Theoretical Lens</th>
+          <th>Key Constructs</th>
+          <th>Who Defines Role?</th>
+          <th>Static or Dynamic?</th>
+          <th>Directionality</th>
+          <th>Power Asymmetry</th>
+          <th>Limitation / Gap</th>
+        </tr>
+      </thead>
+      <tbody id="papers-table-body">
+      </tbody>
+    </table>
   </div>
 </div>
 

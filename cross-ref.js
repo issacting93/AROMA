@@ -27,7 +27,10 @@ TAXONOMIES.forEach(tx => {
   });
 });
 
-document.addEventListener('DOMContentLoaded', renderTable);
+document.addEventListener('DOMContentLoaded', () => {
+  renderTable();
+  renderPapersTable();
+});
 
 function renderTable() {
   const tbody = document.getElementById('taxonomy-table-body');
@@ -90,6 +93,47 @@ function renderTable() {
         </tr>
       `;
     });
+  });
+
+  tbody.innerHTML = html;
+}
+
+function renderPapersTable() {
+  const tbody = document.getElementById('papers-table-body');
+  if (!tbody) return;
+
+  const papers = window.AROMA_DATA.PAPERS || [];
+  let html = '';
+  let currentSection = '';
+
+  papers.forEach(p => {
+    if (p.Section && p.Section !== currentSection) {
+      currentSection = p.Section;
+      html += `<tr class="section-head"><td colspan="18">${currentSection}</td></tr>`;
+    }
+
+    html += `
+      <tr class="tx-row">
+        <td class="sticky" style="left:0; z-index:1; font-weight:600;">${p['Paper Name'] || ''}</td>
+        <td>${p['Source'] || ''}</td>
+        <td>${p['Year'] || ''}</td>
+        <td>${p['Venue'] || ''}</td>
+        <td style="font-size:11px; line-height:1.4;">${p['Brief Description'] || ''}</td>
+        <td>${p['Roles Explored'] || ''}</td>
+        <td>${p['Relationship Type'] || ''}</td>
+        <td>${p['Human-Human or Human-AI'] || ''}</td>
+        <td>${p['Method'] || ''}</td>
+        <td>${p['N / Sample'] || ''}</td>
+        <td>${p['Study Context / Domain'] || ''}</td>
+        <td>${p['Theoretical Lens'] || ''}</td>
+        <td>${p['Key Construct(s) Measured'] || ''}</td>
+        <td>${p['Who Defines the Role?'] || ''}</td>
+        <td>${p['Static or Dynamic Role?'] || ''}</td>
+        <td>${p['Directionality'] || ''}</td>
+        <td>${p['Power Asymmetry'] || ''}</td>
+        <td>${p['Key Limitation / Gap Noted'] || ''}</td>
+      </tr>
+    `;
   });
 
   tbody.innerHTML = html;
