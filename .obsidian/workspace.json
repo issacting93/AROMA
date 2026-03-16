@@ -1,0 +1,206 @@
+{
+  "main": {
+    "id": "230105363fb66a72",
+    "type": "split",
+    "children": [
+      {
+        "id": "748105dec40998be",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "0a7488df75596426",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "phase_0_theoretical_framework/AROMA_Internal_Spec.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "AROMA_Internal_Spec"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "87e10fed0b25cd76",
+    "type": "split",
+    "children": [
+      {
+        "id": "d4799e07cb764efa",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "69cf71f9efacfa38",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "e38e0e217c296a6d",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "260df52408a17972",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "ba6b96589fcb61bb",
+    "type": "split",
+    "children": [
+      {
+        "id": "cc2ee01ba857e28a",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "2e41b4d370208bfb",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "phase_0_theoretical_framework/AROMA_Internal_Spec.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for AROMA_Internal_Spec"
+            }
+          },
+          {
+            "id": "9990361a046c5b59",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "phase_0_theoretical_framework/AROMA_Internal_Spec.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from AROMA_Internal_Spec"
+            }
+          },
+          {
+            "id": "d7621b62deaef140",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "6a2503d0a27f9392",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "1590c36c84317522",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "phase_0_theoretical_framework/AROMA_Internal_Spec.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of AROMA_Internal_Spec"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "0a7488df75596426",
+  "lastOpenFiles": [
+    "cross-ref-data.js",
+    "phase_0_theoretical_framework/README.md",
+    "phase_0_theoretical_framework/image.png",
+    "phase_4_expert_validation/README.md",
+    "phase_0_theoretical_framework/AROMA_Internal_Spec.md",
+    "graph.svg",
+    "phase_7_writing/README.md",
+    "phase_6_evaluation/README.md",
+    "phase_5_classification_pipeline/README.md",
+    "phase_3_human_coding/README.md",
+    "extract_table.py",
+    "phase_2_data_collection/README.md",
+    "phase_1_taxonomy_development/README.md",
+    "phase_0_theoretical_framework/0.2_Human_Role_Compatibility_Matrix.md",
+    "phase_0_theoretical_framework/0.3_Theoretical_Argument.md",
+    "cross-ref.json",
+    "cross-ref.css"
+  ]
+}

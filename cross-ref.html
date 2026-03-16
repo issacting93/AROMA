@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AROMA — Taxonomy Cross-Reference</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cross-ref.css">
+</head>
+<body>
+
+<header>
+  <h1>AROMA — Taxonomy Cross-Reference Map</h1>
+  <div class="sub">Affective Role Ontology for Mental-health Assistance &nbsp;·&nbsp; How existing taxonomies map onto AROMA's 5 dimensions</div>
+</header>
+
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab('table')">① Cross-Reference Table</button>
+  <button class="tab-btn" onclick="switchTab('graph')">② Knowledge Graph</button>
+</div>
+
+<div id="table-page" class="tab-page active">
+  <span class="legend-label">Coverage:</span>
+  <div class="legend-item"><div class="pip pip-full">✓</div> Fully addressed</div>
+  <div class="legend-item"><div class="pip pip-partial">~</div> Partially / implicitly</div>
+  <div class="legend-item"><div class="pip pip-absent">✗</div> Absent / not addressed</div>
+  <div class="legend-item"><div class="pip pip-na">—</div> N/A or out of scope</div>
+  &nbsp;&nbsp;
+  <span class="legend-label">Domain:</span>
+  <div class="legend-item"><div class="pip" style="background:#DDE3F5;color:#2D3A8C;font-size:7px;">TH</div> Foundational theory</div>
+  <div class="legend-item"><div class="pip" style="background:#D8EDE0;color:#2D6B45;font-size:7px;">PH</div> Peer / H-H support</div>
+  <div class="legend-item"><div class="pip" style="background:#EDD8F5;color:#7A2D8C;font-size:7px;">AI</div> Human-AI</div>
+</div>
+
+<div class="dim-header">
+  <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.09em;color:var(--muted);">AROMA's 5 dimensions →</span>
+  <div class="dim-strip">
+    <div class="dim-tag d1">D1 · Support Type</div>
+    <div class="dim-tag d2">D2 · Care Role</div>
+    <div class="dim-tag d3">D3 · Core Function</div>
+    <div class="dim-tag d4">D4 · Support Strategy</div>
+    <div class="dim-tag d5">D5 · Interaction Modality</div>
+  </div>
+</div>
+
+<div class="table-wrap">
+<table>
+<colgroup>
+  <col style="width:210px">
+  <col style="width:120px"><!-- D1 -->
+  <col style="width:120px"><!-- D2 -->
+  <col style="width:120px"><!-- D3 -->
+  <col style="width:120px"><!-- D4 -->
+  <col style="width:110px"><!-- D5 -->
+  <col style="width:200px"><!-- Gap -->
+</colgroup>
+<thead>
+  <tr class="group-row">
+    <th class="sticky" rowspan="2" style="text-align:left;padding-left:14px;">Existing Taxonomy</th>
+    <th colspan="5" class="aroma-group">AROMA Dimension Coverage</th>
+    <th rowspan="2" style="min-width:200px">Net Gap for AROMA's Novelty Claim</th>
+  </tr>
+  <tr class="col-row">
+    <th class="d1">D1<br>Support Type</th>
+    <th class="d2">D2<br>Care Role</th>
+    <th class="d3">D3<br>Core Function</th>
+    <th class="d4">D4<br>Support Strategy</th>
+    <th class="d5">D5<br>Interaction Modality</th>
+  </tr>
+</thead>
+<tbody>
+
+<tbody id="taxonomy-table-body">
+<!-- ─── SUMMARY ROW ─── -->
+<tr class="summary-row">
+  <td class="sticky">Coverage Summary (% of 11 taxonomies per dimension)</td>
+  <td style="text-align:center;">
+    <div>D1: Support Type</div>
+    <div style="font-size:16px;font-weight:700;margin:4px 0;">8 / 11</div>
+    <div style="font-size:9px;color:#AAA;">Most-covered — already well-theorized</div>
+    <div class="score-bar">
+      <div class="score-dot full"></div><div class="score-dot full"></div><div class="score-dot full"></div>
+      <div class="score-dot full"></div><div class="score-dot full"></div><div class="score-dot full"></div>
+      <div class="score-dot partial"></div><div class="score-dot partial"></div>
+      <div class="score-dot absent"></div><div class="score-dot absent"></div><div class="score-dot absent"></div>
+    </div>
+  </td>
+  <td style="text-align:center;">
+    <div>D2: Care Role</div>
+    <div style="font-size:16px;font-weight:700;margin:4px 0;">3 full + 5 partial</div>
+    <div style="font-size:9px;color:#AAA;">Key gap — partial coverage only in AI lit</div>
+    <div class="score-bar">
+      <div class="score-dot full"></div><div class="score-dot full"></div><div class="score-dot full"></div>
+      <div class="score-dot partial"></div><div class="score-dot partial"></div><div class="score-dot partial"></div>
+      <div class="score-dot partial"></div><div class="score-dot partial"></div>
+      <div class="score-dot absent"></div><div class="score-dot absent"></div><div class="score-dot absent"></div>
+    </div>
+  </td>
+  <td style="text-align:center;">
+    <div>D3: Core Function</div>
+    <div style="font-size:16px;font-weight:700;margin:4px 0;">2 full + 6 partial</div>
+    <div style="font-size:9px;color:#AAA;">Implied but never formalized</div>
+    <div class="score-bar">
+      <div class="score-dot full"></div><div class="score-dot full"></div>
+      <div class="score-dot partial"></div><div class="score-dot partial"></div><div class="score-dot partial"></div>
+      <div class="score-dot partial"></div><div class="score-dot partial"></div><div class="score-dot partial"></div>
+      <div class="score-dot absent"></div><div class="score-dot absent"></div><div class="score-dot absent"></div>
+    </div>
+  </td>
+  <td style="text-align:center;">
+    <div>D4: Support Strategy</div>
+    <div style="font-size:16px;font-weight:700;margin:4px 0;">1 full + 3 partial</div>
+    <div style="font-size:9px;color:#AAA;">Largest gap — almost entirely novel</div>
+    <div class="score-bar">
+      <div class="score-dot full"></div>
+      <div class="score-dot partial"></div><div class="score-dot partial"></div><div class="score-dot partial"></div>
+      <div class="score-dot absent"></div><div class="score-dot absent"></div><div class="score-dot absent"></div>
+      <div class="score-dot absent"></div><div class="score-dot absent"></div><div class="score-dot absent"></div><div class="score-dot absent"></div>
+    </div>
+  </td>
+  <td style="text-align:center;">
+    <div>D5: Interaction Modality</div>
+    <div style="font-size:16px;font-weight:700;margin:4px 0;">0 full + 2 partial</div>
+    <div style="font-size:9px;color:#AAA;">Entirely untheorized in prior work</div>
+    <div class="score-bar">
+      <div class="score-dot partial"></div><div class="score-dot partial"></div>
+      <div class="score-dot absent"></div><div class="score-dot absent"></div><div class="score-dot absent"></div>
+      <div class="score-dot absent"></div><div class="score-dot absent"></div><div class="score-dot absent"></div>
+      <div class="score-dot absent"></div><div class="score-dot absent"></div><div class="score-dot absent"></div>
+    </div>
+  </td>
+  <td style="font-size:10px;color:#BBB;font-style:italic;">
+    Reading: The field has well-theorized support types (D1) and partially named roles (D2) — but has no formalized Core Function layer (D3), almost no Support Strategy layer (D4), and zero modality theory (D5). AROMA fills D3–D5 entirely and formalizes D2.
+  </td>
+</tr>
+
+</tbody>
+</table>
+</div>
+</div><!-- end #table-page -->
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- KNOWLEDGE GRAPH PAGE                                 -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div id="graph-page" class="tab-page">
+  <div id="kg-controls">
+    <button class="kg-ctrl-btn active" id="btn-all" onclick="filterGraph('all')">All edges</button>
+    <button class="kg-ctrl-btn" id="btn-full" onclick="filterGraph('full')">Full coverage only</button>
+    <button class="kg-ctrl-btn" id="btn-partial" onclick="filterGraph('partial')">+ Partial</button>
+  </div>
+  <svg id="kg-canvas"></svg>
+  <div id="kg-tooltip"></div>
+  <div id="kg-legend">
+    <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.09em;color:var(--muted);margin-bottom:6px;">Node type</div>
+    <div class="lg-row"><div class="lg-dot" style="background:#2D3A8C"></div> Foundational theory</div>
+    <div class="lg-row"><div class="lg-dot" style="background:#2D6B45"></div> Peer / H-H support</div>
+    <div class="lg-row"><div class="lg-dot" style="background:#7A2D8C"></div> Human-AI taxonomy</div>
+    <div class="lg-row"><div class="lg-dot" style="background:#1A1612;border:2px solid #E8C87A"></div> AROMA dimension</div>
+    <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.09em;color:var(--muted);margin:8px 0 6px;">Edge coverage</div>
+    <div class="lg-row"><div class="lg-line" style="background:#2D5016"></div> Full coverage</div>
+    <div class="lg-row"><div class="lg-line" style="background:#B8860B;opacity:0.7"></div> Partial coverage</div>
+    <div class="lg-row"><div class="lg-line" style="background:#CEC9BF;border-top:2px dashed #CEC9BF;height:0"></div> Absent (dashed)</div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script src="cross-ref-data.js"></script>
+<script src="cross-ref.js"></script>
+</body>
+</html>
