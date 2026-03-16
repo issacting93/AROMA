@@ -38,6 +38,9 @@ This repository tracks the progress of the AROMA project toward a CHI paper subm
 
 *   `/phase_*`: Detailed notes, drafts, and data for each project phase.
 *   `cross-ref.html`: An interactive D3.js Knowledge Graph mapping existing literature (House, Cohen, Vaidyam, etc.) against AROMA's 5 dimensions to visualize the novelty gap. (Run locally via a web server).
+
+![AROMA Cross-Reference Knowledge Graph](preview.png)
+
 *   `authority_agency.md`: Theoretical exploration of the "Therapeutic Misconception" and the Authority-Agency paradox in AI care.
 
 ## Running the Cross-Reference Map
