@@ -1,4 +1,4 @@
-# AROMA: Affective Role Ontology for Mental-health Assistance
+# AROMA: Affective Role Orientation for Mental-health Assistance
 
 **AROMA** is a five-dimensional framework designed to formalize the role structure of AI-mediated mental health support interactions. 
 
@@ -17,39 +17,51 @@ Our core research question is: *"What is the role structure of AI-mediated menta
 4. **D4: Support Strategy**  
    The concrete, observable conversational tactics the system uses to execute its role (e.g., reflective listening, providing resources). 
 5. **D5: Interaction Modality**  
-   The communicative medium (text, voice, embodied avatar) which acts as a structural constraint on which roles and strategies are viable.
+   The communicative medium (text, voice, embodied avatar) which acts as a structural constraint on which roles and strategies are viable. This is the AI-specific dimension — it has no equivalent in human-human care literature.
+
+## Methodology: Hybrid Top-Down + Bottom-Up Approach
+
+AROMA's taxonomy is built using a hybrid methodology inspired by [Shen et al. (2024)](https://doi.org/10.1145/3613904.3642703), combining top-down theoretical anchoring with bottom-up empirical extraction:
+
+```
+Phase 0: Top-Down Foundation     →  Anchor in Cutrona & Suhr, Biddle, Feng
+Phase 1: PRISMA Literature Review →  Systematic extraction from 100–200 papers
+Phase 2: Data Collection          →  Conversation corpora (WildChat, Reddit, etc.)
+Phase 3: Qualitative Coding       →  Inductive + deductive coding (κ ≥ 0.70)
+Phase 4: Expert Validation         →  Domain expert interviews + D5 formalisation
+Phase 5: Classification Pipeline   →  LLM-as-judge + fine-tuned classifier
+Phase 6: Evaluation & Analysis     →  Coverage gaps, failure modes, design implications
+Phase 7: Writing                   →  CHI 2027 submission
+```
 
 ## Project Phases
 
-This repository tracks the progress of the AROMA project toward a CHI paper submission. The project is organized into the following phases:
-
-| Phase | Status | Description | Deliverables |
+| Phase | Folder | Status | Gate |
 | :--- | :--- | :--- | :--- |
-| **0. Theoretical Framework** | Complete | Formalizing the dimensions and the core theoretical argument (Authority-Agency Paradox). | • AROMA Framework Spec<br>• Human-Role Compatibility Matrix<br>• Core Theoretical Argument |
-| **1. Taxonomy Development** | In Progress | Generating candidate roles grounded in existing literature and building the initial codebook. | • Codebook v0.1<br>• Literature-Grounded Role Definitions |
-| **2. Data Collection** | Not Started | Gathering and preprocessing conversational datasets that feature AI-mediated mental health support. | • Fully Preprocessed Dataset<br>• Selected Unit of Analysis |
-| **3. Human Coding** | Not Started | Applying the codebook to the primary dataset, resolving inter-rater reliability (IRR) conflicts. | • Validated Coding Protocol<br>• Inter-Rater Reliability Scores |
-| **4. Expert Validation** | Not Started | Interviewing clinical and HCI experts to refine the theoretical taxonomy against real-world use cases. | • Expert Interview Protocol<br>• Finalized Codebook v1.0 |
-| **5. Classification Pipeline** | Not Started | Building an automated NLP classification pipeline using the validated taxonomy. | • Training Data<br>• Baseline Evaluation Metrics |
-| **6. Evaluation** | Not Started | Evaluating the pipeline's performance and conducting a qualitative analysis of its impact. | • Blind Human Review Results<br>• Comprehensive Error Analysis |
-| **7. Writing** | Not Started | Drafting the final manuscript for CHI. | • Final CHI Submission |
+| **0. Top-Down Foundation** | [`phase_0_theoretical_framework/`](phase_0_theoretical_framework/) | Complete | Framework spec signed off |
+| **1. PRISMA Literature Synthesis** | [`phase_1_literature_synthesis/`](phase_1_literature_synthesis/) | In Progress | ≥100 papers, all RQs addressable |
+| **2. Data Collection** | [`phase_2_data_collection/`](phase_2_data_collection/) | Not Started | 400 dev + 150 test conversations |
+| **3. Qualitative Coding** | [`phase_3_human_coding/`](phase_3_human_coding/) | Not Started | κ ≥ 0.70 on D2 |
+| **4. Expert Validation & AI Extension** | [`phase_4_expert_validation/`](phase_4_expert_validation/) | Not Started | Codebook v1.0 signed off |
+| **5. Classification Pipeline** | [`phase_5_classification_pipeline/`](phase_5_classification_pipeline/) | Not Started | F1 ≥ 0.75 on test set |
+| **6. Evaluation & Analysis** | [`phase_6_evaluation/`](phase_6_evaluation/) | Not Started | Error analysis complete |
+| **7. Writing** | [`phase_7_writing/`](phase_7_writing/) | Not Started | CHI 2027 submission |
 
-## Repository Contents
+## Interactive Tools
 
-*   `/phase_*`: Detailed notes, drafts, and data for each project phase.
-*   `cross-ref.html`: An interactive D3.js Knowledge Graph mapping existing literature (House, Cohen, Vaidyam, etc.) against AROMA's 5 dimensions to visualize the novelty gap. (Run locally via a web server).
+- **[Literature & Taxonomy Map](taxonomy-table.html)** — 59-entry table mapping existing literature onto AROMA's 5 dimensions
+- **[Knowledge Graph](knowledge-graph.html)** — D3 force-directed visualisation of coverage relationships
 
 ![AROMA Cross-Reference Knowledge Graph](preview.png)
 
-*   `authority_agency.md`: Theoretical exploration of the "Therapeutic Misconception" and the Authority-Agency paradox in AI care.
+## Key Theoretical Contributions
 
-## Running the Cross-Reference Map
+- **Authority-Agency Paradox**: Users ascribe positions of authority to AI agents (e.g. expert, advisor) — yet AI agents lack the agency to change the user's situation *or* the user's role. Authority is claimed, but agency is absent.
+- **Care role ≠ support type**: The field conflates what the AI *gives* (support type) with what the AI *is* (care role). AROMA separates these into orthogonal dimensions.
 
-To view the interactive D3 visualizer evaluating AROMA against prior literature:
+## Running Locally
+
 ```bash
-# Start a local web server (Python or Node)
 npx serve .
-# Or string standard Python: python3 -m http.server 3000
-
-# Open cross-ref.html in your browser via localhost
+# Open taxonomy-table.html or knowledge-graph.html in your browser
 ```

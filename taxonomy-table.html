@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AROMA — Literature & Taxonomy Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="global.css">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['Space Grotesk', 'system-ui', 'sans-serif'],
+          mono: ['DM Mono', 'monospace'],
+          serif: ['DM Serif Display', 'serif'],
+        },
+        colors: {
+          border: "hsl(var(--border))",
+          input: "hsl(var(--input))",
+          ring: "hsl(var(--ring))",
+          background: "hsl(var(--background))",
+          foreground: "hsl(var(--foreground))",
+          primary: {
+            DEFAULT: "hsl(var(--primary))",
+            foreground: "hsl(var(--primary-foreground))",
+          },
+          secondary: {
+            DEFAULT: "hsl(var(--secondary))",
+            foreground: "hsl(var(--secondary-foreground))",
+          },
+          muted: {
+            DEFAULT: "hsl(var(--muted))",
+            foreground: "hsl(var(--muted-foreground))",
+          },
+          card: {
+            DEFAULT: "hsl(var(--card))",
+            foreground: "hsl(var(--card-foreground))",
+          },
+          'bloom-yellow': 'var(--bloom-yellow)',
+          'bloom-orange': 'var(--bloom-orange)',
+          'bloom-green': 'var(--bloom-green)',
+          'bloom-purple': 'var(--bloom-purple)',
+          'bloom-black': 'var(--bloom-black)',
+          'bloom-gray': 'var(--bloom-gray)',
+          'bloom-dim': 'var(--bloom-text-dim)',
+        },
+        boxShadow: {
+          'bloom-sm': '0 1px 3px rgba(0,0,0,0.08)',
+          'bloom-md': '0 4px 12px rgba(0,0,0,0.12)',
+        }
+      }
+    }
+  }
+</script>
+<style>
+  th.sticky, td.sticky { position: sticky; left: 0; z-index: 5; }
+  th.sticky { z-index: 10; }
+  .detail-row { display: none; }
+  .detail-row.expanded { display: table-row; }
+  .row-expander { cursor: pointer; }
+  .row-expander:hover { background-color: rgba(245,197,66,0.07); }
+  .expand-icon { transition: transform 0.2s; }
+  .expanded .expand-icon { transform: rotate(90deg); }
+  .nav-link { transition: all 0.2s; }
+  .nav-link:hover { color: #1a1a1a; }
+  .nav-link.active { color: #1a1a1a; font-weight: 600; border-bottom: 2px solid #f5c542; }
+</style>
+</head>
+<body class="bg-background text-foreground antialiased min-h-screen flex flex-col">
+
+<header class="px-10 py-7 border-b-4 border-[#f5c542] bg-white">
+  <div class="flex items-end gap-4">
+    <h1 class="font-serif text-3xl tracking-tight text-[#1a1a1a]">AROMA</h1>
+    <span class="text-[11px] tracking-[0.12em] uppercase text-[#999] font-mono pb-[5px]">Taxonomy Cross-Reference Map</span>
+  </div>
+  <div class="text-[10px] tracking-[0.1em] uppercase text-[#888] font-mono mt-1.5">Affective Role Ontology for Mental-health Assistance &nbsp;·&nbsp; How existing taxonomies map onto AROMA's 5 dimensions</div>
+</header>
+
+<nav class="flex bg-white px-10 border-b border-[#e5e5e5] gap-6 pt-2">
+  <a href="taxonomy-table.html" class="nav-link active font-mono text-[10px] tracking-[0.09em] uppercase px-1 py-2.5 text-[#888]">① Literature & Taxonomy Map</a>
+  <a href="knowledge-graph.html" class="nav-link font-mono text-[10px] tracking-[0.09em] uppercase px-1 py-2.5 text-[#888]">② Knowledge Graph</a>
+</nav>
+
+<div class="flex-1">
+  <div class="flex flex-wrap items-center gap-6 px-10 py-3 bg-[#f8f8f8] border-b border-[#e5e5e5]">
+    <div class="flex items-center gap-3">
+      <span class="text-[9px] uppercase tracking-[0.1em] text-[#999] font-mono font-bold">Coverage:</span>
+      <div class="flex items-center gap-1.5 text-[10px] font-mono"><div class="w-3.5 h-3.5 rounded-full flex items-center justify-center text-[8px] font-bold bg-[#D6EEC2] text-[#2D5016]">✓</div> Fully addressed</div>
+      <div class="flex items-center gap-1.5 text-[10px] font-mono"><div class="w-3.5 h-3.5 rounded-full flex items-center justify-center text-[8px] font-bold bg-[#FFF0C0] text-[#7A5A00]">~</div> Partially</div>
+      <div class="flex items-center gap-1.5 text-[10px] font-mono"><div class="w-3.5 h-3.5 rounded-full flex items-center justify-center text-[8px] font-bold bg-[#FFE0E0] text-[#6B1515]">✗</div> Absent</div>
+      <div class="flex items-center gap-1.5 text-[10px] font-mono"><div class="w-3.5 h-3.5 rounded-full flex items-center justify-center text-[8px] font-bold bg-[#e5e5e5] text-[#888]">—</div> N/A</div>
+    </div>
+    <div class="w-px h-4 bg-[#e5e5e5]"></div>
+    <div class="flex items-center gap-3">
+      <span class="text-[9px] uppercase tracking-[0.1em] text-[#999] font-mono font-bold">Domain:</span>
+      <div class="flex items-center gap-1.5 text-[10px] font-mono"><div class="w-3.5 h-3.5 rounded-full flex items-center justify-center text-[7px] font-bold" style="background:#DDE3F5;color:#2D3A8C;">TH</div> Theory</div>
+      <div class="flex items-center gap-1.5 text-[10px] font-mono"><div class="w-3.5 h-3.5 rounded-full flex items-center justify-center text-[7px] font-bold" style="background:#D8EDE0;color:#2D6B45;">PH</div> Peer H-H</div>
+      <div class="flex items-center gap-1.5 text-[10px] font-mono"><div class="w-3.5 h-3.5 rounded-full flex items-center justify-center text-[7px] font-bold" style="background:#EDD8F5;color:#7A2D8C;">AI</div> Human-AI</div>
+      <div class="flex items-center gap-1.5 text-[10px] font-mono"><div class="w-3.5 h-3.5 rounded-full flex items-center justify-center text-[7px] font-bold" style="background:#E3EBF0;color:#4B6584;">HC</div> HCI</div>
+    </div>
+  </div>
+
+<div class="px-10 pt-5 pb-2">
+  <span class="text-[9px] uppercase tracking-[0.1em] text-[#999] font-mono font-bold">AROMA's 5 dimensions →</span>
+  <div class="flex gap-2 mt-2.5">
+    <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] tracking-[0.06em] uppercase font-medium bg-[#1B3A6B] text-white whitespace-nowrap shadow-sm">D1 · Support Type</div>
+    <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] tracking-[0.06em] uppercase font-medium bg-[#2D5016] text-white whitespace-nowrap shadow-sm">D2 · Care Role</div>
+    <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] tracking-[0.06em] uppercase font-medium bg-[#6B2D00] text-white whitespace-nowrap shadow-sm">D3 · Core Function</div>
+    <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] tracking-[0.06em] uppercase font-medium bg-[#5B0070] text-white whitespace-nowrap shadow-sm">D4 · Support Strategy</div>
+    <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] tracking-[0.06em] uppercase font-medium bg-[#003D4A] text-white whitespace-nowrap shadow-sm">D5 · Interaction Modality</div>
+  </div>
+</div>
+
+<div class="overflow-x-auto px-10 py-6 pb-10">
+<table class="w-full min-w-[1100px] border-collapse text-left">
+<colgroup>
+  <col style="width:30px">
+  <col style="width:350px">
+  <col style="width:120px">
+  <col style="width:120px">
+  <col style="width:120px">
+  <col style="width:120px">
+  <col style="width:110px">
+</colgroup>
+<thead>
+  <tr class="group-row">
+    <th class="sticky bg-[#f8f8f8] text-[8.5px] tracking-[0.1em] uppercase border border-[#e5e5e5] text-[#999] p-2 text-left pl-4" rowspan="2" colspan="2">Literature &amp; Existing Taxonomies</th>
+    <th colspan="5" class="bg-[#1a1a1a] text-white text-[8.5px] tracking-[0.1em] uppercase border border-[#e5e5e5] text-center p-2">AROMA Dimension Coverage</th>
+  </tr>
+  <tr class="col-row">
+    <th class="bg-[#EEF2FA] text-[#1B3A6B] border-b-[3px] border-b-[#1B3A6B] border border-[#e5e5e5] text-[9px] tracking-[0.08em] uppercase font-semibold text-center p-2 whitespace-nowrap">D1<br><span class="font-normal normal-case tracking-normal text-[8.5px]">Support Type</span></th>
+    <th class="bg-[#EEF7EE] text-[#2D5016] border-b-[3px] border-b-[#2D5016] border border-[#e5e5e5] text-[9px] tracking-[0.08em] uppercase font-semibold text-center p-2 whitespace-nowrap">D2<br><span class="font-normal normal-case tracking-normal text-[8.5px]">Care Role</span></th>
+    <th class="bg-[#FDF5EE] text-[#6B2D00] border-b-[3px] border-b-[#6B2D00] border border-[#e5e5e5] text-[9px] tracking-[0.08em] uppercase font-semibold text-center p-2 whitespace-nowrap">D3<br><span class="font-normal normal-case tracking-normal text-[8.5px]">Core Function</span></th>
+    <th class="bg-[#F9F0FD] text-[#5B0070] border-b-[3px] border-b-[#5B0070] border border-[#e5e5e5] text-[9px] tracking-[0.08em] uppercase font-semibold text-center p-2 whitespace-nowrap">D4<br><span class="font-normal normal-case tracking-normal text-[8.5px]">Support Strategy</span></th>
+    <th class="bg-[#EEF7F8] text-[#003D4A] border-b-[3px] border-b-[#003D4A] border border-[#e5e5e5] text-[9px] tracking-[0.08em] uppercase font-semibold text-center p-2 whitespace-nowrap">D5<br><span class="font-normal normal-case tracking-normal text-[8.5px]">Interaction Modality</span></th>
+  </tr>
+</thead>
+<tbody id="taxonomy-table-body">
+</tbody>
+</table>
+</div>
+</div>
+
+<script src="cross-ref-data.js"></script>
+<script src="taxonomy-table.js"></script>
+</body>
+</html>

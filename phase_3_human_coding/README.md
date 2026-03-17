@@ -1,57 +1,127 @@
-# Phase 3 — Human Coding (Gold Standard) (weeks 9–16)
+# Phase 3 — Qualitative Coding (weeks 9–16)
 
-This is the core methodological contribution. The quality of everything downstream — the taxonomy's validity, the pipeline's evaluation — depends entirely on this.
+> **Shen et al. parallel:** 13 researchers performing inductive + deductive qualitative coding.
+> **AROMA equivalent:** Isaac + Ethan coding, Vedant arbitrating. Inductive codes (what terms appear in data) merged with deductive codes (which Cutrona & Suhr category does this map to).
 
-## 3.1 Coding Protocol
+## Purpose
 
-**Setup:**
-- Use a purpose-built annotation tool. Prodigy (from Explosion AI, the spaCy team) is excellent for this and handles inter-rater workflows well. Alternatively, a structured Google Sheet with explicit column definitions works fine at your scale.
-- Code in two passes per conversation: first pass for primary care role (D2), second pass for support type (D1) and a brief rationale note
+This is the core methodological contribution. Merge the top-down theoretical structure (Phase 0) with the bottom-up literature terms (Phase 1) and empirical conversation data (Phase 2) to produce a validated codebook.
 
-**Per-turn coding schema (turn-level):**
+---
+
+## Steps
+
+### 3.1 Pilot Codebook from PRISMA Terms
+
+Before coding conversations, synthesise the extracted terms from Phase 1:
+
+1. **Cluster role terms** — group all extracted terms (e.g. "listens," "validates," "reflects," "acknowledges") into candidate role categories
+2. **Map clusters to theory** — for each cluster, identify which Cutrona & Suhr support type and which Biddle role type it aligns with
+3. **Generate candidate roles** — the five current candidates (Listener, Coach, Advisor, Companion, Navigator) plus any new candidates suggested by the literature
+4. **Stress-test** — for each candidate beyond the current five, decide explicitly: distinct role or variant? Document the decision with evidence from ≥3 papers
+
+**Additional role candidates to evaluate:**
+- **Screener / Assessor** — from Vaidyam (2019), structured intake and monitoring
+- **Facilitator** — from Scassellati et al. (2012), social modelling and skill practice
+- **Cognitive Load Offloader** — from Song & Pendse (2025), rehearsal partner
+
+### 3.2 Draft Codebook v0.1
+
+For each role, produce a codebook entry:
+
+```
+Role name:           [e.g. Listener]
+Definition:          [one sentence, precise enough to code against]
+Not this role if:    [negative definition]
+
+Core function (D3):  [what the role aims to achieve]
+Primary D1:          [support type]
+Secondary D1:        [if applicable]
+
+Characteristic D4 strategies:
+  - [strategy 1 with example utterance]
+  - [strategy 2 with example utterance]
+  - [what you will NOT see in this role]
+
+Invited human role:  [complementary stance]
+Failure mode:        [what breaks when mismatched]
+
+Distinguishing from [adjacent role]:  [decision rule]
+Distinguishing from [other role]:     [decision rule]
+
+Example (positive):  [user turn + AI turn]
+Example (negative):  [user turn + AI turn showing NOT this role]
+```
+
+### 3.3 Calibration Coding (Batch 1)
+
+- Isaac and Ethan independently code 30 conversations using Codebook v0.1
+- Compare every disagreement → **every disagreement is a codebook failure, not a coder failure**
+- Revise codebook: identify which definition was ambiguous, rewrite
+- Compute preliminary κ (informational only — not the reliability gate)
+
+### 3.4 Reliability Coding (Batch 2)
+
+- Code 50 conversations independently
+- Compute Cohen's κ **before** any discussion
+- Target: **κ ≥ 0.70** for primary care role (D2)
+- If κ < 0.60 → codebook revision required, return to 3.2
+- If 0.60 ≤ κ < 0.70 → targeted revision of confused role pairs
+
+### 3.5 Full Development Set Coding
+
+- Split remaining 320 conversations between Isaac and Ethan
+- Maintain 20% overlap for ongoing IRR monitoring
+- Code in two passes per conversation:
+  - **Pass 1:** Primary care role (D2) + confidence + rationale
+  - **Pass 2:** Support type (D1) + strategy markers (D4)
+- Turn-level coding on the 100-conversation subset
+
+**Per-turn coding schema:**
 
 | Field | Type | Options |
-|---|---|---|
-| Turn ID | string | auto |
-| Primary Care Role | categorical | Listener / Coach / Advisor / Companion / Navigator / Ambiguous / None |
+|-------|------|---------|
+| Turn ID | auto | — |
+| Primary Care Role (D2) | categorical | Listener / Coach / Advisor / Companion / Navigator / [+candidates] / Ambiguous / None |
 | Confidence | 3-point | High / Medium / Low |
-| Primary Support Type | categorical | Emotional / Esteem / Informational / Network / Instrumental |
+| Primary Support Type (D1) | categorical | Emotional / Esteem / Informational / Network / Instrumental |
 | Role shift from prior turn | boolean | Yes / No |
 | Failure mode present | boolean | Yes / No |
 | Failure mode type | categorical | Authority-Agency gap / Role mismatch / Therapeutic misconception / Other |
-| Notes | free text | |
+| Notes | free text | — |
 
-**Ambiguous** is a legitimate label — do not force every turn into a clean category. High ambiguity rates in a region of the data tell you something theoretically important.
+> **Ambiguous** is a legitimate label. High ambiguity rates in a region of the data tell you something theoretically important.
 
-## 3.2 Inter-Rater Reliability Protocol
+### 3.6 Adjudication & Edge Cases
 
-You (Issac) and Ethan code the same sample independently, then compare.
+- For every disagreement, discuss and reach consensus. Document resolution.
+- Build a living document: **"Edge Cases and Decision Rules"** — every resolved hard case becomes an entry (target: 30–50 entries). Goes in paper Appendix.
 
-**Batching:**
-- Batch 1 (calibration): 30 conversations, code independently, compare, rewrite codebook
-- Batch 2 (reliability check): 50 conversations, code independently, compute IRR before discussion
-- Remaining development set: split between you and Ethan, with 20% overlap for ongoing IRR monitoring
+### 3.7 Taxonomy Validation Checkpoint
 
-**IRR metric:**
-Use Cohen's Kappa (κ) for the categorical labels. Target κ ≥ 0.70 for primary care role before proceeding to large-scale coding. κ ≥ 0.60 is acceptable with documented disagreement analysis; below 0.60 means the codebook needs revision.
+After ~200 conversations, pause and audit:
 
-For the paper, you'll report:
-- κ per dimension (D1, D2 separately)
-- Disagreement analysis: which role pairs were most confused, and why
-- Codebook revision history (brief — shows methodological rigor)
+| Question | Action if yes |
+|----------|---------------|
+| Is any role <5% frequency? | Role definition may be too narrow, or data source doesn't capture it |
+| Are there consistent Ambiguous clusters? | Possible missing role — evaluate from PRISMA data |
+| Do any two roles have high confusion rates? | Consider merging or sharpening the boundary |
 
-## 3.3 Adjudication
+This is where the taxonomy gets **empirically grounded** rather than just theoretically derived.
 
-For every disagreement, you and Ethan discuss and reach consensus. Document the resolution decision. These adjudicated cases are your gold standard — they also serve as a codebook extension, because recurring disagreement types become decision rules.
+---
 
-Build a living document: **"Edge Cases and Decision Rules"** — every time you resolve a hard case, add a brief entry. By the end of coding you'll have 30–50 entries. These go in the Appendix of the paper and are invaluable for reproducibility.
+## Deliverables
 
-## 3.4 Taxonomy Validation Pass
+- [ ] Codebook v0.1 → v1.0 (with revision history)
+- [ ] Gold standard labels for 400 development conversations
+- [ ] Turn-level labels for 100-conversation subset (~500 turns)
+- [ ] Edge Cases and Decision Rules document (30–50 entries)
+- [ ] IRR report: κ per dimension, disagreement analysis, confusion pairs
 
-After coding ~200 conversations, pause and look at the distribution. Ask:
+## Gate Criteria
 
-- Are all five roles represented, or are some rarely occurring? If a role appears in fewer than 5% of conversations, either the data source doesn't capture it or the role definition is too narrow
-- Are there consistent cluster of Ambiguous cases that suggest a missing role?
-- Do any two roles have high confusion rates that suggest they should be merged?
-
-This is where the taxonomy gets empirically grounded rather than just theoretically derived. You may need to revise role definitions, split a role, or collapse two. That's expected and scientifically appropriate — document it as iterative taxonomy refinement.
+- [ ] κ ≥ 0.70 for D2 (primary care role) on Batch 2
+- [ ] All roles represented in ≥5% of coded data
+- [ ] Edge Cases document has ≥20 entries
+- [ ] Codebook v1.0 produced and signed off by Vedant

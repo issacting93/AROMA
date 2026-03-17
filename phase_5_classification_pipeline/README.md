@@ -1,47 +1,107 @@
-# Phase 5 — Classification Pipeline (Ethan, weeks 16–22)
+# Phase 5 — Classification Pipeline & Validation (weeks 16–24)
 
-This phase is primarily Ethan's work, but you need to spec it carefully together.
+> **Shen et al. parallel:** κ = 0.7073 as their IRR benchmark.
+> **AROMA equivalent:** Human annotation gold set → κ per dimension → LLM-as-judge scaling → human audit of LLM outputs.
 
-## 5.1 What Ethan is Building
+## Purpose
 
-A classifier that takes an AI conversation turn (or a full conversation) as input and outputs:
-- Primary Care Role (D2) label
-- Confidence score
-- Optionally: D1 support type, failure mode flag
+Build and validate an automated classification pipeline that replicates human coding quality. This closes the methodological loop: theory → literature → coding → automation → evaluation.
 
-## 5.2 Training Data Preparation
+---
 
-From your gold standard coding, produce a clean training dataset:
-- Format: JSON or CSV with turn text + gold label + confidence + metadata
-- Split: 70% train / 15% validation / 15% test (the test set is your held-out 150 conversations from Phase 2)
-- **The test set must be completely untouched until final evaluation. No peeking.**
-- Balance classes if needed — if Listener is over-represented, downsample or weight accordingly
+## Steps
 
-## 5.3 Model Choice
+### 5.1 Pipeline Architecture
 
-Ethan should evaluate in this order:
+A classifier that takes an AI conversation turn (or full conversation) as input and outputs:
+- **Primary Care Role (D2)** label + confidence score
+- **Support Type (D1)** label
+- **Failure mode flag** (Authority-Agency gap / role mismatch / therapeutic misconception)
+- Optionally: D3–D5 labels
 
-**Option A: Prompt-based classification with GPT-4 / Claude**
-- Provide the codebook as a system prompt, ask for classification per turn
-- Surprisingly strong baseline, especially with few-shot examples
-- Fast to iterate, no training required
-- Weakness: expensive at scale, less controllable
+### 5.2 Training Data Preparation
 
-**Option B: Fine-tuned smaller model (BERT / RoBERTa / DeBERTa)**
-- Fine-tune on your gold standard training set
-- More reproducible and cheaper at scale than Option A
-- Requires ~500–1000 labeled examples per class to work well
+From Phase 3 gold standard coding:
+- Format: JSON with turn text + gold label + confidence + metadata
+- Split: **70% train / 15% validation / 15% test**
+- The **test set** is the sealed 150 conversations from Phase 2 — **completely untouched until final evaluation**
+- Balance classes: if Listener is over-represented, downsample or weight
 
-**Option C: Two-stage (LLM for feature extraction → classifier)**
-- Use an LLM to extract linguistic markers per turn, then train a lightweight classifier on those features
-- More interpretable, potentially more robust
+### 5.3 Model Evaluation (ordered by effort)
 
-**Recommendation:** Start with Option A as baseline, then fine-tune Option B. Report both. The comparison is itself a finding — if prompt-based GPT-4 with your codebook matches human IRR, that's a strong result about codebook quality.
+| Option | Approach | Training | Pros | Cons |
+|--------|----------|----------|------|------|
+| **A: LLM-as-judge** | GPT-4 / Claude with codebook as system prompt + few-shot examples | None | Fast iteration, strong baseline | Expensive at scale, less controllable |
+| **B: Fine-tuned classifier** | BERT / RoBERTa / DeBERTa fine-tuned on gold set | ~500–1000 examples/class | Reproducible, cheaper at scale | Needs sufficient labelled data |
+| **C: Two-stage** | LLM extracts linguistic markers → lightweight classifier | Hybrid | More interpretable, potentially robust | Complex pipeline |
 
-## 5.4 Evaluation Metrics
+**Start with Option A as baseline, then fine-tune Option B. Report both.** If prompt-based GPT-4 with the codebook matches human IRR, that itself is a finding about codebook quality.
+
+### 5.4 LLM-as-Judge Protocol
+
+For Option A:
+1. System prompt = full Codebook v1.0 (from Phase 4)
+2. Few-shot examples = 3 per role from the Edge Cases document
+3. Input = full conversation or individual turn
+4. Output = structured JSON: `{role, confidence, rationale}`
+
+Run on validation set first. Compute agreement with gold standard. Iterate prompt until κ ≥ 0.65 on validation set.
+
+### 5.5 Evaluation Metrics
 
 Report per class and macro-averaged:
-- Precision, Recall, F1 against the held-out test set
-- Cohen's Kappa against human gold standard
-- Confusion matrix — which roles does the classifier most confuse?
-- Performance breakdown by conversation length, platform source, confidence level
+
+| Metric | Target |
+|--------|--------|
+| Precision, Recall, F1 | F1 ≥ 0.75 on test set |
+| Cohen's κ vs. human gold | κ ≥ 0.70 (matching human IRR) |
+| Confusion matrix | Which roles most confused? |
+| Performance by conversation length | Degradation on long conversations? |
+| Performance by platform source | Transfer across WildChat vs. Reddit? |
+
+### 5.6 Human Audit of Pipeline Output
+
+From the test set classifier output, sample 100 conversations stratified by:
+- High-confidence correct predictions
+- High-confidence incorrect predictions
+- Low-confidence predictions
+- Ambiguous gold labels
+
+**Blind review:** Code without knowing gold label or pipeline output.
+
+| Rating | Meaning |
+|--------|---------|
+| Agree  | Pipeline label matches human judgment |
+| Partially | Close but boundary case |
+| Disagree | Wrong role category |
+
+### 5.7 Error Analysis
+
+Systematically categorise failures:
+
+| Failure type | Meaning | Implication |
+|-------------|---------|-------------|
+| **Role ambiguity** | Genuinely ambiguous in data | Task is hard, not pipeline failure |
+| **Codebook boundary** | Pipeline consistently confuses two roles | Boundary definition needs sharpening |
+| **Out-of-distribution** | Conversation types not in training data | Data coverage gap |
+| **Authority-Agency** | Surface behaviour signals one role, structural capacity is another | Theoretically interesting — include in Discussion |
+
+Document these for the Discussion section — they're findings, not just limitations.
+
+---
+
+## Deliverables
+
+- [ ] LLM-as-judge pipeline (Option A) with system prompt
+- [ ] Fine-tuned classifier (Option B) with training logs
+- [ ] Evaluation report: F1, κ, confusion matrix on test set
+- [ ] Human audit results: 100-conversation blind review
+- [ ] Error analysis document with categorised failures
+- [ ] Performance comparison: Option A vs. B
+
+## Gate Criteria
+
+- [ ] F1 ≥ 0.75 macro-averaged on held-out test set
+- [ ] κ ≥ 0.65 against human gold standard
+- [ ] Error analysis complete with ≥20 categorised failure cases
+- [ ] Human audit of 100 pipeline outputs documented

@@ -1,0 +1,51 @@
+AROMA Search Pipeline — Run Summary
+Date: 2026-03-17T01:24:37.619268
+Date range: 2015–2025
+
+Total unique papers: 1289
+
+Papers by source API:
+  SemanticScholar: 297
+  OpenAlex: 774
+  PubMed: 255
+  Found by ≥2 APIs: 37
+
+Year distribution:
+  2015: 22
+  2016: 34
+  2017: 48
+  2018: 52
+  2019: 81
+  2020: 111
+  2021: 95
+  2022: 102
+  2023: 203
+  2024: 224
+  2025: 310
+  2026: 7
+
+Relevance score: mean=2.2, median=2, max=18
+Papers with relevance ≥5: 193
+Papers with relevance ≥10: 11
+
+Top 20 by relevance × citations:
+  [18] (11.0 cites) Clinical Practice Guidelines on using artificial intelligence and gadgets for mental healt
+  [16] (3.0 cites) Cognitive offloading or cognitive overload? How AI alters the mental architecture of copin
+  [14] (14.0 cites) Artificial Companions, Real Connections?
+  [14] (nan cites) Chatbots' Empathetic Conversations and Responses: A Qualitative Study of Help‑Seeking Quer
+  [14] (nan cites) The Digital Therapeutic Alliance With Mental Health Chatbots: Diary Study and Thematic Ana
+  [13] (4.0 cites) Emotional AI and the rise of pseudo-intimacy: are we trading authenticity for algorithmic 
+  [11] (2.0 cites) Phoenix: A Conversational Agent for Emotional Well-Being and Psychological Support
+  [10] (58.0 cites) Can AI replace psychotherapists? Exploring the future of mental health care
+  [10] (34.0 cites) Can AI Relate: Testing Large Language Model Response for Mental Health Support
+  [10] (20.0 cites) A Call to Protect the Health Care Workers Fighting COVID-19 in the United States
+  [10] (nan cites) Large Language Model-Powered Conversational Agent Delivering Problem-Solving Therapy (PST)
+  [9] (497.0 cites) Connecting Through Technology During the Coronavirus Disease 2019 Pandemic: Avoiding “Zoom
+  [9] (115.0 cites) The Potential of Chatbots for Emotional Support and Promoting Mental Well-Being in Differe
+  [9] (18.0 cites) Mental health and well-being at the workplace
+  [9] (12.0 cites) Chatbots for Well-Being: Exploring the Impact of Artificial Intelligence on Mood Enhanceme
+  [9] (5.0 cites) Preventing common mental health problems in war-affected populations: the role of digital 
+  [9] (1.0 cites) Toward emotional mediation: generative AI in art therapy for psychosocial health support
+  [9] (nan cites) Too good to be true? Exploring the role of artificial intelligence chatbots in treating de
+  [9] (nan cites) New Doc on the Block: Scoping Review of AI Systems Delivering Motivational Interviewing fo
+  [8] (268.0 cites) Towards an Artificially Empathic Conversational Agent for Mental Health Applications: Syst

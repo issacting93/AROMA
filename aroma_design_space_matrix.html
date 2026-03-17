@@ -1,0 +1,154 @@
+
+<style>
+.matrix-wrap { padding: 1rem 0; }
+.tab-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1rem; }
+.tab { padding: 6px 14px; border-radius: 20px; border: 1.5px solid var(--color-border-secondary); background: var(--color-background-secondary); color: var(--color-text-secondary); font-size: 13px; cursor: pointer; transition: all 0.15s; font-weight: 400; }
+.tab:hover { border-color: var(--color-border-primary); color: var(--color-text-primary); }
+.tab.active { background: var(--color-background-primary); border-color: var(--color-text-primary); color: var(--color-text-primary); font-weight: 500; }
+.card { border: 1px solid var(--color-border-tertiary); border-radius: 12px; overflow: hidden; }
+.card-header { padding: 14px 18px 12px; border-bottom: 1px solid var(--color-border-tertiary); }
+.card-header h2 { font-size: 17px; font-weight: 500; color: var(--color-text-primary); margin: 0 0 4px; }
+.card-header p { font-size: 13px; color: var(--color-text-secondary); margin: 0; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+.cell { padding: 14px 18px; border-bottom: 1px solid var(--color-border-tertiary); }
+.cell:nth-child(odd) { border-right: 1px solid var(--color-border-tertiary); }
+.cell:last-child, .cell:nth-last-child(2):nth-child(odd) { border-bottom: none; }
+.cell-label { font-size: 11px; font-weight: 500; color: var(--color-text-tertiary); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 5px; }
+.cell-value { font-size: 13px; color: var(--color-text-primary); line-height: 1.5; }
+.risk-pill { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 500; margin-top: 4px; }
+.risk-low { background: var(--color-background-success); color: var(--color-text-success); }
+.risk-med { background: var(--color-background-warning); color: var(--color-text-warning); }
+.risk-high { background: var(--color-background-danger); color: var(--color-text-danger); }
+.untapped { background: var(--color-background-info); color: var(--color-text-info); }
+.full-row { grid-column: 1 / -1; border-right: none !important; }
+</style>
+
+<div class="matrix-wrap">
+  <div class="tab-row" id="tabs"></div>
+  <div class="card" id="card"></div>
+</div>
+
+<script>
+const data = [
+  {
+    id: "emotional",
+    label: "Emotional",
+    desc: "Addressing distress and the need to be heard",
+    intervention: "Validation, empathic presence, reflective listening",
+    modality: "Rich modalities preferred — voice and avatar carry paralinguistic cues text cannot. Text can work with careful strategy design.",
+    delivers: "Scripted validation, active listening cues, reflective prompts",
+    risk_level: "med",
+    risk: "User may expect AI to genuinely feel with them, not just respond. Hollow empathy can feel more alienating than silence.",
+    gap: "Authority-agency gap is moderate: user doesn't expect AI to act, but expects it to understand. Failure is affective mismatch, not structural.",
+    untapped: "Voice + physiological sensing could enable real-time attunement. Longitudinal context could let the AI track emotional patterns over time rather than treating each session as isolated."
+  },
+  {
+    id: "esteem",
+    label: "Esteem",
+    desc: "Addressing self-worth and perceived competence",
+    intervention: "Encouragement, strength-based reframing, positive reinforcement",
+    modality: "Text or voice both viable. Tone carries weight — affirmation needs to feel earned, not scripted.",
+    delivers: "Positive reinforcement, strength-based prompts, reframing exercises",
+    risk_level: "med",
+    risk: "Hollow praise — AI can affirm without evidence. Unconditional positive regard that isn't grounded in anything the user has actually done can undermine credibility.",
+    gap: "Moderate authority-agency gap: AI acts encouraging but cannot actually observe the user's behavior or hold them accountable.",
+    untapped: "Behavioral tracking over time could ground esteem support in actual user history. Affirmation tied to specific user-reported actions would be meaningfully different from generic encouragement."
+  },
+  {
+    id: "informational",
+    label: "Informational",
+    desc: "Addressing knowledge gaps and uncertainty",
+    intervention: "Psychoeducation, advice-giving, structured information delivery",
+    modality: "Text is well-suited — information density and re-readability are affordances of text chat. Low modality sufficient.",
+    delivers: "Well-matched — AI excels at information retrieval and structured delivery",
+    risk_level: "high",
+    risk: "Therapeutic misconception: user may treat AI information as clinical guidance and expect the AI to take responsibility for their care decisions. High authority projection, zero agency to follow through.",
+    gap: "Highest authority-agency gap for this support type. The Advisor role carries implied clinical authority that AI structurally cannot honor.",
+    untapped: "Structured decision-support tools with explicit uncertainty communication. Epistemic humility built into the interaction design — AI that models its own confidence levels would partially close this gap."
+  },
+  {
+    id: "network",
+    label: "Network",
+    desc: "Addressing isolation and connection to communities",
+    intervention: "Referral, community signposting, social connection facilitation",
+    modality: "Requires outward reach beyond the chat interface. Text can point, but cannot bridge.",
+    delivers: "Can point to resources and communities but cannot make the connection happen",
+    risk_level: "high",
+    risk: "Navigator paradox: user expects AI to actively bridge the gap to real communities. AI can only provide links. User feeling dismissed after receiving a list of resources is a documented failure mode.",
+    gap: "Structural gap: the care this support type requires goes beyond the chat interface. AI lacks the agency to facilitate actual human connection.",
+    untapped: "Warm handoff protocols integrated into the product. Partnerships with peer support platforms that allow AI to initiate connection rather than just reference it. Agentic AI with outbound communication capability."
+  },
+  {
+    id: "tangible",
+    label: "Tangible",
+    desc: "Addressing practical needs and concrete help",
+    intervention: "Task completion, resource provision, practical action",
+    modality: "Requires action-capable systems. Conversational AI alone is structurally insufficient.",
+    delivers: "Very limited — AI cannot act in the world. Can describe actions but not perform them.",
+    risk_level: "high",
+    risk: "Highest authority-agency gap of all support types. User needs something done. AI produces words. The gap between what is needed and what is delivered is maximally visible.",
+    gap: "This support type is the clearest demonstration of AI's structural limit. Current conversational AI cannot fulfill it without tool use or real-world integration.",
+    untapped: "Agentic AI systems with tool use — scheduling, referral execution, form completion. The gap here is not a design failure, it is a capability frontier. As AI agency expands, this is the support type most likely to see meaningful progress."
+  },
+  {
+    id: "appraisal",
+    label: "Appraisal",
+    desc: "Addressing meaning-making and situational reframing",
+    intervention: "Reframing, Socratic questioning, perspective-taking prompts",
+    modality: "Text or voice both viable. Requires sufficient turn depth — shallow interactions can't support meaning-making.",
+    delivers: "Reflective prompts, Socratic questioning, structured reframing exercises",
+    risk_level: "med",
+    risk: "Premature reframing before emotional processing is complete. A system that moves to meaning-making before the user feels heard will be experienced as dismissive, not insightful.",
+    gap: "Moderate gap: the Reflective Partner role requires sensitivity to readiness — knowing when the user is ready for reframing vs still needing validation. Current AI has no reliable mechanism for detecting this.",
+    untapped: "Longitudinal context tracking could enable meaning-making over time rather than within a single session. Integrating emotional state detection to gate reframing until the user has been sufficiently validated."
+  }
+];
+
+let active = 0;
+
+function render() {
+  const d = data[active];
+  document.getElementById('tabs').innerHTML = data.map((item, i) =>
+    `<div class="tab ${i === active ? 'active' : ''}" onclick="setActive(${i})">${item.label}</div>`
+  ).join('');
+
+  const riskClass = { low: 'risk-low', med: 'risk-med', high: 'risk-high' }[d.risk_level];
+  const riskLabel = { low: 'Low risk', med: 'Moderate risk', high: 'High risk' }[d.risk_level];
+
+  document.getElementById('card').innerHTML = `
+    <div class="card-header">
+      <h2>${d.label} support</h2>
+      <p>${d.desc}</p>
+    </div>
+    <div class="grid">
+      <div class="cell">
+        <div class="cell-label">Required intervention</div>
+        <div class="cell-value">${d.intervention}</div>
+      </div>
+      <div class="cell">
+        <div class="cell-label">Required modality</div>
+        <div class="cell-value">${d.modality}</div>
+      </div>
+      <div class="cell">
+        <div class="cell-label">What AI currently delivers</div>
+        <div class="cell-value">${d.delivers}</div>
+      </div>
+      <div class="cell">
+        <div class="cell-label">Risk</div>
+        <div class="cell-value">${d.risk}<br><span class="risk-pill ${riskClass}">${riskLabel}</span></div>
+      </div>
+      <div class="cell full-row">
+        <div class="cell-label">Authority–agency gap</div>
+        <div class="cell-value">${d.gap}</div>
+      </div>
+      <div class="cell full-row" style="border-bottom:none">
+        <div class="cell-label">Untapped potential</div>
+        <div class="cell-value">${d.untapped}<br><span class="risk-pill untapped">Design opportunity</span></div>
+      </div>
+    </div>
+  `;
+}
+
+function setActive(i) { active = i; render(); }
+render();
+</script>

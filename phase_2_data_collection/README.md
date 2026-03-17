@@ -1,50 +1,57 @@
-# Phase 2 — Data Collection (weeks 6–10, overlapping with Phase 1)
+# Phase 2 — Data Collection (weeks 6–10)
 
-You need two datasets: a **development set** for building and refining the taxonomy, and a **test set** for evaluating the classification pipeline. Keep them strictly separate from the start.
+> **Prerequisite:** Phase 1 PRISMA corpus complete (100–200 papers extracted).
 
-## 2.1 Primary Dataset: Public Human-AI Conversations
+## Purpose
 
-**Source 1: WildChat (you already have experience here)**
-- Filter for mental health adjacent conversations
-- Search terms / topic classifier: anxiety, depression, stress, loneliness, grief, relationship problems, self-harm adjacent (careful with this), burnout, feeling overwhelmed, seeking support
-- Target: 500–1000 conversations for development; 200–300 held out for test
-- Key advantage: large scale, naturalistic, no recruitment required
-- Key disadvantage: WildChat is general-purpose GPT use — care roles may be enacted inconsistently or not at all
+Collect two strictly separated datasets: a **development set** for building and refining the taxonomy, and a **test set** for evaluating the classification pipeline. The PRISMA extraction (Phase 1) provides the literature-derived terms; this phase provides the empirical conversation data.
 
-**Source 2: Chatbot Arena / LMSYS**
-- Filter for emotionally valenced or support-seeking prompts
-- Useful for comparing how different LLMs enact (or fail to enact) care roles
+---
 
-**Source 3: Reddit mental health posts + AI response threads**
-- r/ChatGPT, r/mentalhealth, r/therapy — users sharing AI interactions
-- Li et al. (2025) used this approach; you have methodological precedent
-- Useful for capturing user-initiated role assignment (people prompting GPT into specific roles)
+## Steps
 
-**Source 4 (if you can get it): Wysa or 7 Cups public data**
-- More clinically structured; roles may be more consistently enacted
-- Likely requires IRB + data agreement — start this conversation early if you want it
+### 2.1 Primary Datasets
+ 
+**Practical targets:**
+- Development set: 400 conversations, ~2,000–4,000 turns
+- Test set: 150 conversations, held out **completely** until Phase 5
+- Balance: ≥50 conversations per care role in development set
 
-**Practical target:**
-- Development set: 400 conversations, ~2000–4000 turns
-- Test set: 150 conversations, held out completely until pipeline evaluation
-- Balance: at least 50 conversations per care role in the development set
+### 2.2 Unit of Analysis
 
-## 2.2 Unit of Analysis Decision
+Code at **two levels**, in sequence:
 
-You need to decide this now and stick to it throughout. Two options:
+1. **Conversation-level** — each conversation gets one primary care role. Faster, builds intuition.
+2. **Turn-level** (subset: 100 conversations, ~500 turns) — each AI response gets a role label. Captures dynamics. This subset becomes Ethan's pipeline training target.
 
-**Conversation-level coding:** Each conversation gets one primary care role label. Simpler, faster to code, easier to evaluate — but loses within-conversation role dynamics.
+### 2.3 Data Preprocessing
 
-**Turn-level coding:** Each AI response turn gets a care role label. More granular, captures role switching, much richer data — but 5–10× more coding effort.
-
-**Recommendation:** Do both, in sequence. Code at conversation level first to build intuition and inter-rater reliability quickly. Then code a subset (100 conversations, ~500 turns) at turn level to capture dynamics. The turn-level subset becomes your most valuable dataset and Ethan's pipeline training target.
-
-## 2.3 Data Preprocessing
-
-For each conversation in your dataset, extract and structure:
+For each conversation, extract and structure:
 - Conversation ID
 - Platform source
-- Full turn sequence (user turn / AI turn / user turn...)
-- Metadata: conversation length, topic tags, any available system prompt
+- Full turn sequence (user / AI / user / ...)
+- Metadata: conversation length, topic tags, system prompt (if available)
+- Initial role-term tags from Phase 1 extraction (pre-populate from PRISMA terms)
 
-Strip personally identifying information. If using WildChat, check their data use terms — they permit research use but have restrictions on certain categories.
+Strip PII. Check WildChat data use terms. Flag self-harm-adjacent content for sensitive handling.
+
+### 2.4 Seed Annotation with PRISMA Terms
+
+Use the term extraction from Phase 1 to pre-tag conversations:
+- For each AI turn, auto-tag with any matching `role_terms`, `strategy_terms`, or `function_terms` from the PRISMA extraction
+- This creates a warm start for human coding (Phase 3) — coders see suggested terms but are not constrained by them
+
+---
+
+## Deliverables
+
+- [ ] Development set: 400 conversations, structured and preprocessed
+- [ ] Test set: 150 conversations, sealed and untouched
+- [ ] Pre-tagged conversational data ready for Phase 3 coding
+- [ ] Data manifest: source distribution, conversation length statistics, topic distribution
+
+## Gate Criteria
+
+- [ ] ≥400 development conversations collected and preprocessed
+- [ ] ≥150 test conversations sealed (no peeking until Phase 5)
+- [ ] Balance check: each expected role represented in ≥50 conversations

@@ -1,29 +1,67 @@
-# Phase 0 — Theoretical Framework (now → 3 weeks)
+# Phase 0 — Top-Down Theoretical Foundation
 
-This is the work you've already mostly done. The goal of this phase is to lock it down into a citable, stable document before touching any data, because every downstream decision depends on it.
+**AROMA foundation theories:** Cutrona & Suhr (1992) + Biddle (1986) + Feng IMA (2009) as the three-pillar anchor.
 
-## 0.1 Finalize the 5-dimension framework
+## Purpose
 
-Write a 2–3 page internal spec document defining each dimension with:
-- A formal definition (one sentence, precise enough to code against)
-- What it is *not* (negative definition — the hardest part)
+Establish a cross-validated, defensible theoretical base that CHI reviewers will recognise. 
+## Steps
+
+### 0.1 Lock the Three Anchor Sources
+
+| Anchor | What it provides | AROMA dimension |
+|--------|-----------------|-----------------|
+| Cutrona & Suhr (1992) SSBC | 5 support types: Emotional, Informational, Esteem, Network, Tangible | **D1 — Support Type** (direct inheritance) |
+| Biddle (1986) Role Theory | Theoretical warrant for distinguishing roles from functions — static vs. dynamic, enacted vs. expected | **D2 — Care Role** (conceptual foundation) |
+| Feng (2009) IMA | Sequential communicative moves as empirical precedent for coding utterance-level strategy | **D4 — Support Strategy** (methodological precedent) |
+
+**Deliverable:** A 1-page "Theoretical Anchors" document mapping each anchor to its AROMA dimension, citing the specific constructs inherited.
+
+### 0.2 Finalize the 5-Dimension Framework
+
+Write a 2–3 page internal spec defining each dimension with:
+- A **formal definition** (one sentence, precise enough to code against)
+- A **negative definition** (what it is *not*)
 - 2–3 worked examples
-- The theoretical lineage (which prior paper anchors it)
+- The **theoretical lineage** (which anchor paper justifies it)
 
-The definition of D2 (Care Role) is the most critical because everything else is relative to it. Lock this before writing a single codebook entry. A working definition: *A care role is a stable relational stance that an AI agent adopts toward a user in distress, characterized by a distinctive core function, a dominant support type, and a characteristic set of linguistic strategies — and that invites a complementary human role in return.*
+> The definition of D2 (Care Role) is the most critical — everything downstream depends on it.
+> Working definition: *A care role is a stable relational stance that an AI agent adopts toward a user in distress, characterised by a distinctive core function, a dominant support type, and a characteristic set of linguistic strategies — and that invites a complementary human role in return.*
 
-## 0.2 Derive the human-role compatibility matrix
+### 0.3 Derive the Human-Role Compatibility Matrix
 
-You've sketched this already (help-seeker, witness-seeker, client, patient, peer-seeker, caregiver, advocate, self-manager). Write it up formally as a 2-column table: Care Role → Invited Human Role → Compatibility prediction → Failure mode when mismatched. This becomes Figure 1 or the theoretical framework figure in the paper.
+Write up the complementary human roles (help-seeker, witness-seeker, client, patient, peer-seeker, caregiver, advocate, self-manager) as:
 
-## 0.3 Write the theoretical argument
+| Care Role | Invited Human Role | Compatibility | Failure mode when mismatched |
+|-----------|-------------------|---------------|------------------------------|
+| Listener  | Witness-seeker    | High          | User seeking guidance gets validation only → frustration |
+| Coach     | Client            | High          | User seeking empathy gets action plans → invalidation |
+| ...       | ...               | ...           | ... |
 
-Draft the argument that motivates the taxonomy — approximately 800 words:
-- The field conflates D1 (support type) and D2 (care role)
-- Existing taxonomies are either empirically ungrounded, system-level rather than interactional, or user-constructed but unformalized
-- The Parsonian sick role shows why role matters: each care role presupposes different things from the provider, and AI can only viably instantiate some of them
-- Therefore a multi-dimensional role ontology is needed that separates support type, care role, core function, support strategy, and modality
+This becomes Figure 1 in the paper.
 
-This draft becomes your Related Work and Introduction sections later. Writing it now forces you to identify any gaps in the theoretical structure before you commit to a data collection design.
+### 0.4 Write the Theoretical Argument (~800 words)
 
-**Deliverable:** A locked internal framework spec. If you can't write the codebook from it, the framework isn't stable enough yet.
+Draft the argument that motivates the taxonomy:
+1. The field conflates D1 (support type) and D2 (care role)
+2. Existing taxonomies are either empirically ungrounded, system-level rather than interactional, or user-constructed but unformalised
+3. The Parsonian sick role shows why role matters: each care role presupposes different things from the provider
+4. Therefore a multi-dimensional role ontology is needed
+5. The **Authority-Agency Paradox**: users ascribe authority to AI agents that structurally lack agency
+
+This draft becomes Introduction + Related Work sections later.
+
+### 0.5 Cross-Reference Audit
+
+Use the [Taxonomy Cross-Reference Map](../taxonomy-table.html) to verify that:
+- Every ENTRIES row has a documented `relationship_to_aroma` (ancestor, prior_taxonomy, motivation, comparator)
+- The `argument_chain_layer` field forms a coherent chain: `support_vocabulary` → `matching_logic` → `obligation_structure` → `prior_taxonomy` → `paradox_motivation`
+- Coverage gaps in D2–D5 are explicitly identified as the empirical contribution AROMA makes
+
+---
+
+## Gate Criteria
+
+- [ ] Framework spec signed off by Vedant
+- [ ] Theoretical argument draft readable as a standalone document
+- [ ] Cross-reference map shows clear gap narrative: D1 well-covered → D2-D5 undertheorised
