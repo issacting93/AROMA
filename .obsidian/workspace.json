@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "phase_0_theoretical_framework/AROMA_Internal_Spec.md",
+                "file": "README.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "AROMA_Internal_Spec"
+              "title": "README"
             }
           }
         ]
@@ -185,22 +185,43 @@
   },
   "active": "0a7488df75596426",
   "lastOpenFiles": [
-    "cross-ref-data.js",
+    "phase_1_literature_synthesis/roles_relationships_taxonomy_v3.xlsx/resources/sheet.css",
+    "phase_1_literature_synthesis/roles_relationships_taxonomy_v3.xlsx/resources",
+    "phase_1_literature_synthesis/roles_relationships_taxonomy_v3.xlsx/Roles & Relationships Papers.html",
+    "phase_1_literature_synthesis/roles_relationships_taxonomy_v3.xlsx",
+    "phase_1_literature_synthesis/papers-data.js",
+    "phase_1_literature_synthesis/roles_relationships_papers.xlsx",
+    "phase_0_theoretical_framework/legacy_roadmap.md",
+    "phase_0_theoretical_framework/theoritical-framing.md",
+    "phase_0_theoretical_framework/authority_agency.md",
+    "dashboard/taxonomy-table.js",
+    "dashboard/taxonomy-table.html",
+    "dashboard/preview.png",
+    "dashboard/knowledge-graph.js",
+    "dashboard/knowledge-graph.html",
+    "dashboard/graph.svg",
+    "dashboard/global.css",
+    "aroma_synthesis_report.md",
+    "phase_1_literature_synthesis/aroma_synthesis_report.md",
+    "phase_2_taxonomy/README.md",
+    "phase_7_writing/CHI_2027_AROMA_Draft.md",
+    "phase_1_literature_synthesis/README.md",
+    "phase_2_data_collection/README.md",
+    "phase_2_taxonomy/2.0_AROMA_Care_Role_Taxonomy.md",
+    "phase_0_theoretical_framework/AROMA_Internal_Spec.md",
+    "phase_0_theoretical_framework/0.2_Human_Role_Compatibility_Matrix.md",
+    "phase_0_theoretical_framework/0.1_Theoretical_Anchors.md",
     "phase_0_theoretical_framework/README.md",
     "phase_0_theoretical_framework/image.png",
+    "phase_0_theoretical_framework/0.3_Theoretical_Argument.md",
+    "preview.png",
+    "README.md",
     "phase_4_expert_validation/README.md",
-    "phase_0_theoretical_framework/AROMA_Internal_Spec.md",
     "graph.svg",
     "phase_7_writing/README.md",
     "phase_6_evaluation/README.md",
     "phase_5_classification_pipeline/README.md",
     "phase_3_human_coding/README.md",
-    "extract_table.py",
-    "phase_2_data_collection/README.md",
-    "phase_1_taxonomy_development/README.md",
-    "phase_0_theoretical_framework/0.2_Human_Role_Compatibility_Matrix.md",
-    "phase_0_theoretical_framework/0.3_Theoretical_Argument.md",
-    "cross-ref.json",
-    "cross-ref.css"
+    "phase_1_taxonomy_development/README.md"
   ]
 }

@@ -1,35 +1,22 @@
-role_term,frequency,aroma_role,n_papers
-Companion,29,Companion,10
-Chatbot,19,[System Descriptor],6
-Therapist,9,Advisor,3
-Coach,9,Coach,3
-Virtual Agent,8,[System Descriptor],2
-Social Robot,6,[System Descriptor],3
-Counselor,5,Advisor,2
-Ai Companion,4,Companion,4
-Relational Agent,4,[System Descriptor],1
-Screener,2,Navigator,1
-Therapist-Adjunct,2,Advisor,1
-Assessor,2,Navigator,1
-Intervener,2,Advisor,1
-Virtual Friend,2,Companion,2
-System,2,[System Descriptor],1
-Bot,2,[System Descriptor],1
-Virtual Counselor,2,Advisor,1
-Assistant,2,[System Descriptor],1
-Virtual Coach,2,Coach,1
-Virtual Therapist,2,Advisor,1
-Seductive Partner,1,Companion,1
-Ai Coach,1,Coach,1
-Artificial Companion,1,Companion,1
-Sim-Physician,1,Advisor,1
-Social Ally,1,Companion,1
-Caregiver,1,Companion,1
-Guide,1,Navigator,1
-Therapist-Lite,1,Advisor,1
-Nurturer,1,Companion,1
-Sentiment-Aware Assistant,1,Advisor,1
-Pseudo-Intimate Partner,1,Companion,1
-Peer-Responder,1,Navigator,1
-Crisis Counselor (Automated),1,Advisor,1
-Ai Therapist,1,Advisor,1
+role_term,frequency,suggested_dim,notes
+Agent,18,D2,
+Companion,8,D2,
+Virtual Friend,2,D2,
+Ai Companion,1,D2,
+Seductive Partner,1,D2,
+Artificial Companion,1,D2,
+Sim-Physician,1,D2,
+Social Ally,1,D2,
+Caregiver,1,D2,
+Guide,1,D2,
+Therapist-Lite,1,D2,
+Nurturer,1,D2,
+Sentiment-Aware Assistant,1,D2,
+Pseudo-Intimate Partner,1,D2,
+Peer-Responder,1,D2,
+Crisis Counselor (Automated),1,D2,
+Coach,1,D2,
+Virtual Counselor,1,D2,
+Therapist,1,D2,
+Virtual Coach,1,D2,
+Virtual Therapist,1,D2,

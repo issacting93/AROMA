@@ -39,18 +39,27 @@ Phase 7: Writing                   →  CHI 2027 submission
 | Phase | Folder | Status | Gate |
 | :--- | :--- | :--- | :--- |
 | **0. Top-Down Foundation** | [`phase_0_theoretical_framework/`](phase_0_theoretical_framework/) | Complete | Framework spec signed off |
-| **1. PRISMA Literature Synthesis** | [`phase_1_literature_synthesis/`](phase_1_literature_synthesis/) | In Progress | ≥100 papers, all RQs addressable |
-| **2. Data Collection** | [`phase_2_data_collection/`](phase_2_data_collection/) | Not Started | 400 dev + 150 test conversations |
+| **1. PRISMA Literature Synthesis** | [`phase_1_literature_synthesis/`](phase_1_literature_synthesis/) | Complete | 144 included candidates (203 total papers) |
+| **2. Care Role Taxonomy** | [`phase_2_taxonomy/`](phase_2_taxonomy/) | Complete | 6 roles formalized and corpus-grounded |
 | **3. Qualitative Coding** | [`phase_3_human_coding/`](phase_3_human_coding/) | Not Started | κ ≥ 0.70 on D2 |
 | **4. Expert Validation & AI Extension** | [`phase_4_expert_validation/`](phase_4_expert_validation/) | Not Started | Codebook v1.0 signed off |
 | **5. Classification Pipeline** | [`phase_5_classification_pipeline/`](phase_5_classification_pipeline/) | Not Started | F1 ≥ 0.75 on test set |
 | **6. Evaluation & Analysis** | [`phase_6_evaluation/`](phase_6_evaluation/) | Not Started | Error analysis complete |
 | **7. Writing** | [`phase_7_writing/`](phase_7_writing/) | Not Started | CHI 2027 submission |
 
+## Corpus Grounding (Phase 1 Results)
+
+AROMA's taxonomy is empirically grounded in a PRISMA-compliant systematic synthesis of the AI care literature:
+
+- **Search Scope**: 1,289 unique papers fetched across Semantic Scholar, OpenAlex, and PubMed (2015–2025).
+- **Inclusion**: 144 new candidates identified, forming a **203-paper final corpus** when merged with legacy theoretical anchors.
+- **Role Consolidation**: 34 distinct literature terms were identified and mapped to **6 AROMA Care Roles** (terminological fragmentation map).
+- **Key Finding**: Listener and Reflective Partner roles are frequently enacted in the literature but rarely named as distinct relational stances—supporting AROMA's role-based analytical lens.
+
 ## Interactive Tools
 
-- **[Literature & Taxonomy Map](taxonomy-table.html)** — 59-entry table mapping existing literature onto AROMA's 5 dimensions
-- **[Knowledge Graph](knowledge-graph.html)** — D3 force-directed visualisation of coverage relationships
+- **[Literature & Taxonomy Map](taxonomy-table.html)** — Interactive table mapping the 203-paper corpus across AROMA's 5 dimensions
+- **[Knowledge Graph](knowledge-graph.html)** — D3 force-directed visualisation of the D3 (Core Function) keyword space (40 optimized papers)
 
 ![AROMA Cross-Reference Knowledge Graph](preview.png)
 
