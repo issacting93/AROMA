@@ -185,6 +185,7 @@
   },
   "active": "0a7488df75596426",
   "lastOpenFiles": [
+    "phase_2_taxonomy/Taxonomy_Traceability_Guide.md",
     "phase_1_literature_synthesis/roles_relationships_taxonomy_v3.xlsx/resources/sheet.css",
     "phase_1_literature_synthesis/roles_relationships_taxonomy_v3.xlsx/resources",
     "phase_1_literature_synthesis/roles_relationships_taxonomy_v3.xlsx/Roles & Relationships Papers.html",
@@ -200,7 +201,6 @@
     "dashboard/knowledge-graph.js",
     "dashboard/knowledge-graph.html",
     "dashboard/graph.svg",
-    "dashboard/global.css",
     "aroma_synthesis_report.md",
     "phase_1_literature_synthesis/aroma_synthesis_report.md",
     "phase_2_taxonomy/README.md",
