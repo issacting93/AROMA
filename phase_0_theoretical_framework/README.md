@@ -14,6 +14,7 @@ Establish a cross-validated, defensible theoretical base that CHI reviewers will
 | Cutrona & Suhr (1992) SSBC | 5 support types: Emotional, Informational, Esteem, Network, Tangible | **D1 — Support Type** (direct inheritance) |
 | Biddle (1986) Role Theory | Theoretical warrant for distinguishing roles from functions — static vs. dynamic, enacted vs. expected | **D2 — Care Role** (conceptual foundation) |
 | Feng (2009) IMA | Sequential communicative moves as empirical precedent for coding utterance-level strategy | **D4 — Support Strategy** (methodological precedent) |
+| Parsons (1951) | Mutual obligation / Structural Binding | **Authority-Agency Paradox** (cross-cutting lens) |
 
 **Deliverable:** A 1-page "Theoretical Anchors" document mapping each anchor to its AROMA dimension, citing the specific constructs inherited.
 
@@ -45,9 +46,9 @@ This becomes Figure 1 in the paper.
 Draft the argument that motivates the taxonomy:
 1. The field conflates D1 (support type) and D2 (care role)
 2. Existing taxonomies are either empirically ungrounded, system-level rather than interactional, or user-constructed but unformalised
-3. The Parsonian sick role shows why role matters: each care role presupposes different things from the provider
+3. The Parsonian sick role shows why role matters: each care role presupposes an **obligation structure** (mutual binding) between provider and patient
 4. Therefore a multi-dimensional role ontology is needed
-5. The **Authority-Agency Paradox**: users ascribe authority to AI agents that structurally lack agency
+5. The **Authority-Agency Paradox**: the structural condition in which AI interactions dissolve these mutual obligations—creating an **obligation gap** where authority is claimed without accountability.
 
 This draft becomes Introduction + Related Work sections later.
 

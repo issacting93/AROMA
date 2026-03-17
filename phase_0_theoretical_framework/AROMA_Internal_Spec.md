@@ -21,6 +21,7 @@ AROMA inherits its structural vocabulary from three cross-validated theoretical 
 | **Blumer (1969) / Mead (1934)** — Symbolic Interactionism | Role-taking as the enactment mechanism: roles are performed turn-by-turn through reading the user's expressed state and calibrating stance accordingly. Defines the annotation unit as a conversational sequence, not a single utterance. | **D2 — annotation procedure** |
 | **Feng (2009)** — Integrated Model of Advice-giving (IMA) | Sequential communicative moves (emotional support → problem inquiry → advice) as empirical precedent for role-like behavior in supportive interactions | **D4 — Support Strategy** (methodological precedent); **D2 — Care Role** (extension) |
 | **Daft & Lengel (1986) / Bickmore & Picard (2005)** — Media richness; long-term HCI relationships | Modality as a structural constraint on role viability — some roles cannot be instantiated in low-richness channels | **D5 — Interaction Modality** |
+| **Parsons (1951)** — The Social System | Mutual obligation / Structural Binding | **Authority-Agency Paradox** (cross-cutting) |
 | **Nickerson, Varshney & Muntermann (2013)** — Taxonomy development method | Methodological warrant: ending conditions, combined top-down/bottom-up development, distinction from typology | **Methodological justification** |
 
 
@@ -145,9 +146,9 @@ Roles that fail any criterion are excluded or merged with the nearest neighbour.
 
 ## The Authority-Agency Paradox
 
-A cross-cutting theoretical contribution that applies across all five dimensions:
+A theoretical concept developed as part of AROMA that describes a structural problem in AI care relationships—not a capability gap, but an **obligation gap**.
 
-> Users ascribe positions of **authority** to AI agents (e.g., expert, advisor) — yet unlike human social roles, AI agents lack the **agency** to change the user's situation *or* the user's role. Authority is claimed; agency is absent.
+> Drawing on Parsons (1951), AROMA argues that human care relationships are governed by **mutual obligation**: providers are bound to act competently and accountably; receivers are bound to commit to recovery. The **Authority-Agency Paradox** is the structural condition where AI care interactions dissolve these bindings on both sides—the agent receives authority without accountability, and the user receives support without reciprocal commitment. This destroys the **structural binding**—the mutual expectations—that makes human care therapeutic rather than merely comforting.
 
 This paradox manifests differently across roles:
 
@@ -157,7 +158,7 @@ This paradox manifests differently across roles:
 | **Moderate** | Coach | AI adopts directive stance but cannot enforce accountability |
 | **High** | Advisor, Navigator | User projects clinical authority, expects intervention the AI structurally cannot deliver → **Authority-Agency Paradox** |
 
-AROMA identifies a structural misalignment we term the **Authority-Agency Paradox**: the tension that arises when a user projects clinical authority onto a system that structurally lacks the agency to fulfill that role's obligations. While this is conceptually analogous to the *therapeutic misconception* in clinical trial ethics (Appelbaum et al., 1982)—where participants confuse research with treatment—AROMA's contribution is formalizing this as a structural byproduct of the decoupled authority and agency in conversational AI.
+AROMA formalizes this as a structural byproduct of conversational AI: a tension between the *interactional role* performed by the AI and its *structural capacity* to act. When the behavioral surface of a care role is enacted without the obligation structure that makes that role legitimate, it leads to a **therapeutic misconception**—where users act as if they are in a governed, accountable care relationship when they are not.
 
 ---
 
