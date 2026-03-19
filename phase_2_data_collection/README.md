@@ -1,57 +1,84 @@
-# Phase 2 — Data Collection (weeks 6–10)
+# Phase 2 — Data Collection
 
-> **Prerequisite:** Phase 1 PRISMA corpus complete (100–200 papers extracted).
+> **Prerequisite:** Phase 1 corpus complete (203 papers), Phase 2 taxonomy complete (6 roles formalized).
 
 ## Purpose
 
-Collect two strictly separated datasets: a **development set** for building and refining the taxonomy, and a **test set** for evaluating the classification pipeline. The PRISMA extraction (Phase 1) provides the literature-derived terms; this phase provides the empirical conversation data.
+Collect and preprocess conversation data for human coding (Phase 3) and classifier evaluation (Phase 5). Two strictly separated sets: **development** (build the codebook) and **test** (evaluate the pipeline).
 
 ---
 
-## Steps
+## 2.1 Data Sources
 
-### 2.1 Primary Datasets
- 
-**Practical targets:**
-- Development set: 400 conversations, ~2,000–4,000 turns
-- Test set: 150 conversations, held out **completely** until Phase 5
-- Balance: ≥50 conversations per care role in development set
+| Source | Type | Why | Access |
+|---|---|---|---|
+| **WildChat** (Zhao et al., 2024) | Real user–LLM conversations | Naturalistic mental health disclosures; system prompts available | HuggingFace (open) |
+| **Reddit** (r/mentalhealth, r/therapy, r/anxietyhelp) | User posts + peer/bot responses | High emotional range; role transitions visible in threads | Pushshift / API |
+| **Chatbot Arena** | Side-by-side LLM responses | Controlled comparison of role enactment across models | LMSYS (open) |
+| **SHP / HH-RLHF** (Anthropic) | Preference-ranked AI responses | Human-preferred responses may reveal implicit role expectations | HuggingFace (open) |
 
-### 2.2 Unit of Analysis
+**Optional (if accessible):** Wysa or 7 Cups transcripts — purpose-built mental health conversations.
 
-Code at **two levels**, in sequence:
+### Inclusion criteria (conversation-level)
 
-1. **Conversation-level** — each conversation gets one primary care role. Faster, builds intuition.
-2. **Turn-level** (subset: 100 conversations, ~500 turns) — each AI response gets a role label. Captures dynamics. This subset becomes Ethan's pipeline training target.
+- Contains ≥1 mental health–adjacent topic (distress, coping, relationships, self-worth, loneliness, clinical questions)
+- ≥3 turns (minimum for role identification per Blumer annotation unit)
+- AI response present (not user-only threads)
 
-### 2.3 Data Preprocessing
+### Exclusion criteria
 
-For each conversation, extract and structure:
-- Conversation ID
-- Platform source
-- Full turn sequence (user / AI / user / ...)
-- Metadata: conversation length, topic tags, system prompt (if available)
-- Initial role-term tags from Phase 1 extraction (pre-populate from PRISMA terms)
+- Pure information lookup with no relational component
+- Non-English
+- Conversations where PII cannot be adequately stripped
 
-Strip PII. Check WildChat data use terms. Flag self-harm-adjacent content for sensitive handling.
+---
 
-### 2.4 Seed Annotation with PRISMA Terms
+## 2.2 Sampling Targets
 
-Use the term extraction from Phase 1 to pre-tag conversations:
-- For each AI turn, auto-tag with any matching `role_terms`, `strategy_terms`, or `function_terms` from the PRISMA extraction
-- This creates a warm start for human coding (Phase 3) — coders see suggested terms but are not constrained by them
+| Set | Conversations | Turns (est.) | Use | Sealed? |
+|---|---|---|---|---|
+| **Development** | 400 | ~2,000–4,000 | Codebook building, calibration, full coding | No |
+| **Test** | 150 | ~750–1,500 | Pipeline evaluation only | Yes — untouched until Phase 5 |
+
+**Balance target:** ≥50 conversations per care role in the development set. Over-sample if initial distribution skews toward Companion (likely, given WildChat patterns).
+
+### Sampling strategy
+
+1. **Keyword filter** — surface candidates using mental health topic terms (anxiety, depression, loneliness, therapy, coping, crisis, etc.)
+2. **Role diversity pass** — manually scan filtered candidates for role diversity; flag conversations likely to contain Coach, Advisor, Navigator (underrepresented roles)
+3. **Random draw** — fill remaining quota from filtered pool to avoid cherry-picking
+
+---
+
+## 2.3 Preprocessing
+
+For each conversation, extract:
+
+| Field | Description |
+|---|---|
+| `conversation_id` | Unique ID |
+| `source` | Platform (WildChat / Reddit / Arena / etc.) |
+| `turns` | Ordered sequence: `[{role: user/ai, text: ...}, ...]` |
+| `n_turns` | Turn count |
+| `topic_tags` | Mental health topic keywords (auto-tagged) |
+| `system_prompt` | If available (WildChat provides these) |
+| `flagged` | Self-harm / crisis content flag for sensitive handling |
+
+**PII:** Strip names, locations, identifying details. Check each source's data use terms.
+
+**Format:** One JSON file per conversation, directory split by dev/test.
 
 ---
 
 ## Deliverables
 
-- [ ] Development set: 400 conversations, structured and preprocessed
-- [ ] Test set: 150 conversations, sealed and untouched
-- [ ] Pre-tagged conversational data ready for Phase 3 coding
-- [ ] Data manifest: source distribution, conversation length statistics, topic distribution
+- [ ] 400 development conversations, preprocessed and structured
+- [ ] 150 test conversations, sealed
+- [ ] Data manifest: source distribution, turn-length distribution, topic coverage, estimated role balance
+- [ ] Ethics note: PII handling, sensitive content protocol, data use compliance
 
 ## Gate Criteria
 
-- [ ] ≥400 development conversations collected and preprocessed
-- [ ] ≥150 test conversations sealed (no peeking until Phase 5)
-- [ ] Balance check: each expected role represented in ≥50 conversations
+- [ ] ≥400 development + ≥150 test conversations collected
+- [ ] Each role represented in ≥50 development conversations (estimated from topic/keyword proxy)
+- [ ] Test set sealed with no human coding applied
