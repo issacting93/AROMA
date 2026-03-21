@@ -4,9 +4,9 @@
 
 **"What is the role structure of AI-mediated mental health support interactions?"**
 
-The goal is not to propose new clinical interventions, but to build a framework organising existing **Support Strategies** from the literature into a cohesive, five-dimensional role taxonomy.
+The goal is not to propose new clinical interventions, but to build a framework organising existing **Support Strategies** from the literature into a cohesive, three-dimensional role taxonomy.
 
-*Claim:* No prior framework provides a unified taxonomy of caregiving roles specifically for AI-mediated mental health support interactions that accounts for role dynamics across interaction contexts.
+*Claim:* No prior framework provides a unified, three-dimensional taxonomy (Support Type, Care Role, Support Strategy) specifically for AI-mediated mental health support interactions that accounts for the Authority-Agency Paradox.
 
 ---
 
@@ -18,11 +18,12 @@ AROMA inherits its structural vocabulary from three cross-validated theoretical 
 |--------|-----------------|-----------------|
 | **Cutrona & Suhr (1992)** — Social Support Behavior Code | 5 support types: Emotional, Informational, Esteem, Network, Tangible | **D1 — Support Type** (direct inheritance) |
 | **Biddle (1986)** — Role Theory | Theoretical warrant for distinguishing roles from functions — stable relational stance vs. discrete behavioral move | **D2 — Care Role** (conceptual foundation) |
-| **Blumer (1969) / Mead (1934)** — Symbolic Interactionism | Role-taking as the enactment mechanism: roles are performed turn-by-turn through reading the user's expressed state and calibrating stance accordingly. Defines the annotation unit as a conversational sequence, not a single utterance. | **D2 — annotation procedure** |
-| **Feng (2009)** — Integrated Model of Advice-giving (IMA) | Sequential communicative moves (emotional support → problem inquiry → advice) as empirical precedent for role-like behavior in supportive interactions | **D4 — Support Strategy** (methodological precedent); **D2 — Care Role** (extension) |
-| **Daft & Lengel (1986) / Bickmore & Picard (2005)** — Media richness; long-term HCI relationships | Modality as a structural constraint on role viability — some roles cannot be instantiated in low-richness channels | **D5 — Interaction Modality** |
+| **Blumer (1969) / Mead (1934)** — Symbolic Interactionism | Role-taking as the enactment mechanism. Defines the annotation unit as a conversational sequence (3-5 turns), not a single utterance. | **D2 — annotation procedure** |
+| **Hill (2009)** — Helping Skills | Stage-based helper response modes (Exploration, Insight, Action) providing the theoretical foundation for strategy execution | **D3 — Support Strategy** (theoretical foundation) |
+| **ESConv / Liu et al. (2021)** | Computational operationalization of 8 mutually exclusive strategy categories with a pre-labeled dataset | **D3 — Support Strategy** (computational foundation) |
+| **Feng (2009)** — Integrated Model of Advice-giving (IMA) | Sequential placement principle — preparatory moves create conditions for subsequent moves to land | **D3 — Support Strategy** (sequential grammar) |
 | **Parsons (1951)** — The Social System | Mutual obligation / Structural Binding | **Authority-Agency Paradox** (cross-cutting) |
-| **Nickerson, Varshney & Muntermann (2013)** — Taxonomy development method | Methodological warrant: ending conditions, combined top-down/bottom-up development, distinction from typology | **Methodological justification** |
+| **Nickerson, Varshney & Muntermann (2013)** — Taxonomy development method | Methodological warrant: ending conditions, combined top-down/bottom-up development | **Methodological justification** |
 
 
 ---
@@ -59,9 +60,9 @@ AROMA inherits its structural vocabulary from three cross-validated theoretical 
 **Theoretical lineage:** Role Theory (Biddle, 1986); counseling/helping professions identity; relational agent literature.
 
 **Inclusion criterion:** A care role is included in AROMA if it:
-- (a) appears in **≥3 independent papers** from the PRISMA synthesis (Phase 1),
-- (b) produces **distinct interactional behaviours** from all other included roles, and
-- (c) is **viable within at least one AI interaction modality**.
+- (a) produces **distinct interactional behaviours** from all other included roles,
+- (b) is supported by theoretical anchors and literature synthesis, and
+- (c) follows Nickerson et al. (2013) ending conditions (no new dimensions, concise, robust, comprehensive).
 
 Roles that fail any criterion are excluded or merged with the nearest neighbour. *The Connector role was evaluated and excluded: only 1 paper (Gabriel et al. 2024 peer-responder) met the archetype — below the ≥3 threshold. Peer-bridging is absorbed into Navigator's scope.*
 
@@ -77,70 +78,24 @@ Roles that fail any criterion are excluded or merged with the nearest neighbour.
 
 ---
 
-## D3 — Core Function (Goal)
+## D3 — Support Strategy (Action)
 
-**Definition:** The intended psychological outcome or functional goal that a Care Role aims to produce in a given context.
-
-**What it is not:** It is not the literal action (D4), nor the overarching relational identity (D2). It is the bridge linking the role to the psychological outcome.
-
-**Theoretical lineage:** Functional analysis in counseling psychology; goal-oriented dialogue systems research.
-
-**On measurement:** The evaluation measures below are indicative self-report instruments drawn from the psychology literature. They are intended to guide future evaluation design, not to claim that AROMA itself produces clinical outcomes. All measures would require user-facing study protocols; they are outside the scope of the taxonomy itself.
-
-| Role | Core function | Indicative evaluation measure |
-|------|--------------|-------------------------------|
-| **Listener** | Emotional validation — user feels heard | Perceived empathy scale; distress reduction (SUDS) |
-| **Reflective Partner** | Insight generation — user reaches new understanding | Cognitive reappraisal inventory (Garnefski et al.) |
-| **Coach** | Motivation and self-efficacy — user feels capable | Bandura's self-efficacy scales |
-| **Advisor** | Decision support — user has clarity on options | Decisional Conflict Scale (O'Connor) |
-| **Companion** | Emotional presence — user feels less alone | UCLA Loneliness Scale; social presence measures |
-| **Navigator** | Resource discovery — user is connected to support | Referral uptake; service engagement rate |
-
-
----
-
-## D4 — Support Strategy (Action)
-
-**Definition:** The concrete, observable conversational tactics or interactions the system uses to execute its role and achieve its core function — for example, a specific open question, a self-disclosure statement, or a direct piece of advice.
+**Definition:** The concrete, observable conversational tactics or interactions the system uses to execute its role. Coded at the turn-level.
 
 **What it is not:** It does **not** propose new clinical interventions; it organises *existing* behavioural strategies from the literature into this role taxonomy.
 
-**Theoretical lineage:** Feng (2009) IMA; ESConv taxonomy (Liu et al., 2021); HCI and NLP literature on emotional support conversations.
+**Theoretical lineage:** Hill (2009) Helping Skills model; ESConv taxonomy (Liu et al., 2021); Feng (2009) sequential placement principle.
 
-**Discrimination test:** *Can you say "the AI **uses** ___"?* If yes, it is a strategy. If you would say "the AI **is** a ___," it is a role (D2).
-
-| Strategy category | Example tactics | Typical role |
-|-------------------|----------------|-------------|
-| Reflective listening | "It sounds like you're feeling..." | Listener |
-| Open emotional questions | "What's that been like for you?" | Listener, Reflective Partner |
-| Socratic questioning | "What would happen if you tried...?" | Reflective Partner |
-| Goal-setting | "What's one small step you could take?" | Coach |
-| Psychoeducation | "Anxiety often manifests as..." | Advisor |
-| Resource signposting | "Here's a link to..." | Navigator |
-| Encouragement / affirmation | "You've already shown real strength here..." | Coach, Companion |
-| Reframing | "Another way to look at this might be..." | Reflective Partner |
-
----
-
-## D5 — Interaction Modality (Channel)
-
-**Definition:** The communicative medium through which the AI system operates, which acts as a structural constraint on which Care Roles and Support Strategies are viable.
-
-**What it is not:** It is not merely a deployment preference; it is a first-class theoretical boundary on interactional capacity.
-
-**Theoretical lineage:** Media Richness Theory (Daft & Lengel, 1986); Relational Agent research (Bickmore & Picard, 2005).
-
-**Note on position in the framework:** D5 is not a terminal step in a linear sequence. It is a cross-cutting constraint that operates on all other dimensions — a given modality limits which support types can be fully delivered (D1), which roles are structurally viable (D2), which outcomes are achievable (D3), and which strategies can be executed (D4). It is listed last because it is the dimension most specific to AI systems and has no equivalent in human-human care literature.
-
-**This is AROMA's AI-specific dimension** — the parallel of Shen et al.'s "Desired Values for AI Tools" category.
-
-| Modality | Affordances | Best-suited roles | Limitations |
-|----------|------------|-------------------|------------|
-| **Text chat** (e.g., Woebot) | Anonymity, reflection time, re-readability, low barrier | Advisor, Navigator | Lacks paralinguistic cues; reduces Listener/Companion viability |
-| **Voice** (e.g., Hume AI) | Paralinguistic cues, emotional tone, turn-taking dynamics | Coach, Listener | No visual presence; less re-readable |
-| **Avatar** | Nonverbal signals, gaze, facial expressions, embodied presence | Listener, Companion | Uncanny valley risk; high production cost |
-| **Robot** (e.g., Paro) | Physical presence, touch, spatial co-location | Companion | Limited linguistic capacity |
-| **Ambient / Wearable** | Passive monitoring, real-time physiological sensing | Listener (detection), Navigator (alerts) | No conversational depth; cannot enact most strategies |
+**Categories (derived from ESConv):**
+There are eight mutually exclusive strategy categories that operationalize how a role is enacted during a turn:
+1. Question
+2. Restatement/Paraphrasing
+3. Reflection of Feelings
+4. Self-disclosure
+5. Affirmation and Reassurance
+6. Providing Suggestions
+7. Information
+8. Others
 
 ---
 

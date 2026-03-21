@@ -8,11 +8,17 @@ A human care-provider fluidly transitions between distinct relational stances—
 
 In this paper, we argue that this role-rigidity stems from a deeper conceptual gap in the field: the conflation of *Support Type* (what is being given) with *Care Role* (who the system is being). While existing taxonomies of social support effectively categorize the content of care, they lack a formal ontology for the relational postures that make that care effective. This conflation obscures a structural tension unique to AI caregiving, which we term the **Authority-Agency Paradox**: a phenomenon where users project clinical authority onto an agent, only for the agent to fail when it lacks the structural agency to fulfill that role’s social obligations (e.g., an "Advisor" that cannot diagnose or a "Navigator" that cannot book appointments).
 
-To address this, we present **AROMA (Affective Role Ontology for Mental health Agents)**. Developed through a PRISMA-compliant systematic synthesis of 203 research papers, AROMA identifies 6 core care roles—**Listener, Reflective Partner, Coach, Advisor, Companion, and Navigator**—and maps them across five dimensions: Support Type (D1), Care Role (D2), Core Function (D3), Support Strategy (D4), and Interaction Modality (D5). We demonstrate the necessity of this ontology by mapping 34 distinct role-like terms from the literature onto these 6 stable relational stances, revealing a fragmented terminological landscape that AROMA aims to unify.
+To address this, we present **AROMA (Affective Role Ontology for Mental health Agents)**. Developed through a structured literature synthesis of 203 research papers (via OpenAlex and snowball searching), AROMA identifies 6 core care roles—**Listener, Reflective Partner, Coach, Advisor, Companion, and Navigator**—and maps them across three dimensions: Support Type (D1), Care Role (D2), and Support Strategy (D3). We demonstrate the necessity of this ontology by mapping diverse role-like terms from the literature onto these 6 stable relational stances, unifying a fragmented terminological landscape.
+
+Our work is guided by three central **Research Questions**:
+*   **RQ1**: What caregiving roles exist in AI-mediated mental health support interactions?
+*   **RQ2**: How do AI care roles differ in the authority they claim and the obligations they can fulfill, and do these differences predict safety-critical failures?
+*   **RQ3**: What design constraints does role-aware AI care require for systems to transition between roles while managing authority-obligation mismatches?
 
 The contributions of this work are three-fold:
-1. **The AROMA Ontology**: A 6-role, 5-dimensional framework for AI care roles grounded in social support theory and validated through a large-scale literature synthesis.
-2. **Identification of the Authority-Agency Paradox**: A formalization of the structural misalignment between projected AI authority and actual system agency, providing a new lens for evaluating AI care safety.
-3. **Design Implications for Role-Taking**: A set of principled activation and boundary conditions for each role, offering a roadmap for designing "role-aware" agents capable of fluid, turn-by-turn transitions.
+1.  **C1: The Authority-Agency Paradox**: A theoretical account of the paradox → obligation gap → therapeutic misconception causal chain, acting as a structural lens for evaluating AI care safety.
+2.  **C2: The AROMA Taxonomy**: A three-dimension, six-role ontology for AI-mediated care, grounded in social support theory and validated through literature synthesis.
+3.  **C3: A Multi-Dimensional Embedding Model**: A computational operationalization of the taxonomy that classifies conversational turns along AROMA's three dimensions simultaneously, validating the impact of role-locking empirically.
 
-By separating the relational stance from the support strategy, AROMA provides the analytical leverage to move beyond role-locked agents toward truly responsive, interactional care systems.
+By treating the relational stance as orthogonal to the support strategy, AROMA provides the analytical leverage to move beyond role-locked agents toward truly responsive, interactional care systems.
+
