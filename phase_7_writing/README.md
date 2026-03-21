@@ -56,7 +56,7 @@ The Shen et al. hybrid approach gives you three answers to reviewer objections:
 
 | Figure | Content | Source |
 |--------|---------|--------|
-| Fig. 1 | AROMA 5-dimension framework overview | Phase 0 |
+| Fig. 1 | AROMA 3-dimension framework overview | Phase 0 |
 | Fig. 2 | PRISMA flow diagram | Phase 1 |
 | Fig. 3 | Human-role compatibility matrix | Phase 0 |
 | Fig. 4 | Coverage gap heatmap | Phase 6 / cross-reference map |

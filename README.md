@@ -4,7 +4,7 @@
 
 > **Core research question:** *"What is the role structure of AI-mediated mental health support interactions?"*
 
-AROMA does not propose new clinical interventions. It organises existing support strategies from the literature into a cohesive, five-dimensional role taxonomy — grounded in social support theory (Cutrona & Suhr, 1992), role theory (Biddle, 1986), symbolic interactionism (Blumer, 1969), and media richness theory (Daft & Lengel, 1986) — and validated through systematic literature synthesis of a 203-paper PRISMA corpus.
+AROMA does not propose new clinical interventions. It organises existing support strategies from the literature into a cohesive, three-dimensional role taxonomy — grounded in social support theory (Cutrona & Suhr, 1992), role theory (Biddle, 1986), symbolic interactionism (Blumer, 1969), and media richness theory (Daft & Lengel, 1986) — and validated through systematic literature synthesis of a 203-paper PRISMA corpus.
 
 Target venue: **CHI 2027**.
 
@@ -177,7 +177,7 @@ Most papers span multiple dimensions (validating the multi-dimensional framing) 
 
 Three web-based tools visualize the corpus and taxonomy:
 
-- **[Literature & Taxonomy Map](taxonomy-table.html)** — Searchable, filterable table mapping the 203-paper corpus across AROMA's 5 dimensions with paper metadata and role-term alignment
+- **[Literature & Taxonomy Map](taxonomy-table.html)** — Searchable, filterable table mapping the 203-paper corpus across AROMA's 3 dimensions with paper metadata and role-term alignment
 - **[Knowledge Graph](knowledge-graph.html)** — D3 force-directed visualisation of the D3 (Core Function) keyword space across 40 papers
 - **[Cross-Reference Explorer](cross-ref.html)** — Bidirectional mapping: roles → literature terms → papers; literature terms → AROMA dimensions
 
@@ -197,7 +197,7 @@ AROMA/
 │   └── preview.png                     # Dashboard preview image
 ├── cross-ref-data.js                   # [Deprecated] - move to dashboard/ or phase_1/
 ├── phase_0_theoretical_framework/
-│   ├── AROMA_Internal_Spec.md          # v0.3 — Definitive 5-dimension framework spec
+│   ├── AROMA_Internal_Spec.md          # v0.3 — Legacy 5-dimension framework spec (deprecated)
 │   ├── 0.1_Theoretical_Anchors.md      # 5 primary + 6 secondary theoretical anchors
 │   ├── 0.2_Human_Role_Compatibility_Matrix.md  # Role-user fit analysis + design space
 │   ├── 0.3_Theoretical_Argument.md     # Core motivating argument
@@ -225,7 +225,7 @@ AROMA/
 
 | Document | Location | What it defines |
 |---|---|---|
-| AROMA Internal Spec v0.3 | `phase_0_theoretical_framework/AROMA_Internal_Spec.md` | Canonical 5-dimension definitions, D2 inclusion criteria, Authority-Agency Paradox |
+| AROMA Internal Spec v0.3 | `phase_0_theoretical_framework/AROMA_Internal_Spec.md` | Legacy 5-dimension definitions (deprecated), D2 inclusion criteria, Authority-Agency Paradox |
 | Theoretical Anchors | `phase_0_theoretical_framework/0.1_Theoretical_Anchors.md` | Why each dimension exists and what theory warrants it |
 | Human-Role Compatibility Matrix | `phase_0_theoretical_framework/0.2_Human_Role_Compatibility_Matrix.md` | Role-user fit, support type design space, paradox gradient |
 | Care Role Taxonomy v2.1 | `phase_2_taxonomy/2.0_AROMA_Care_Role_Taxonomy.md` | Full 6-role specifications with activation/boundary conditions |
