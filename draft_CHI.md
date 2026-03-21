@@ -48,7 +48,7 @@ Furthermore, these frameworks collapse what AROMA treats as three distinct dimen
 
 ### 2.3 Conversational Support Research
 
-A parallel stream of work has studied supportive communication at the utterance and strategy level, providing empirical foundations for what AROMA formalizes as D4 (Support Strategy). Feng's (2009) Integrated Model of Advice-giving (IMA) identifies a sequential structure in supportive conversations: emotional support precedes problem inquiry, which precedes advice. This model provides empirical evidence that supportive communication has a role-like sequential structure, but it operates within a single role context (the advice-giver) rather than across a multi-role repertoire.
+A parallel stream of work has studied supportive communication at the utterance and strategy level, providing empirical foundations for what AROMA formalizes as D3 (Support Strategy). Feng's (2009) Integrated Model of Advice-giving (IMA) identifies a sequential structure in supportive conversations: emotional support precedes problem inquiry, which precedes advice. This model provides empirical evidence that supportive communication has a role-like sequential structure, but it operates within a single role context (the advice-giver) rather than across a multi-role repertoire.
 
 Sharma et al. (2020) operationalized empathy in text-based peer support into three mechanisms — emotional reaction, interpretation, and exploration — enabling computational detection of empathic communication. Liu et al. (2021) extended this work with ESConv, a dataset and taxonomy of emotional support strategies including self-disclosure, affirmation, suggestion, and restatement. These contributions provide robust operationalizations of individual strategies but do not address the relational stance that organizes strategy deployment. A strategy of "restatement" has different meaning and effect depending on whether it occurs within a listener stance (mirroring for validation) or a reflective partner stance (summarizing to prompt reappraisal). The strategy is the same; the relational context changes its function.
 
@@ -74,7 +74,7 @@ AROMA is a three-dimensional role taxonomy that organizes AI caregiving along or
 
 AROMA identifies six care roles, each meeting three inclusion criteria: (a) appears in three or more independent papers from the PRISMA synthesis, (b) produces distinct interactional behaviours from all other roles, and (c) is viable within at least one AI interaction modality. One candidate role (Connector — peer community bridging) was evaluated and excluded: only one paper met the archetype threshold. Peer-bridging is absorbed into Navigator's scope.
 
-| Role | Stance | Primary D1 | Core D3 | Paradox Level | Invited Human Role |
+| Role | Stance | Primary D1 | Primary Function | Paradox Level | Invited Human Role |
 |---|---|---|---|---|---|
 | **Listener** | Receptive, non-directive | Emotional | Validation | Low | Witness-seeker |
 | **Reflective Partner** | Curious, exploratory | Appraisal | Insight generation | Low | Client, Explorer |
@@ -105,9 +105,9 @@ This gradient provides designers with a predictive tool: the higher the paradox 
 
 ### 3.3 Taxonomy Construction and Falsifiability
 
-AROMA follows Nickerson et al.'s (2013) taxonomy development method, combining conceptual-to-empirical (top-down from theory, Phase 0) and empirical-to-conceptual (bottom-up from corpus, Phase 1) development cycles. The ending conditions are: (a) every AI care interaction in the corpus can be classified by all five dimensions, (b) no new dimensions or role categories emerged from the final iteration of corpus coding, and (c) each dimension non-trivially discriminates — removing any dimension collapses distinctions that the remaining dimensions cannot recover.
+AROMA follows Nickerson et al.'s (2013) taxonomy development method, combining conceptual-to-empirical (top-down from theory, Phase 0) and empirical-to-conceptual (bottom-up from corpus, Phase 1) development cycles. The ending conditions are: (a) every AI care interaction in the corpus can be classified by all three dimensions, (b) no new dimensions or role categories emerged from the final iteration of corpus coding, and (c) each dimension non-trivially discriminates — removing any dimension collapses distinctions that the remaining dimensions cannot recover.
 
-Conditions (a) and (b) are met by the Phase 1 synthesis. Condition (c) is partially met: the D1/D2 separation is demonstrated by the orthogonality evidence (a Coach can validate; a Listener can inform), and D5 discriminates by constraining role viability across modalities. Full condition (c) validation requires the inter-rater reliability study (Phase 3, in progress), which will test whether independent coders can reliably distinguish all six roles using the codebook.
+Conditions (a) and (b) are met by the Phase 1 synthesis. Condition (c) is partially met: the D1/D2 separation is demonstrated by the orthogonality evidence (a Coach can validate; a Listener can inform). Full condition (c) validation requires the inter-rater reliability study (Phase 3, in progress), which will test whether independent coders can reliably distinguish all six roles using the codebook.
 
 The taxonomy is falsifiable on three fronts. First, if human coders cannot reliably distinguish the six roles (Cohen's kappa < 0.60 on D2), the role boundaries require revision — either through sharpening definitions or merging confusable roles. Second, if the paradox gradient does not predict where safety failures cluster in empirical data (i.e., failures distribute uniformly across paradox levels rather than concentrating in High roles), the gradient loses its predictive value. Third, if a seventh role meeting all three inclusion criteria (≥3 papers, distinct behaviours, modality viability) emerges from expanded corpus analysis, the taxonomy must accommodate it — as it did when absorbing the Connector candidate into Navigator.
 
@@ -125,6 +125,15 @@ Each paper was coded for engagement with AROMA's three dimensions. Multi-label c
 
 Automated role-term extraction identified 34 distinct role-like terms across the corpus. These terms collapse, when mapped by relational stance rather than surface label, into the six AROMA care roles plus a set of system descriptors (chatbot, virtual agent, social robot) that refer to platform types rather than relational stances.
 
+| AROMA Care Role | Example Absorbed Literature Terms |
+|---|---|
+| **Coach** | Coach, virtual coach, AI coach, wellness coach, health coach |
+| **Advisor** | Therapist, counselor, sim-physician, therapist-lite, medical agent |
+| **Companion** | Companion, virtual friend, pseudo-intimate partner, nurturer |
+| **Navigator** | Peer-bridger, connector, resource-finder |
+| **Listener** | *(No distinct role terms mined; exists as behavioral strategy)* |
+| **Reflective Partner** | *(No distinct role terms mined; exists as behavioral strategy)* |
+
 The fragmentation is itself a finding. The Coach role appears under labels including "coach," "virtual coach," "AI coach," "wellness coach," and "health coach" — five labels for a single relational stance defined by directing a capable user toward self-identified goals. The Advisor role absorbs 11 distinct terms, from "therapist" and "counselor" to "sim-physician" and "therapist-lite." The Companion role absorbs 9, from "companion" and "virtual friend" to "pseudo-intimate partner" and "nurturer."
 
 Two roles — Listener and Reflective Partner — had **no terms mined** from the automated extraction pipeline. These relational stances are enacted pervasively in the literature (active listening appears in 26.9% of coded AI responses in Chin et al., 2025) but are not *named* as roles. The literature describes listening and reflecting as strategies or behaviours, not as relational identities. This finding provides direct evidence for AROMA's core claim: the field lacks a vocabulary for the relational stance dimension of AI care. The terminological gap is not an absence of the phenomenon but an absence of the concept.
@@ -141,21 +150,57 @@ To empirically validate the AROMA taxonomy and provide a computational mechanism
 
 Our operationalization strategy employs a staggered, three-model architecture designed to isolate the conversational dimensions before scaling:
 
-### 5.1 Annotator Baselines: Heuristic vs. LLM
+### 5.1 Heuristic Corpus Analysis: A Two-Type World
 
-We developed two independent annotators to establish ground-truth labels across a stratified 400-sequence sample:
+To establish an initial structural baseline, we ran the deterministic Heuristic Classifier over the full 18,376-turn ESConv corpus. This revealed a stark, empirically grounded finding about the dataset's structural constraints:
+
+| Support Type (D1) | Turn Count | Percentage |
+|---|---|---|
+| Emotional | 10,561 | 57.5% |
+| Informational | 7,138 | 38.8% |
+| Network | 369 | 2.0% |
+| Esteem | 211 | 1.1% |
+| Appraisal | 49 | 0.3% |
+| Tangible | 48 | 0.3% |
+
+ESConv operates largely in a two-type world (Emotional and Informational). This effectively means four of Cutrona & Suhr's six support types are structurally underserved. This is not merely a dataset limitation, but a finding about the field: current peer support AI systems are structurally constrained from offering robust Network, Esteem, Appraisal, or Tangible support.
+
+### 5.2 Annotator Baselines: Heuristic vs. LLM
+
+We developed two independent annotators to establish ground-truth labels across a stratified 400-turn sample, padded with 5 turns of historical conversational context to form 400 evaluatable sequences:
 
 1. **Heuristic Classifier (Annotator 1):** A deterministic, rules-based engine that maps pre-existing D3 Strategy labels and keyword patterns to D1 Support Types. While fast and highly scalable to the full corpus, it struggles with nuanced boundary conditions (e.g., distinguishing Esteem from Emotional support).
 2. **LLM-as-Judge (Annotator 2):** A non-deterministic classifier utilizing a large language model prompted with the AROMA taxonomy codebook. Because Care Roles (D2) are enacted across conversational sequences rather than isolated utterances, the LLM processes 5-turn sliding context windows to accurately judge the overarching relational stance.
 
 This dual-annotator approach validates the codebook's reliability. By extracting the sequences where the Heuristic and LLM classifiers agree, we filter out noisy labels, leaving a high-quality ground-truth dataset required for the final embedding model.
 
-### 5.2 Initial D2 Distribution Findings
+### 5.3 Actual D2 Distribution Findings
 
-Application of the LLM pipeline to the 400-sequence sample revealed a distinct distribution of Care Roles within the ESConv dataset. Consistent with the dataset's peer-support, non-clinical design, the roles heavily skewed toward **Reflective Partner** (30.5%) and **Companion** (25.3%), with directive roles like Advisor (10.2%) and Coach (8.9%) appearing significantly less frequently.
+Actual classification runs of the LLM pipeline across the 400-sequence sample revealed a distinct distribution of Care Roles within the ESConv dataset. Consistent with the dataset's peer-support, non-clinical design, the roles heavily skewed toward **Reflective Partner** (30.5%) and **Companion** (25.3%), with directive roles like Advisor (10.2%) and Coach (8.9%) appearing significantly less frequently.
+
+| Care Role (D2) | LLM Classification Count | Percentage |
+|---|---|---|
+| Reflective Partner | 122 | 30.5% |
+| Companion | 101 | 25.3% |
+| Listener | 94 | 23.5% |
+| Advisor | 41 | 10.2% |
+| Coach | 36 | 8.9% |
+| Navigator | 6 | 1.5% |
 
 Furthermore, cross-referencing D1 Support Types with D2 Care Roles affirmed the taxonomy's theoretical predictions: Emotional Support was heavily clustered under Reflective Partner and Companion roles, while Informational Support remained the primary domain of Advisor and Coach roles.
 
-### 5.3 Multi-Dimensional Embedding Model (C3)
+### 5.4 Multi-Dimensional Embedding Model (C3 Target)
 
-*In progress.* The final stage of operationalization replaces the costly LLM pipeline with a trained multi-task vector embedding model. By training a single `sentence-transformers` encoder with three independent classification heads to natively predict D1, D2, and D3 simultaneously, we aim to empirically validate AROMA's core theoretical claim: that these three dimensions capture distinct, non-redundant communication patterns.
+*In progress.* The final stage of operationalization replaces the costly LLM pipeline with a trained multi-task vector embedding model. By training a single `sentence-transformers` encoder with three independent classification heads to natively predict D1, D2, and D3 simultaneously, we aim to empirically validate AROMA's core theoretical claim: that these three dimensions capture distinct, non-redundant communication patterns. Upon submission, if the embedding model is un-converged, this step will formalize C3 as the robust annotation pipeline and taxonomy codebook.
+
+---
+
+## 6. Limitations
+
+Several structural and empirical limitations scope the current AROMA framework:
+1. **Corpus Scope:** The synthesis is restricted to English-language literature published between 2015–2025; cross-cultural role conceptions are not represented.
+2. **ESConv Coverage Skew:** The ESConv dataset models non-clinical peer support, severely skewing the role distributions away from high-paradox roles (Navigator, Advisor) and thus artificially limiting our ability to computationally model them.
+3. **No User Validation:** We have not yet conducted a user study to verify if human interactants reliably perceive and distinguish these six AI roles in situ.
+4. **Heuristic Label Noise:** The 18,376 heuristic D1 labels have not yet been strictly validated against human/LLM inter-rater reliability scores.
+5. **Empirical Boundaries:** The interactional boundaries between *Reflective Partner* and *Coach* remain an empirical open question that requires deeper qualitative analysis.
+
