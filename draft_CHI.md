@@ -134,3 +134,28 @@ Two roles — Listener and Reflective Partner — had **no terms mined** from th
 Ten papers in the corpus contain direct evidence of the Authority-Agency Paradox, clustering into three failure themes: pseudo-intimacy and dependency dynamics (Companion-role failures), reliability and safety gaps (Advisor-role failures), and authority-agency tension (cross-role structural concerns). The low count (10 of 203) reflects not the rarity of the phenomenon but its recent emergence as an explicit research concern — the majority of paradox-signal papers are from 2024–2025, suggesting the field is beginning to recognize the structural problem AROMA formalizes.
 
 ---
+
+## 5. Computational Operationalization
+
+To empirically validate the AROMA taxonomy and provide a computational mechanism for detecting role-locking, we operationalized the framework on the ESConv dataset (Liu et al., 2021) — a corpus of 1,300 peer-support conversations comprising over 18,376 supporter turns.
+
+Our operationalization strategy employs a staggered, three-model architecture designed to isolate the conversational dimensions before scaling:
+
+### 5.1 Annotator Baselines: Heuristic vs. LLM
+
+We developed two independent annotators to establish ground-truth labels across a stratified 400-sequence sample:
+
+1. **Heuristic Classifier (Annotator 1):** A deterministic, rules-based engine that maps pre-existing D3 Strategy labels and keyword patterns to D1 Support Types. While fast and highly scalable to the full corpus, it struggles with nuanced boundary conditions (e.g., distinguishing Esteem from Emotional support).
+2. **LLM-as-Judge (Annotator 2):** A non-deterministic classifier utilizing a large language model prompted with the AROMA taxonomy codebook. Because Care Roles (D2) are enacted across conversational sequences rather than isolated utterances, the LLM processes 5-turn sliding context windows to accurately judge the overarching relational stance.
+
+This dual-annotator approach validates the codebook's reliability. By extracting the sequences where the Heuristic and LLM classifiers agree, we filter out noisy labels, leaving a high-quality ground-truth dataset required for the final embedding model.
+
+### 5.2 Initial D2 Distribution Findings
+
+Application of the LLM pipeline to the 400-sequence sample revealed a distinct distribution of Care Roles within the ESConv dataset. Consistent with the dataset's peer-support, non-clinical design, the roles heavily skewed toward **Reflective Partner** (30.5%) and **Companion** (25.3%), with directive roles like Advisor (10.2%) and Coach (8.9%) appearing significantly less frequently.
+
+Furthermore, cross-referencing D1 Support Types with D2 Care Roles affirmed the taxonomy's theoretical predictions: Emotional Support was heavily clustered under Reflective Partner and Companion roles, while Informational Support remained the primary domain of Advisor and Coach roles.
+
+### 5.3 Multi-Dimensional Embedding Model (C3)
+
+*In progress.* The final stage of operationalization replaces the costly LLM pipeline with a trained multi-task vector embedding model. By training a single `sentence-transformers` encoder with three independent classification heads to natively predict D1, D2, and D3 simultaneously, we aim to empirically validate AROMA's core theoretical claim: that these three dimensions capture distinct, non-redundant communication patterns.
