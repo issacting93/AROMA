@@ -145,7 +145,12 @@ Actual runs of the LLM pipeline consistently classified Care Roles as heavily sk
 
 Cross-referencing D1 with D2 affirmed our theoretical predictions: Emotional Support clustered under Reflective Partner and Companion, while Informational Support remained the primary domain of the Advisor.
 
-### 5.4 The C3 Target: Operationalized Ground Truth
+### 5.4 Inter-Rater Reliability: Model Capability Impacts Role Detection
+To validate the robustness of the LLM pipeline, we ran a three-way comparative baseline interpreting the exact same 400 ESConv sequences using three sequentially larger models: Claude 3 Haiku, Claude Sonnet 4.6, and Claude Opus 4.6. 
+
+The distributional shift between models empirically validates the hidden danger of the Authority-Agency paradox. While Haiku skewed heavily toward the Socratic *Reflective Partner* (122 sequences), Sonnet 4.6 explicitly preferred non-directive warmth and shifted into the *Companion* role (137). However, the massive Opus 4.6 model radically reshuffled the data—notably doubling the detection of the highly-authoritative **Advisor** role from 41 (Haiku) to 84 sequences. This proves that higher-capability models detect significantly more implicit clinical authority embedded within these conversational datasets. Without AROMA's taxonomy actively managing relational stance, a system could unknowingly role-lock into a dangerous Advice-giving stance simply by upgrading its underlying language model.
+
+### 5.5 The C3 Target: Operationalized Ground Truth
 Through this dual-annotator pipeline, we established a rigorous methodology for generating high-quality ground-truth labels. This framework successfully translates abstract theoretical role boundaries into computable outcomes, serving as AROMA's core operational contribution.
 
 ---
