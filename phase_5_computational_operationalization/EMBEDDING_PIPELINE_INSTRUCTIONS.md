@@ -8,7 +8,7 @@ Replace the LLM-as-judge classifier (`classify_d1_llm.py`) with a vector embeddi
 - **D2** — Care Role (Listener, Reflective Partner, Coach, Advisor, Navigator, Companion)
 - **D3** — Support Strategy (Question, Restatement/Paraphrasing, Reflection of Feelings, Self-disclosure, Affirmation and Reassurance, Providing Suggestions, Information, Others)
 
-D3 labels already exist in the ESConv dataset. D1 labels come from the heuristic classifier. D2 labels don't exist yet — they need to be generated (see Step 4).
+D3 labels already exist in the ESConv dataset. D1 and D2 labels have been successfully generated via the LLM-as-judge baseline pipeline across the 400-turn sample.
 
 This is **Contribution C3** in the CHI paper: "A computational operationalization that classifies conversational turns along AROMA's three dimensions simultaneously."
 
@@ -115,9 +115,9 @@ For the embedding input, concatenate `prev_seeker` + `content` — the model nee
 ```
 
 Labels you have now:
-- **D1**: from the heuristic (noisy — ~75% accurate based on human validation)
+- **D1**: from the LLM classifier (`esconv_d1_llm_classified.json`)
+- **D2**: from the LLM classifier (`esconv_d2_llm_classified.json`)
 - **D3**: from the ESConv dataset (human-annotated, high quality)
-- **D2**: does NOT exist yet — see Step 4
 
 ### Step 3: Train D1 classifier (single-dimension first)
 
@@ -140,16 +140,13 @@ Option A is faster to iterate. Option B will likely perform better but needs mor
 - Use the LLM-classified labels (`esconv_d1_llm_classified.json`) as a second signal and train on turns where heuristic and LLM agree
 - Wait for the human gold set (~200 turns, Phase 3) and use that as validation/test split
 
-### Step 4: Generate D2 labels
+### Step 4: Extract the D2 sequence labels
 
-D2 (Care Role) operates at the **sequence level** — a 3-5 turn sliding window, not a single turn. This is the hardest dimension.
+D2 (Care Role) operates at the **sequence level** — a 3-5 turn sliding window, not a single turn. 
 
-**How to get D2 labels:**
-1. Read `phase_3_human_coding/D2_Annotation_Protocol.md` for the window-based coding rules
-2. Read `classify_d2_llm.py` for the existing LLM approach (but fix the strategy-leak bug on line 61 — remove `strategy={turn['strategy']}` from the prompt)
-3. Build sliding windows: for each supporter turn, grab the preceding 2-4 turns as context
-4. Run LLM classification on the 400-turn sample to generate D2 labels
-5. Or: wait for Phase 3 human coding (Codebook_v0.1.md) to produce human-annotated D2 labels
+**Working with the generated D2 labels:**
+1. We have successfully run the LLM classification pipeline (`classify_d2_llm.py`) across the 400-turn sample.
+2. The results are available in `esconv_d2_llm_classified.json`. You simply need to merge these labels with the D1 and D3 labels for your training loop.
 
 For the embedding model, the input for D2 should be the **full window** (not just the supporter turn):
 ```
@@ -204,9 +201,9 @@ Save classified output as `esconv_embedding_classified.json` with format:
 
 ## Priority order
 
-1. D1 classifier on frozen embeddings (Step 3A) — fastest path to a working baseline
-2. D1×D3 heatmap from embeddings — immediate visual comparison with heuristic
-3. D2 label generation (Step 4) — needed before multi-task
+1. Merge dataset using high-quality D1 and D2 LLM labels.
+2. D1 classifier on frozen embeddings (Step 3A) — fastest path to a working baseline
+3. D1×D3 heatmap from embeddings — immediate visual comparison with heuristic
 4. Multi-task model (Step 5) — the actual C3 contribution
 5. UMAP visualization — the "pretty figure" for the paper
 
