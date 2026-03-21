@@ -185,6 +185,12 @@
   },
   "active": "0a7488df75596426",
   "lastOpenFiles": [
+    "phase_5_computational_operationalization/figures/d1_heuristic_vs_llm.png",
+    "phase_5_computational_operationalization/figures/d1_d3_llm_heatmap.png",
+    "phase_5_computational_operationalization/figures/d1_llm_distribution.png",
+    "phase_5_computational_operationalization/train_d1_baseline.py",
+    "phase_5_computational_operationalization/esconv_gold_400.json",
+    "phase_5_computational_operationalization/build_embedding_dataset.py",
     "phase_5_computational_operationalization/EMBEDDING_PIPELINE_INSTRUCTIONS.md",
     "phase_5_computational_operationalization/d1_d2_llm_heatmap.webp",
     "phase_5_computational_operationalization/d2_llm_distribution.webp",
@@ -198,9 +204,6 @@
     "phase_5_computational_operationalization/esconv_d1_llm_classified.json",
     "phase_5_computational_operationalization/plot_results.py",
     "phase_5_computational_operationalization/classify_d2_llm.py",
-    "phase_5_computational_operationalization/esconv_d1_classified.json",
-    "phase_5_computational_operationalization/prepare_sample.py",
-    "phase_5_computational_operationalization/esconv_sample.json",
     "phase_5_computational_operationalization/README.md",
     "phase_3_human_coding/Codebook_v0.1.md",
     "Care_Role_Literature_Map.md",
@@ -227,9 +230,6 @@
     "phase_0_theoretical_framework/0.1_Theoretical_Anchors.md",
     "phase_0_theoretical_framework/README.md",
     "phase_0_theoretical_framework/image.png",
-    "preview.png",
-    "phase_4_expert_validation/README.md",
-    "graph.svg",
-    "phase_7_writing/README.md"
+    "phase_4_expert_validation/README.md"
   ]
 }
