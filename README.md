@@ -110,6 +110,44 @@ Phase 7: Writing                   →  CHI 2027 submission
 
 ---
 
+## Phase 5: Computational Operationalization (Models)
+
+This phase relies on three independent models to operationalize the AROMA dimensions on conversational data:
+
+### 1. Heuristic Classifier (`classify_d1_heuristic.py`)
+A hand-written rules engine. It evaluates keyword patterns in the supporter text alongside the pre-existing D3 strategy label, then follows if/else branches to pick a D1 type. No AI involved — it is deterministic and the same input always produces the same output.
+
+*Example logic:*
+```python
+if strategy == "Affirmation and Reassurance":
+    if content matches esteem_patterns:
+        return "Esteem"
+    else:
+        return "Emotional"
+if strategy == "Information":
+    return "Informational"
+```
+
+### 2. LLM-as-judge (`classify_d1_llm.py` & `classify_d2_llm.py`)
+Sends each supporter turn (without the D3 strategy label) to Claude with the AROMA codebook as a system prompt. The model reads the turn in context and makes a judgment call, similar to how a human annotator would. It is non-deterministic and can vary slightly across runs.
+
+**Why both exist:**
+They're designed as two independent annotators. The heuristic is fast, free, and covers the full 18,376 turns. The LLM is slower and costs API credits, but is better at nuanced cases (Esteem vs Emotional, Appraisal vs Informational). Comparing their agreement (Cohen's kappa) reveals where the codebook is clear vs ambiguous — which is exactly what is required before training the embedding model.
+
+| Feature | Heuristic | LLM-as-judge |
+|---|---|---|
+| **Speed** | Instant | ~40 min for 400 turns |
+| **Cost** | Free | API credits |
+| **Corpus** | Full 18,376 turns | 400-turn stratified sample |
+| **Uses D3 strategy?** | Yes (leaks info) | No (strategy-blind) |
+| **Minority class sensitivity** | Low | High |
+| **Role in pipeline** | Annotator 1 / baseline | Annotator 2 / validation |
+
+### 3. Vector Embedding Model (C3 Contribution)
+The embedding model is the ultimate third method. It replaces both the Heuristic and LLM pipelines with a single trained model that scales to the full corpus without continuing API costs, natively classifying all 3 dimensions at once.
+
+---
+
 ## Corpus Grounding (Phase 1 Results)
 
 AROMA's taxonomy is empirically grounded in a PRISMA-compliant systematic synthesis:
