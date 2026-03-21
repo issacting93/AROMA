@@ -1,5 +1,8 @@
 # AROMA: Internal Framework Specification (v0.3)
 
+> [!WARNING]
+> **This document is deprecated.** It describes an older 5-dimension version of the AROMA framework. For the canonical 3-dimension framework (Support Type, Care Role, Support Strategy) developed for formal publication, please refer to the primary manuscript `draft_CHI.md` or the `theoritical-framing.md` file.
+
 ## Core Research Question
 
 **"What is the role structure of AI-mediated mental health support interactions?"**

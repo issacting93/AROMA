@@ -2,7 +2,7 @@
 
 ## Abstract
 
-AI mental health systems often confuse *what* support they provide with *who* they are being. By merging support type, care role, and strategy into a single label, designers create **role-locked** agents—systems trapped in one relational stance regardless of the user's changing needs. We present AROMA, a three-dimensional taxonomy separating Support Type (D1), Care Role (D2), and Support Strategy (D3). Grounded in a 203-paper literature synthesis, AROMA offers three contributions: (C1) The Authority-Agency Paradox, a structural lens for evaluating AI safety; (C2) A three-dimension, six-role ontology; and (C3) A computational annotation pipeline that operationalizes these dimensions on real conversational data.
+AI mental health systems often confuse *what* support they provide with *who* they are being. By merging support type, care role, and strategy into a single label, designers create **role-locked** agents—systems trapped in one relational stance regardless of the user's changing needs. We present AROMA, a three-dimensional taxonomy separating Support Type (D1), Care Role (D2), and Support Strategy (D3). Grounded in a 203-paper literature synthesis, AROMA offers three contributions: (C1) The Authority-Agency Paradox, a structural lens for evaluating AI safety; (C2) A three-dimension, six-role ontology; and (C3) A dual-annotator computational methodology that filters conversational noise to generate high-quality ground-truth relational labels.
 
 ---
 
@@ -49,7 +49,7 @@ AROMA organizes AI caregiving along three orthogonal dimensions:
 **D2 — Care Role:** The stable relational stance the AI adopts across a 3–5 turn sequence. Roles dictate which boundaries and support types are appropriate.
 **D3 — Support Strategy:** The concrete conversational tactic used in a single utterance (e.g., Restatement, Self-disclosure).
 
-### 3.1 The Six Care Roles
+### 3.1 The Six Care Roles and Falsifiability Constraints
 We identified six distinct care roles from our literature synthesis. Each role had to appear in at least three independent papers and produce distinct behaviors.
 
 | Role | Stance | Primary D1 | Primary Function | Paradox Level | Invited Human Role |
@@ -61,28 +61,34 @@ We identified six distinct care roles from our literature synthesis. Each role h
 | **Companion** | Warm, co-present | Emotional | Sustained presence | Low | Peer-seeker |
 | **Navigator** | Practical, resource-oriented | Network, Tangible | Resource connection | **High** | Advocate-seeker |
 
-The core claim here is that role (D2) and function (D3) are separate. A Coach can listen (validation) without stopping being a Coach. What defines a role is the stable relational stance over a sequence of turns, not a single utterance.
+*(Note: The empirical boundary between the Listener and Reflective Partner roles is particularly nuanced. Operationally, a Listener relies almost entirely on passive emotional validation, whereas a Reflective Partner crosses the boundary by leveraging Socratic questioning and targeted cognitive reappraisal to actively shift the user's perspective.)*
 
-### 3.2 The Authority-Agency Paradox
+To ensure robustness, AROMA follows strict taxonomy ending conditions (Nickerson et al., 2013): (a) all AI care interactions must be classifiable by all three dimensions, (b) no new roles emerged during our final testing, and (c) the taxonomy remains falsifiable. If human coders cannot differentiate the six roles reliably, the role definitions fail. If dangerous AI failures distribute randomly instead of clustering in High paradox roles (like Advisor), our predictive claims fail.
+
+### 3.2 The Orthogonality of Role (D2) and Strategy (D3)
+The core claim of AROMA is that role (D2) and concrete utterance strategy (D3) are separate. What defines a role is the stable relational stance over a sequence of turns, not a single utterance. 
+
+To illustrate why this separation is vital, consider the exact same conversational strategy—**Restatement**—deployed under two different roles:
+- **As a Listener:** "It sounds like you are feeling incredibly overwhelmed right now." *(Goal: Pure emotional validation and witnessing.)*
+- **As a Reflective Partner:** "It sounds like you are feeling overwhelmed right now—do you think that's because of the workload, or because you feel unsupported?" *(Goal: Socratic reframing and insight generation.)*
+
+The literal utterance strategy is identical, but the relational stance dictates entirely different safety constraints and user outcomes.
+
+### 3.3 The Authority-Agency Paradox
 Human care is bound by mutual obligations: the provider must act competently and the receiver must commit to recovery. AI dissolves this binding. The AI receives the authority of a caregiver but lacks the institutional agency or accountability to deliver real care.
 
 As a result, users suffer a **therapeutic misconception**: they act as if they are receiving governed clinical care when they are structurally unsupported. The risk level depends directly on the adopted Care Role:
 
 - **Low Paradox (Listener, Reflective Partner, Companion):** Users do not expect clinical authority. The main risks are quality failures like hollow empathy or pseudo-intimacy.
 - **Moderate Paradox (Coach):** The AI sets goals but cannot enforce accountability.
-- **High Paradox (Advisor, Navigator):** Users project heavy clinical authority. Documented AI failures cluster heavily here (e.g., eating-disorder chatbots giving harmful calorie advice).
-
-### 3.3 Taxonomy Construction and Falsifiability
-AROMA follows a rigorous taxonomy development method. Our ending conditions require that: (a) all AI care interactions can be classified by all three dimensions, (b) no new roles emerged during our final testing, and (c) all dimensions remain non-trivial and distinct.
-
-The taxonomy is falsifiable. If human coders cannot differentiate the six roles reliably, the role definitions must be revised. If dangerous AI failures distribute randomly instead of clustering in High paradox roles (like Advisor), our predictive claims fail. 
+- **High Paradox (Advisor, Navigator):** Users project heavy clinical authority. Documented AI failures cluster heavily here (e.g., eating-disorder chatbots giving harmful calorie advice). 
 
 ---
 
 ## 4. Literature Synthesis: Methods and Results
 
 ### 4.1 Corpus Construction
-We generated a 203-paper corpus by exhaustively searching OpenAlex (2015–2025) using targeted conceptual queries (e.g., 'AI', 'mental health', 'chatbot', 'role', 'relational agent'). Following title/abstract screening, we applied strict inclusion criteria (filtering for peer-reviewed English publications explicitly discussing AI care systems or relational dynamics). Every paper was coded against AROMA's three dimensions. D2 (Care Role) immediately stood out as a massive point of terminological confusion in the field.
+We generated an initial 293-paper corpus by exhaustively searching OpenAlex (2015–2025) using targeted conceptual queries (e.g., 'AI', 'mental health', 'chatbot', 'role', 'relational agent'). Following title/abstract screening, we applied strict inclusion criteria (filtering for peer-reviewed English publications explicitly discussing AI care systems or relational dynamics), yielding a final curated corpus of 203 papers. Every paper was coded against AROMA's three dimensions. D2 (Care Role) immediately stood out as a massive point of terminological confusion in the field.
 
 ### 4.2 Terminological Fragmentation
 Using targeted automated n-gram extraction validated by qualitative coding, we identified 34 different role-like terms in the literature. We then systematically mapped these varying surface terms back into the six clean AROMA Care Roles.
@@ -121,13 +127,13 @@ We first ran a deterministic Heuristic rules-engine over the full 18,376-turn co
 | Appraisal | 49 | 0.3% |
 | Tangible | 48 | 0.3% |
 
-This revealed a stark finding: ESConv operates almost entirely in a two-type world (Emotional and Informational). Four of Cutrona & Suhr's classic support types are structurally underserved. Current peer support AI systems are clearly constrained from offering robust Network, Esteem, Appraisal, or Tangible support.
+This revealed a stark finding: ESConv operates almost entirely in a two-type world (Emotional and Informational). Four of Cutrona & Suhr's classic support types are structurally underserved. This empirical reality directly motivates why role-locking is dangerous: current training datasets barely expose AI to Network, Esteem, Appraisal, or Tangible support contexts. Consequently, mental health chatbots trained on generic dialog corpuses have no generative fluency to fall back on when a user's needs shift toward those areas, leaving the AI trapped in its default behavior.
 
 ### 5.2 Annotator Baselines: Heuristic vs. LLM
 We then used two independent annotators to establish ground-truth labels across a stratified sample of 400 sequences (padded with 5 turns of conversational history context):
 
 1. **Heuristic Classifier (Annotator 1):** Fast and scalable, but struggles with nuanced boundary conditions.
-2. **LLM-as-Judge (Annotator 2):** A non-deterministic classifier utilizing Claude 3 Haiku zero-shot prompted with the complete AROMA taxonomy codebook. It evaluates the full 5-turn sliding context window to accurately judge the overarching Care Role (D2).
+2. **LLM-as-Judge (Annotator 2):** A non-deterministic classifier utilizing a frontier LLM (e.g., Claude 3 Haiku, chosen for its balance of high-speed inference and precise instruction-following over complex multi-turn context windows) zero-shot prompted with the complete AROMA taxonomy codebook. It evaluates the full 5-turn sliding context window to accurately judge the overarching Care Role (D2).
 
 By extracting the sequences where the Heuristic and LLM classifiers agree, we filter out noise to create a highly rigid ground-truth dataset.
 
