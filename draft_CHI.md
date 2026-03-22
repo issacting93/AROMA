@@ -12,7 +12,22 @@ The field of AI-mediated mental health support has a structural problem that bet
 
 When AI adopts authoritative roles—like an Advisor giving medical guidance—it enters dangerous ethical territory. We define this as the **Authority-Agency Paradox**: the AI performs the behaviors of an authority figure but lacks the institutional capacity or accountability to back it up. This creates an **obligation gap** where neither the AI nor the user is actually bound by care agreements. Ultimately, this leads to a **therapeutic misconception**: users act as if they are receiving governed, accountable care when they are not.
 
-This paradox requires a structural design response. AROMA provides that response by strictly separating Support Type (D1), Care Role (D2), and Support Strategy (D3). This separation allows designers to detect when a role transition is needed and safely calibrate the AI's stance. For example, when a user shifts from venting (Emotional support) to asking for options (Informational support), an AROMA-aware system can explicitly transition from a *Listener* to an *Advisor*, adjusting its epistemic framing to ensure it doesn't overstep its agency.
+This paradox requires a structural design response. AROMA provides that response by strictly separating Support Type (D1), Care Role (D2), and Support Strategy (D3). 
+
+```mermaid
+graph TD
+    A["AI Capability Increase"] --> B["Implicit Authority Projection"]
+    B --> C["User Therapeutic Misconception"]
+    C --> D["Expectation of Accountable Care"]
+    E["Institutional Accountability (Hospitals/Clinics)"] -.->|Binds| D
+    F["AI System (No Agency)"] -.->|Fails to Bind| D
+    D --> G["The Obligation Gap"]
+    G --> H["Authority-Agency Paradox"]
+    style H fill:#f96,stroke:#333,stroke-width:4px
+```
+*Figure 1: The Authority-Agency Paradox - showing the structural disconnect between projected authority and institutional agency.*
+
+This separation allows designers to detect when a role transition is needed and safely calibrate the AI's stance. For example, when a user shifts from venting (Emotional support) to asking for options (Informational support), an AROMA-aware system can explicitly transition from a *Listener* to an *Advisor*, adjusting its epistemic framing to ensure it doesn't overstep its agency.
 
 This paper makes three primary contributions:
 1. **C1: The Authority-Agency Paradox** — A theoretical framework for predicting AI care failures.
