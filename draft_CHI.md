@@ -155,35 +155,22 @@ Ten papers contained direct evidence of the Authority-Agency Paradox, clustering
 ---
 
 ## 5. Computational Operationalization
+To empirically validate AROMA and provide a computational toolkit for detecting role-locking, we operationalized the framework on ESConv (Liu et al., 2021)—a dataset of 1,300 peer-support conversations comprising 18,376 turns.
 
-To empirically validate AROMA and provide a computational toolkit for detecting role-locking, we operationalized the framework on ESConv (Liu et al., 2021)—a dataset of 1,300 peer-support conversations comprising 18,376 supporter turns.
+### 5.1 Methodology: The LLM-as-a-Judge Adjudication
+Our primary methodology (C3) utilizes a frontier Large Language Model (e.g., Claude 3 Haiku) as a sophisticated relational judge. Unlike deterministic rules-engines that rely on surface-level keyword indicators, the LLM-as-a-judge interprets the **relational intent** embedded across a 5-turn sliding historical context window. 
 
-Our strategy uses a staggered, three-model architecture to isolate the dimensions:
+We used a two-stage adjudication pipeline to generate a high-precision gold standard:
+1. **Contextual Encoding:** For each turn, the model is provided with the full conversational state, the AROMA taxonomy codebook, and strict negative constraints to prevent "prompt leakage" (e.g., confusing strategy labels with support types).
+2. **Agreement Filtering:** We ran two independent classification runs (deterministic heuristic mapping and LLM adjudication). By extracting only the sequences where both methods—or multiple model tiers—agreed, we filtered out conversational noise to create a pristine training set of 385 sequences.
 
-### 5.1 Heuristic Corpus Analysis: A Two-Type World
-We first ran a deterministic Heuristic rules-engine over the full 18,376-turn corpus to establish a structural baseline. This engine hard-maps known ESConv D3 utterance strategies (e.g., "Information") directly into AROMA D1 categories (e.g., "Informational Support").
+### 5.2 Findings: The "Two-Type World" Dataset Skew
+Applying this LLM-led adjudication revealed a fundamental structural weakness in the underlying ESConv corpus. While classical social support theory identifies six categories (SSBC), we found that supervised role-detection models effectively live in a "Two-Type World" dominated by Emotional and Informational support.
 
-| Support Type (D1) | Turn Count | Percentage |
-|---|---|---|
-| Emotional | 10,561 | 57.5% |
-| Informational | 7,138 | 38.8% |
-| Network | 369 | 2.0% |
-| Esteem | 211 | 1.1% |
-| Appraisal | 49 | 0.3% |
-| Tangible | 48 | 0.3% |
+![Support Type (D1) LLM Distribution](/Users/zac/Documents/Documents-it/AROMA/phase_5_computational_operationalization/figures/d1_llm_distribution.png)
+*Figure 2: LLM-Adjudicated Support Type (D1) Distribution - proving the overwhelming skew toward Emotional and Informational Support (96%+ combined) in existing peer-support data.*
 
-This revealed a stark finding: ESConv operates almost entirely in a two-type world (Emotional and Informational). Four of Cutrona & Suhr's classic support types are structurally underserved. This empirical reality directly motivates why role-locking is dangerous: current training datasets barely expose AI to Network, Esteem, Appraisal, or Tangible support contexts. Consequently, mental health chatbots trained on generic dialog corpuses have no generative fluency to fall back on when a user's needs shift toward those areas, leaving the AI trapped in its default behavior.
-
-![Support Type (D1) LLM Distribution](file:///Users/zac/Documents/Documents-it/AROMA/phase_5_computational_operationalization/figures/d1_llm_distribution.png)
-*Figure 2: LLM-Adjudicated Support Type (D1) Distribution - proving the overwhelming skew toward Emotional and Informational Support in the ESConv corpus.*
-
-### 5.2 Annotator Baselines: Heuristic vs. LLM
-We then used two independent annotators to establish ground-truth labels across a stratified sample of 400 sequences (padded with 5 turns of conversational history context):
-
-1. **Heuristic Classifier (Annotator 1):** Fast and scalable, but struggles with nuanced boundary conditions.
-2. **LLM-as-Judge (Annotator 2):** A non-deterministic classifier utilizing a frontier LLM (e.g., Claude 3 Haiku, chosen for its balance of high-speed inference and precise instruction-following over complex multi-turn context windows) zero-shot prompted with the complete AROMA taxonomy codebook. It evaluates the full 5-turn sliding context window to accurately judge the overarching Care Role (D2).
-
-By extracting the sequences where the Heuristic and LLM classifiers agree, we filter out noise to create a highly rigid ground-truth dataset.
+This empirical reality directly motivates why role-locking is dangerous: current training datasets systematically starve AI models of exposure to *Appraisal, Tangible, Esteem,* and *Network* support. Consequently, mental health chatbots trained on these corpora have no generative fluency to fall back on when a user's needs shift toward those rare but critical areas, leaving the AI trapped in its default behavior.
 
 ### 5.3 Dimensionality Reduction and Semantic Entanglement
 To validate that AROMA's taxonomy exists mathematically within raw language, we pushed our 385 agreement-filtered sequences through a dense `SentenceTransformer` and mapped the 384-dimensional arrays into 2D space using Principal Component Analysis (PCA). 
