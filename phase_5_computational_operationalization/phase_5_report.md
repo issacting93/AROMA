@@ -87,8 +87,17 @@ We utilized a class-weighted `CrossEntropyLoss` to handle the extreme rarity of 
 
 The dense network decisively surpassed the classical statistical floor on the primary classification task. 
 
+![D1 Confusion Matrix](cm_d1.png)
+*Caption: Accuracy and misclassification patterns for Support Type (D1).*
+
 **The Structural Conclusion (D2 Collapse):**
-Crucially, however, the multi-task model achieved only a **0.28 weighted F1-Score on Care Role (D2)**. This computationally proves the user's hypothesis regarding the PCA graphical cluster variance! Even a fully supervised dense embedding model *fails* on D2 when fed single-turn strings. The empirical evidence is now insurmountable: isolated semantic vectors are functionally blind to Care Roles. AROMA's D2 dimension absolutely demands longitudinal sequence-level modeling.
+Crucially, however, the multi-task model achieved only a **0.32 weighted F1-Score on Care Role (D2)**. This computationally proves the user's hypothesis regarding the PCA graphical cluster variance! Even a fully supervised dense embedding model *fails* on D2 when fed single-turn strings. The empirical evidence is now insurmountable: isolated semantic vectors are functionally blind to Care Roles. AROMA's D2 dimension absolutely demands longitudinal sequence-level modeling.
+
+![D2 Confusion Matrix](cm_d2.png)
+*Caption: The "D2 Collapse"—showing heavy misclassification between non-directive roles like Companion and Listener.*
+
+![Loss Curve](multitask_loss.png)
+*Caption: Model convergence over 150 epochs across the three-headed architecture.*
 
 ---
 
