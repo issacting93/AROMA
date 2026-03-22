@@ -8,7 +8,9 @@ from torch.utils.data import Dataset, DataLoader
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from sklearn.utils.class_weight import compute_class_weight
-from sklearn.metrics import classification_report
+from sklearn.metrics import classification_report, confusion_matrix
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 torch.set_num_threads(1)
 
@@ -101,22 +103,33 @@ def main():
     epochs = 150
     print(f"Executing PyTorch Multi-Task Training Loop for {epochs} Epochs...")
     
+    losses = []
     for epoch in range(epochs):
         model.train()
-        total_loss = 0
+        epoch_loss = 0
         for batch_x, batch_d1, batch_d2, batch_d3 in train_loader:
             optimizer.zero_grad()
             out_d1, out_d2, out_d3 = model(batch_x)
             
-            # The Multi-Task Loss combines all three heads simultaneously
             loss = loss_fn_d1(out_d1, batch_d1) + loss_fn_d2(out_d2, batch_d2) + loss_fn_d3(out_d3, batch_d3)
             
             loss.backward()
             optimizer.step()
-            total_loss += loss.item()
+            epoch_loss += loss.item()
             
+        losses.append(epoch_loss / len(train_loader))
         if (epoch + 1) % 50 == 0:
-            print(f"  Epoch [{epoch+1}/{epochs}] Multi-Task Batch Loss: {total_loss/len(train_loader):.4f}")
+            print(f"  Epoch [{epoch+1}/{epochs}] Multi-Task Batch Loss: {losses[-1]:.4f}")
+
+    # Plot Loss Curve
+    plt.figure(figsize=(10, 6))
+    plt.plot(losses, label='Multi-Task Loss')
+    plt.title('Training Loss over Epochs')
+    plt.xlabel('Epoch')
+    plt.ylabel('Loss')
+    plt.legend()
+    plt.savefig('multitask_loss.png')
+    plt.close()
 
     print("\nEvaluating Multi-Task Model on Test Set...")
     model.eval()
@@ -143,6 +156,24 @@ def main():
 
     print("\n=== D3 STRATEGY RESULTS ===")
     print(classification_report(all_true_d3, all_preds_d3, target_names=le_d3.classes_, zero_division=0, labels=range(len(le_d3.classes_))))
+
+    # Helper function for plotting confusion matrix
+    def plot_cm(y_true, y_pred, classes, title, filename):
+        cm = confusion_matrix(y_true, y_pred, labels=range(len(classes)))
+        plt.figure(figsize=(10, 8))
+        sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=classes, yticklabels=classes)
+        plt.title(title)
+        plt.ylabel('True Label')
+        plt.xlabel('Predicted Label')
+        plt.tight_layout()
+        plt.savefig(filename)
+        plt.close()
+
+    print("\nGenerating Confusion Matrices...")
+    plot_cm(all_true_d1, all_preds_d1, le_d1.classes_, 'D1 Support Type Confusion Matrix', 'cm_d1.png')
+    plot_cm(all_true_d2, all_preds_d2, le_d2.classes_, 'D2 Care Role Confusion Matrix', 'cm_d2.png')
+    plot_cm(all_true_d3, all_preds_d3, le_d3.classes_, 'D3 Strategy Confusion Matrix', 'cm_d3.png')
+    print("SUCCESS: Graphs saved (multitask_loss.png, cm_d1.png, cm_d2.png, cm_d3.png)")
 
 if __name__ == "__main__":
     main()

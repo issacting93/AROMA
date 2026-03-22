@@ -61,7 +61,7 @@ def main():
     df = pd.DataFrame(matrix, index=d1_types, columns=d2_roles)
 
     plt.figure(figsize=(10, 8))
-    sns.heatmap(df, annot=True, fmt='g', cmap='YlGnBu', cbar_kws={'label': 'Number of Co-occurrences'})
+    sns.heatmap(df, annot=True, fmt='g', cmap='Blues', cbar_kws={'label': 'Number of Co-occurrences'})
     plt.title('D1 (Support Type) × D2 (Care Role) LLM Mapping', fontsize=14, pad=20)
     plt.xlabel('D2 Care Role Context', fontsize=12)
     plt.ylabel('D1 Support Type Utterance', fontsize=12)

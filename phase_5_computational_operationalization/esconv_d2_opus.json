@@ -8,7 +8,7 @@
     "prev_seeker": "Thanks I knoq its pretty hard to fix medical issues with a conversation, I am also a little depressed if that helps:)",
     "emotion_type": "sadness",
     "problem_type": "ongoing depression",
-    "d2": "Advisor"
+    "d2": "Listener"
   },
   {
     "conv_idx": 125,
@@ -19,7 +19,7 @@
     "prev_seeker": "I feel disgusted so much that I got played \"like an old fiddle.\"  It sucks.....",
     "emotion_type": "disgust",
     "problem_type": "breakup with partner",
-    "d2": "Reflective Partner"
+    "d2": "Navigator"
   },
   {
     "conv_idx": 502,
@@ -30,7 +30,7 @@
     "prev_seeker": "But how do I address them, how would I deal with this?",
     "emotion_type": "anxiety",
     "problem_type": "job crisis",
-    "d2": "Companion"
+    "d2": "Coach"
   },
   {
     "conv_idx": 121,
@@ -41,7 +41,7 @@
     "prev_seeker": "I am taking 5 courses this semester, too.",
     "emotion_type": "anxiety",
     "problem_type": "academic pressure",
-    "d2": "Reflective Partner"
+    "d2": "Listener"
   },
   {
     "conv_idx": 122,
@@ -52,7 +52,7 @@
     "prev_seeker": "That sounds scary. And is extremely unfortunate.\n",
     "emotion_type": "sadness",
     "problem_type": "ongoing depression",
-    "d2": "Listener"
+    "d2": "Companion"
   },
   {
     "conv_idx": 539,
@@ -63,7 +63,7 @@
     "prev_seeker": "suddenly she said she doesn't love me anymore imagine that",
     "emotion_type": "sadness",
     "problem_type": "breakup with partner",
-    "d2": "Navigator"
+    "d2": "Listener"
   },
   {
     "conv_idx": 995,
@@ -74,7 +74,7 @@
     "prev_seeker": "I have started drinking at work close to the end of my shift in the bathroom\n",
     "emotion_type": "fear",
     "problem_type": "Alcohol Abuse",
-    "d2": "Companion"
+    "d2": "Navigator"
   },
   {
     "conv_idx": 315,
@@ -85,7 +85,7 @@
     "prev_seeker": "I'm hanging in there or trying to.  How are you?\n",
     "emotion_type": "disgust",
     "problem_type": "breakup with partner",
-    "d2": "Companion"
+    "d2": "Listener"
   },
   {
     "conv_idx": 166,
@@ -96,7 +96,7 @@
     "prev_seeker": "in this can i overcome the stress",
     "emotion_type": "depression",
     "problem_type": "breakup with partner",
-    "d2": "Coach"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 134,
@@ -107,7 +107,7 @@
     "prev_seeker": "He will not admit it himself. ",
     "emotion_type": "depression",
     "problem_type": "breakup with partner",
-    "d2": "Reflective Partner"
+    "d2": "Listener"
   },
   {
     "conv_idx": 334,
@@ -118,7 +118,7 @@
     "prev_seeker": "I don't have a second screen, but I do have a large TV. I may be able to hook it up via HDMI.\n",
     "emotion_type": "depression",
     "problem_type": "academic pressure",
-    "d2": "Navigator"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 2,
@@ -140,7 +140,7 @@
     "prev_seeker": "Yes I accept your thought and gives me support , thanks you for your concern.",
     "emotion_type": "depression",
     "problem_type": "job crisis",
-    "d2": "Reflective Partner"
+    "d2": "Coach"
   },
   {
     "conv_idx": 1045,
@@ -151,7 +151,7 @@
     "prev_seeker": "yes..and iam finding it difficult to cope with that..\n",
     "emotion_type": "depression",
     "problem_type": "ongoing depression",
-    "d2": "Companion"
+    "d2": "Listener"
   },
   {
     "conv_idx": 32,
@@ -162,7 +162,7 @@
     "prev_seeker": "They're making things worse for me.\n",
     "emotion_type": "sadness",
     "problem_type": "breakup with partner",
-    "d2": "Reflective Partner"
+    "d2": "Listener"
   },
   {
     "conv_idx": 293,
@@ -184,7 +184,7 @@
     "prev_seeker": "I think I just need to learn a new approach to how I handle my dealings with other people. ",
     "emotion_type": "depression",
     "problem_type": "job crisis",
-    "d2": "Coach"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 518,
@@ -261,7 +261,7 @@
     "prev_seeker": "But it really is uncomfortable.",
     "emotion_type": "anxiety",
     "problem_type": "job crisis",
-    "d2": "Reflective Partner"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 987,
@@ -272,7 +272,7 @@
     "prev_seeker": "I tend to watch TV or check my phone, once in bed I just try to relax and close my eyes",
     "emotion_type": "anxiety",
     "problem_type": "Sleep Problems",
-    "d2": "Reflective Partner"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 712,
@@ -294,7 +294,7 @@
     "prev_seeker": "but i agree walks are really helpful, when i get out i really enjoy them.   Okay that gives me some good things to try out, thank you for your help today",
     "emotion_type": "disgust",
     "problem_type": "Procrastination",
-    "d2": "Navigator"
+    "d2": "Listener"
   },
   {
     "conv_idx": 892,
@@ -305,7 +305,7 @@
     "prev_seeker": "Yeah, I am really proud of what I've done so far but it just makes me worry that I won't meet my own expectations\n",
     "emotion_type": "nervousness",
     "problem_type": "academic pressure",
-    "d2": "Reflective Partner"
+    "d2": "Coach"
   },
   {
     "conv_idx": 1116,
@@ -327,7 +327,7 @@
     "prev_seeker": "You are right. I just needed someone to confirm it with me. I would want someone to tell me if my husband was stepping out. And I can make new friends\n",
     "emotion_type": "anger",
     "problem_type": "problems with friends",
-    "d2": "Reflective Partner"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 1008,
@@ -338,7 +338,7 @@
     "prev_seeker": "I really have a desire to write a life experience book to help others overcome past failures and struggles.\n",
     "emotion_type": "depression",
     "problem_type": "Procrastination",
-    "d2": "Reflective Partner"
+    "d2": "Listener"
   },
   {
     "conv_idx": 346,
@@ -349,7 +349,7 @@
     "prev_seeker": "yes, I do speak with family through emails and facebook, but not being there in real life makes it hard\n",
     "emotion_type": "depression",
     "problem_type": "ongoing depression",
-    "d2": "Navigator"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 11,
@@ -360,7 +360,7 @@
     "prev_seeker": "I am stressed \n",
     "emotion_type": "sadness",
     "problem_type": "job crisis",
-    "d2": "Companion"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 891,
@@ -371,7 +371,7 @@
     "prev_seeker": "No, we haven't talked about that, but that is a great idea.  I will talk to them to see how they feel about doing this.  Thank you.",
     "emotion_type": "sadness",
     "problem_type": "ongoing depression",
-    "d2": "Companion"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 788,
@@ -382,7 +382,7 @@
     "prev_seeker": "Yes, I think I need to emphasize the friends element of it and potentially support her to move on. I suppose I'm fearful that it will never end but I'll need to face into that and stay strong, and obviously avoid being intimate as this would really hurt her if I continued to sleep with her. I need to be careful about that I think!\n",
     "emotion_type": "sadness",
     "problem_type": "breakup with partner",
-    "d2": "Reflective Partner"
+    "d2": "Coach"
   },
   {
     "conv_idx": 1260,
@@ -404,7 +404,7 @@
     "prev_seeker": "I can't sleep at night and having bad dreams that I will fail in my exams or I am unable to answer questions.",
     "emotion_type": "anxiety",
     "problem_type": "academic pressure",
-    "d2": "Reflective Partner"
+    "d2": "Listener"
   },
   {
     "conv_idx": 958,
@@ -426,7 +426,7 @@
     "prev_seeker": "Haven't had the chance to bring it up. The boss tends to have a temper and doesn't like questions to his decisions. Trying to figure out a way to bring it up without making the work situation more difficult.\n",
     "emotion_type": "anger",
     "problem_type": "job crisis",
-    "d2": "Companion"
+    "d2": "Listener"
   },
   {
     "conv_idx": 904,
@@ -437,7 +437,7 @@
     "prev_seeker": "Agreed, I guess.  Maybe it's time to share more with my spouse.  I don't think it's that big an issue.  I just don't like talking about it.\n",
     "emotion_type": "shame",
     "problem_type": "problems with friends",
-    "d2": "Reflective Partner"
+    "d2": "Coach"
   },
   {
     "conv_idx": 769,
@@ -448,7 +448,7 @@
     "prev_seeker": "like what for example, talking does not work? so call the cops on her?",
     "emotion_type": "anger",
     "problem_type": "problems with friends",
-    "d2": "Navigator"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 1147,
@@ -470,7 +470,7 @@
     "prev_seeker": "I am trying... \n",
     "emotion_type": "depression",
     "problem_type": "Sleep Problems",
-    "d2": "Reflective Partner"
+    "d2": "Listener"
   },
   {
     "conv_idx": 11,
@@ -492,7 +492,7 @@
     "prev_seeker": "That's great. My job refused my request to continue to work from home. So I was pretty much forced to go into a school where the cases are growing.\n",
     "emotion_type": "anger",
     "problem_type": "job crisis",
-    "d2": "Reflective Partner"
+    "d2": "Listener"
   },
   {
     "conv_idx": 613,
@@ -503,7 +503,7 @@
     "prev_seeker": "why aren't they wearing masks?",
     "emotion_type": "depression",
     "problem_type": "ongoing depression",
-    "d2": "Companion"
+    "d2": "Listener"
   },
   {
     "conv_idx": 746,
@@ -514,7 +514,7 @@
     "prev_seeker": "Is this something you can help me with?\n",
     "emotion_type": "anxiety",
     "problem_type": "job crisis",
-    "d2": "Advisor"
+    "d2": "Listener"
   },
   {
     "conv_idx": 583,
@@ -536,7 +536,7 @@
     "prev_seeker": "Hi there!",
     "emotion_type": "anger",
     "problem_type": "job crisis",
-    "d2": "Companion"
+    "d2": "Listener"
   },
   {
     "conv_idx": 849,
@@ -569,7 +569,7 @@
     "prev_seeker": "My schedule starts in the evening extends through the night. But I can take sleep as much I want. But not throughout the night.\n",
     "emotion_type": "depression",
     "problem_type": "Sleep Problems",
-    "d2": "Navigator"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 820,
@@ -580,7 +580,7 @@
     "prev_seeker": "i think i can also follow this idea.",
     "emotion_type": "depression",
     "problem_type": "ongoing depression",
-    "d2": "Companion"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 462,
@@ -613,7 +613,7 @@
     "prev_seeker": "And it becomes a huge fight",
     "emotion_type": "depression",
     "problem_type": "ongoing depression",
-    "d2": "Reflective Partner"
+    "d2": "Listener"
   },
   {
     "conv_idx": 766,
@@ -635,7 +635,7 @@
     "prev_seeker": "I'm doing alright, I'm facing a lot of academic pressure from my program and I feel trapped\n",
     "emotion_type": "fear",
     "problem_type": "academic pressure",
-    "d2": "Reflective Partner"
+    "d2": "Listener"
   },
   {
     "conv_idx": 959,
@@ -646,7 +646,7 @@
     "prev_seeker": "session i mean when i skip a few days say three days \n",
     "emotion_type": "anxiety",
     "problem_type": "Alcohol Abuse",
-    "d2": "Reflective Partner"
+    "d2": "Listener"
   },
   {
     "conv_idx": 340,
@@ -657,7 +657,7 @@
     "prev_seeker": "may be I should tell one of our friends that I think he is mad at me ",
     "emotion_type": "fear",
     "problem_type": "problems with friends",
-    "d2": "Navigator"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 387,
@@ -668,7 +668,7 @@
     "prev_seeker": "I'm developing romantic feelings for a friend but she doesn't share those feelings with me in return.",
     "emotion_type": "anxiety",
     "problem_type": "problems with friends",
-    "d2": "Reflective Partner"
+    "d2": "Companion"
   },
   {
     "conv_idx": 1127,
@@ -679,7 +679,7 @@
     "prev_seeker": "The funny thing is, she just bought a trailer....and I offered to live in it. She didn't go for that idea. ",
     "emotion_type": "fear",
     "problem_type": "problems with friends",
-    "d2": "Reflective Partner"
+    "d2": "Coach"
   },
   {
     "conv_idx": 156,
@@ -701,7 +701,7 @@
     "prev_seeker": "I suppose I just need to practice more.",
     "emotion_type": "sadness",
     "problem_type": "breakup with partner",
-    "d2": "Navigator"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 384,
@@ -712,7 +712,7 @@
     "prev_seeker": "wow it is a bible for us then, surely will check and write exams in it ..",
     "emotion_type": "anger",
     "problem_type": "academic pressure",
-    "d2": "Advisor"
+    "d2": "Companion"
   },
   {
     "conv_idx": 1165,
@@ -723,7 +723,7 @@
     "prev_seeker": "I can't spend all my time with my friends, of course. They have things to do. So do I.\n",
     "emotion_type": "depression",
     "problem_type": "ongoing depression",
-    "d2": "Coach"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 1131,
@@ -734,7 +734,7 @@
     "prev_seeker": "That is true. Maybe it just isn't the right time. Maybe I need to learn something before I find a job that I need to do",
     "emotion_type": "anxiety",
     "problem_type": "job crisis",
-    "d2": "Listener"
+    "d2": "Coach"
   },
   {
     "conv_idx": 127,
@@ -767,7 +767,7 @@
     "prev_seeker": "im okay\n",
     "emotion_type": "depression",
     "problem_type": "ongoing depression",
-    "d2": "Companion"
+    "d2": "Listener"
   },
   {
     "conv_idx": 824,
@@ -789,7 +789,7 @@
     "prev_seeker": "Thank you will keep trying to do that.",
     "emotion_type": "depression",
     "problem_type": "breakup with partner",
-    "d2": "Reflective Partner"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 1180,
@@ -800,7 +800,7 @@
     "prev_seeker": "You then you know it feels like the world is collapsing around me.",
     "emotion_type": "sadness",
     "problem_type": "breakup with partner",
-    "d2": "Reflective Partner"
+    "d2": "Listener"
   },
   {
     "conv_idx": 741,
@@ -833,7 +833,7 @@
     "prev_seeker": "ill admit there are some days despite trying to distract myself i stuggle. ",
     "emotion_type": "depression",
     "problem_type": "ongoing depression",
-    "d2": "Advisor"
+    "d2": "Companion"
   },
   {
     "conv_idx": 635,
@@ -844,7 +844,7 @@
     "prev_seeker": "thank you for your help!\n",
     "emotion_type": "anxiety",
     "problem_type": "academic pressure",
-    "d2": "Companion"
+    "d2": "Coach"
   },
   {
     "conv_idx": 401,
@@ -866,7 +866,7 @@
     "prev_seeker": "wow sounds good .is that free app or have to buy ?",
     "emotion_type": "anger",
     "problem_type": "academic pressure",
-    "d2": "Navigator"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 1170,
@@ -910,7 +910,7 @@
     "prev_seeker": "Not really, there's only me in my role so don't really have anyone to help. I have tried talking to my line manager but she doesn't seem to understand just how busy I am.",
     "emotion_type": "anxiety",
     "problem_type": "job crisis",
-    "d2": "Coach"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 91,
@@ -921,7 +921,7 @@
     "prev_seeker": "Yes, and not being able to meet friends or go out much makes it hard to get all my emotions out",
     "emotion_type": "anxiety",
     "problem_type": "academic pressure",
-    "d2": "Companion"
+    "d2": "Coach"
   },
   {
     "conv_idx": 1245,
@@ -943,7 +943,7 @@
     "prev_seeker": "Yeah, the more I sleep the more I want to sleep. The fact that I don;t have set hours means that I just stay in bed for ages before a deadline \n",
     "emotion_type": "depression",
     "problem_type": "ongoing depression",
-    "d2": "Companion"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 330,
@@ -954,7 +954,7 @@
     "prev_seeker": "yes i know of patreon\n",
     "emotion_type": "depression",
     "problem_type": "ongoing depression",
-    "d2": "Listener"
+    "d2": "Companion"
   },
   {
     "conv_idx": 741,
@@ -965,7 +965,7 @@
     "prev_seeker": "Im not doing very good \n",
     "emotion_type": "depression",
     "problem_type": "breakup with partner",
-    "d2": "Reflective Partner"
+    "d2": "Listener"
   },
   {
     "conv_idx": 1136,
@@ -976,7 +976,7 @@
     "prev_seeker": "My mom cares, but she is having a lot of health problems so I don\u2019t feel like I should bother her with my problems ",
     "emotion_type": "sadness",
     "problem_type": "ongoing depression",
-    "d2": "Companion"
+    "d2": "Reflective Partner"
   },
   {
     "conv_idx": 442,
@@ -987,7 +987,7 @@
     "prev_seeker": "and he lied to my face abt watching porn, I would not have been mad at all so there was no reason to lie about it but it made me sad and feel rly bad that he couldn't tell me ",
     "emotion_type": "sadness",
     "problem_type": "breakup with partner",
-    "d2": "Reflective Partner"
+    "d2": "Listener"
   },
   {
     "conv_idx": 249,
@@ -998,7 +998,7 @@
     "prev_seeker": "great point. appreciate the feedback.",
     "emotion_type": "anger",
     "problem_type": "job crisis",
-    "d2": "Navigator"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 766,
@@ -1009,7 +1009,7 @@
     "prev_seeker": "We aren't FaceTiming. I just left his apartment this weekend though and have been upset about it. \n",
     "emotion_type": "anxiety",
     "problem_type": "job crisis",
-    "d2": "Reflective Partner"
+    "d2": "Listener"
   },
   {
     "conv_idx": 307,
@@ -1042,7 +1042,7 @@
     "prev_seeker": "Yeah. nice talking to you. Will leave you now.",
     "emotion_type": "sadness",
     "problem_type": "Procrastination",
-    "d2": "Coach"
+    "d2": "Companion"
   },
   {
     "conv_idx": 325,
@@ -1064,7 +1064,7 @@
     "prev_seeker": "No I feel ashamed to discuss my problem. What did you did in your situation?\n\n",
     "emotion_type": "depression",
     "problem_type": "Sleep Problems",
-    "d2": "Reflective Partner"
+    "d2": "Companion"
   },
   {
     "conv_idx": 679,
@@ -1119,7 +1119,7 @@
     "prev_seeker": "thanks a lot \n",
     "emotion_type": "anxiety",
     "problem_type": "ongoing depression",
-    "d2": "Companion"
+    "d2": "Listener"
   },
   {
     "conv_idx": 966,
@@ -1130,7 +1130,7 @@
     "prev_seeker": "So, should I ask to use his soccer ball\n",
     "emotion_type": "sadness",
     "problem_type": "Issues with Children",
-    "d2": "Coach"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 28,
@@ -1174,7 +1174,7 @@
     "prev_seeker": "I have medications I take but I have so many different things going on",
     "emotion_type": "depression",
     "problem_type": "Issues with Children",
-    "d2": "Reflective Partner"
+    "d2": "Listener"
   },
   {
     "conv_idx": 887,
@@ -1185,7 +1185,7 @@
     "prev_seeker": "well I don't know if its a plan but an idea just knowing I'm not alone helps ",
     "emotion_type": "depression",
     "problem_type": "ongoing depression",
-    "d2": "Reflective Partner"
+    "d2": "Navigator"
   },
   {
     "conv_idx": 168,
@@ -1196,7 +1196,7 @@
     "prev_seeker": "no not yet \n",
     "emotion_type": "depression",
     "problem_type": "job crisis",
-    "d2": "Coach"
+    "d2": "Navigator"
   },
   {
     "conv_idx": 766,
@@ -1240,7 +1240,7 @@
     "prev_seeker": "The kid I'm concerned about is taking math 3 grades ahead and high school spanish. I do not think their program is in her best interest, so I'm focusing on the charter option, but it takes time :(\n",
     "emotion_type": "sadness",
     "problem_type": "ongoing depression",
-    "d2": "Reflective Partner"
+    "d2": "Listener"
   },
   {
     "conv_idx": 2,
@@ -1262,7 +1262,7 @@
     "prev_seeker": "Are you diagnosed by COVID-19 , what are the techniques you used to cope the current situation.",
     "emotion_type": "depression",
     "problem_type": "job crisis",
-    "d2": "Coach"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 887,
@@ -1284,7 +1284,7 @@
     "prev_seeker": "Thank you. yeah i get that. but they should be happy for me. They cant make decisions for me all the time. let me free!!! \n",
     "emotion_type": "anger",
     "problem_type": "academic pressure",
-    "d2": "Reflective Partner"
+    "d2": "Companion"
   },
   {
     "conv_idx": 85,
@@ -1295,7 +1295,7 @@
     "prev_seeker": "Yes, I have a lot of exams right now and that on top of not hanging out with friends a lot lately has made life tough.",
     "emotion_type": "anxiety",
     "problem_type": "academic pressure",
-    "d2": "Listener"
+    "d2": "Reflective Partner"
   },
   {
     "conv_idx": 335,
@@ -1317,7 +1317,7 @@
     "prev_seeker": "Yes I did.  But no point, he just upset on things like didn't get to be with his friends, or having no friends, no life etc. \n",
     "emotion_type": "anger",
     "problem_type": "problems with friends",
-    "d2": "Coach"
+    "d2": "Reflective Partner"
   },
   {
     "conv_idx": 1055,
@@ -1328,7 +1328,7 @@
     "prev_seeker": "10 years\n",
     "emotion_type": "depression",
     "problem_type": "problems with friends",
-    "d2": "Advisor"
+    "d2": "Reflective Partner"
   },
   {
     "conv_idx": 597,
@@ -1372,7 +1372,7 @@
     "prev_seeker": "Yes, I have been going to the gym more. I am training to run a 7 minute mile.\n",
     "emotion_type": "sadness",
     "problem_type": "problems with friends",
-    "d2": "Coach"
+    "d2": "Companion"
   },
   {
     "conv_idx": 332,
@@ -1394,7 +1394,7 @@
     "prev_seeker": "I require your greetings for a better prospectus. . ",
     "emotion_type": "sadness",
     "problem_type": "job crisis",
-    "d2": "Reflective Partner"
+    "d2": "Listener"
   },
   {
     "conv_idx": 247,
@@ -1416,7 +1416,7 @@
     "prev_seeker": "Yeah\n",
     "emotion_type": "depression",
     "problem_type": "breakup with partner",
-    "d2": "Reflective Partner"
+    "d2": "Listener"
   },
   {
     "conv_idx": 1196,
@@ -1449,7 +1449,7 @@
     "prev_seeker": "Yes exactly. I got my teeth fixed a couple days ago as well so that was good too! I am really leaning on my family for support but just felt like asking for some outside help which is why I am talking to you right now lol.",
     "emotion_type": "depression",
     "problem_type": "ongoing depression",
-    "d2": "Reflective Partner"
+    "d2": "Listener"
   },
   {
     "conv_idx": 280,
@@ -1460,7 +1460,7 @@
     "prev_seeker": "thanks for sharing. it nice knowing that this year has ben hard for lots of people. What do you do to get by?\n",
     "emotion_type": "depression",
     "problem_type": "ongoing depression",
-    "d2": "Listener"
+    "d2": "Companion"
   },
   {
     "conv_idx": 625,
@@ -1493,7 +1493,7 @@
     "prev_seeker": "Thank you, it's actually made me feel a lot better! :)\n",
     "emotion_type": "nervousness",
     "problem_type": "academic pressure",
-    "d2": "Coach"
+    "d2": "Companion"
   },
   {
     "conv_idx": 91,
@@ -1504,7 +1504,7 @@
     "prev_seeker": "Do you have any tips on how to deal with headaches or being overly stressed or anxious?",
     "emotion_type": "anxiety",
     "problem_type": "academic pressure",
-    "d2": "Coach"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 176,
@@ -1526,7 +1526,7 @@
     "prev_seeker": "I was on a PHONE CALL\n",
     "emotion_type": "anger",
     "problem_type": "problems with friends",
-    "d2": "Reflective Partner"
+    "d2": "Listener"
   },
   {
     "conv_idx": 919,
@@ -1537,7 +1537,7 @@
     "prev_seeker": "you there?",
     "emotion_type": "sadness",
     "problem_type": "breakup with partner",
-    "d2": "Reflective Partner"
+    "d2": "Coach"
   },
   {
     "conv_idx": 64,
@@ -1625,7 +1625,7 @@
     "prev_seeker": "ohhh...I understand\n",
     "emotion_type": "sadness",
     "problem_type": "breakup with partner",
-    "d2": "Navigator"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 240,
@@ -1636,7 +1636,7 @@
     "prev_seeker": "don't know what to do\n",
     "emotion_type": "depression",
     "problem_type": "ongoing depression",
-    "d2": "Companion"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 625,
@@ -1647,7 +1647,7 @@
     "prev_seeker": "yes I know about all the guidance and it would help to follow this. I see my friends dealing with it just fine. I wonder what is making it so hard for me? perhaps I'm overthinking it and just worrying about it excessively.",
     "emotion_type": "anxiety",
     "problem_type": "ongoing depression",
-    "d2": "Reflective Partner"
+    "d2": "Coach"
   },
   {
     "conv_idx": 432,
@@ -1658,7 +1658,7 @@
     "prev_seeker": "The freedoms are still there but the fear of getting the virus stops people from normal life. ",
     "emotion_type": "sadness",
     "problem_type": "ongoing depression",
-    "d2": "Reflective Partner"
+    "d2": "Companion"
   },
   {
     "conv_idx": 339,
@@ -1680,7 +1680,7 @@
     "prev_seeker": "I think that's it for today. have a lovely afternoon\n",
     "emotion_type": "fear",
     "problem_type": "breakup with partner",
-    "d2": "Companion"
+    "d2": "Coach"
   },
   {
     "conv_idx": 1111,
@@ -1691,7 +1691,7 @@
     "prev_seeker": "I have contacts in the previous job location only. But not in my family location. Some of my friends in the previous location have given some idea what I can do. To find a job in my previous location is not an issue. I try to be nearby.\n",
     "emotion_type": "sadness",
     "problem_type": "job crisis",
-    "d2": "Reflective Partner"
+    "d2": "Coach"
   },
   {
     "conv_idx": 324,
@@ -1702,7 +1702,7 @@
     "prev_seeker": "I am worried that COVID-19 has made me depressed. I am usually a well mannered, even personality but I find myself impatient and possibly getting depressed.\n",
     "emotion_type": "fear",
     "problem_type": "job crisis",
-    "d2": "Listener"
+    "d2": "Reflective Partner"
   },
   {
     "conv_idx": 308,
@@ -1724,7 +1724,7 @@
     "prev_seeker": "Yeah I might talk to someone.\n",
     "emotion_type": "anxiety",
     "problem_type": "academic pressure",
-    "d2": "Reflective Partner"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 697,
@@ -1735,7 +1735,7 @@
     "prev_seeker": "Hello?",
     "emotion_type": "disgust",
     "problem_type": "problems with friends",
-    "d2": "Reflective Partner"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 74,
@@ -1757,7 +1757,7 @@
     "prev_seeker": "I think the main reason ive lost my friends is because I cant go out with them or hangout anymore because I have a baby. Im not fun anymore. I had my child young so I feel like I lost out on my youth\n",
     "emotion_type": "depression",
     "problem_type": "ongoing depression",
-    "d2": "Reflective Partner"
+    "d2": "Listener"
   },
   {
     "conv_idx": 809,
@@ -1779,7 +1779,7 @@
     "prev_seeker": "good plan, learn before you have your own, thats what my plan was, i was supposed to have life figured out before they got here\n",
     "emotion_type": "anxiety",
     "problem_type": "Issues with Children",
-    "d2": "Companion"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 1154,
@@ -1812,7 +1812,7 @@
     "prev_seeker": "praying is a wonderful thing that i need to do more often.  i'm glad you passed the exam.  i had a lot of pressure when i went to college as well. it seems most of my 24 years alive i've had one sort of probem or another but i always remember that i have plenty of things to be thankful for too. life can be rough.",
     "emotion_type": "anxiety",
     "problem_type": "job crisis",
-    "d2": "Listener"
+    "d2": "Coach"
   },
   {
     "conv_idx": 321,
@@ -1823,7 +1823,7 @@
     "prev_seeker": "His scores are not in line with where he should be.\n",
     "emotion_type": "anxiety",
     "problem_type": "academic pressure",
-    "d2": "Navigator"
+    "d2": "Listener"
   },
   {
     "conv_idx": 418,
@@ -1856,7 +1856,7 @@
     "prev_seeker": "Yeah meet too it's just finding a way where I can maybe stay where I am whilst exploring other opportunities to see what I'd like to do. It's a tough one.\n",
     "emotion_type": "fear",
     "problem_type": "job crisis",
-    "d2": "Reflective Partner"
+    "d2": "Coach"
   },
   {
     "conv_idx": 1049,
@@ -1878,7 +1878,7 @@
     "prev_seeker": "absolutely will avoid her. if she ever convinces my friends should i tell them i don't want to associate with them anymore?\n",
     "emotion_type": "disgust",
     "problem_type": "problems with friends",
-    "d2": "Coach"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 1197,
@@ -1900,7 +1900,7 @@
     "prev_seeker": "Everyone I've reached out to has said the same. There are several factors that make my job stressful. The biggest issues are working from home and unrealistic deadlines.\n\n\n",
     "emotion_type": "anxiety",
     "problem_type": "job crisis",
-    "d2": "Reflective Partner"
+    "d2": "Listener"
   },
   {
     "conv_idx": 925,
@@ -1911,7 +1911,7 @@
     "prev_seeker": "and afterwards showing rude attitude towards me\n ",
     "emotion_type": "depression",
     "problem_type": "breakup with partner",
-    "d2": "Advisor"
+    "d2": "Navigator"
   },
   {
     "conv_idx": 1228,
@@ -1933,7 +1933,7 @@
     "prev_seeker": "No another time.",
     "emotion_type": "sadness",
     "problem_type": "ongoing depression",
-    "d2": "Navigator"
+    "d2": "Companion"
   },
   {
     "conv_idx": 147,
@@ -1966,7 +1966,7 @@
     "prev_seeker": "Yeah.. but how does one go about gaining back the trust of others or getting themselves to that state of mind where they are comfortable with it again?\n",
     "emotion_type": "sadness",
     "problem_type": "problems with friends",
-    "d2": "Reflective Partner"
+    "d2": "Listener"
   },
   {
     "conv_idx": 971,
@@ -1977,7 +1977,7 @@
     "prev_seeker": "The support of my wife has become very clear to me",
     "emotion_type": "anxiety",
     "problem_type": "Procrastination",
-    "d2": "Companion"
+    "d2": "Listener"
   },
   {
     "conv_idx": 1243,
@@ -1999,7 +1999,7 @@
     "prev_seeker": "i loose my mom 3 years ago on accident now my father also gone.\n",
     "emotion_type": "depression",
     "problem_type": "ongoing depression",
-    "d2": "Companion"
+    "d2": "Listener"
   },
   {
     "conv_idx": 1278,
@@ -2010,7 +2010,7 @@
     "prev_seeker": "Thank you.",
     "emotion_type": "sadness",
     "problem_type": "ongoing depression",
-    "d2": "Reflective Partner"
+    "d2": "Listener"
   },
   {
     "conv_idx": 687,
@@ -2021,7 +2021,7 @@
     "prev_seeker": "I don't want to feel like this anymore. I'm willing to at least give it a go.\n",
     "emotion_type": "depression",
     "problem_type": "ongoing depression",
-    "d2": "Advisor"
+    "d2": "Navigator"
   },
   {
     "conv_idx": 215,
@@ -2043,7 +2043,7 @@
     "prev_seeker": "I've definitely heard that before, but you are completely right. I need to stop worrying about yesterday and tomorrow and focus on today, but I'm just not very good at that.\n",
     "emotion_type": "anxiety",
     "problem_type": "academic pressure",
-    "d2": "Reflective Partner"
+    "d2": "Coach"
   },
   {
     "conv_idx": 599,
@@ -2054,7 +2054,7 @@
     "prev_seeker": "I miss going into the office and seeing people. it's very lonely \n",
     "emotion_type": "depression",
     "problem_type": "ongoing depression",
-    "d2": "Reflective Partner"
+    "d2": "Listener"
   },
   {
     "conv_idx": 310,
@@ -2065,7 +2065,7 @@
     "prev_seeker": "I just can't live reguarly life like \"healthy\" people do and they notice my symptoms. They don't understand how your mind can be your enemy. ",
     "emotion_type": "shame",
     "problem_type": "ongoing depression",
-    "d2": "Listener"
+    "d2": "Reflective Partner"
   },
   {
     "conv_idx": 329,
@@ -2087,7 +2087,7 @@
     "prev_seeker": "I don't know what to do for the best and how to really get myself out there again.\n",
     "emotion_type": "fear",
     "problem_type": "job crisis",
-    "d2": "Reflective Partner"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 1054,
@@ -2098,7 +2098,7 @@
     "prev_seeker": "I've been watching a lot of Netflix and youtube and not doing much else.\n",
     "emotion_type": "depression",
     "problem_type": "ongoing depression",
-    "d2": "Coach"
+    "d2": "Companion"
   },
   {
     "conv_idx": 10,
@@ -2120,7 +2120,7 @@
     "prev_seeker": "s\n",
     "emotion_type": "sadness",
     "problem_type": "problems with friends",
-    "d2": "Advisor"
+    "d2": "Coach"
   },
   {
     "conv_idx": 903,
@@ -2131,7 +2131,7 @@
     "prev_seeker": "Sometimes I don't think that's enough to prevent.  My mom has cancer and it's been hurting not being able to see her because I don't want to take that risk",
     "emotion_type": "anxiety",
     "problem_type": "ongoing depression",
-    "d2": "Navigator"
+    "d2": "Companion"
   },
   {
     "conv_idx": 113,
@@ -2142,7 +2142,7 @@
     "prev_seeker": "Yes I am thinking on Sunday would be good and maybe by gods help we will have a stimulus deal. ",
     "emotion_type": "anxiety",
     "problem_type": "job crisis",
-    "d2": "Advisor"
+    "d2": "Coach"
   },
   {
     "conv_idx": 1122,
@@ -2164,7 +2164,7 @@
     "prev_seeker": "My boyfriend has been cheating on me, He constantly denies it and I want to believe him, but my family also knows and thinks I need to end things. ",
     "emotion_type": "anger",
     "problem_type": "breakup with partner",
-    "d2": "Reflective Partner"
+    "d2": "Listener"
   },
   {
     "conv_idx": 549,
@@ -2186,7 +2186,7 @@
     "prev_seeker": "which sometimes makes me mad\n",
     "emotion_type": "depression",
     "problem_type": "breakup with partner",
-    "d2": "Coach"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 216,
@@ -2219,7 +2219,7 @@
     "prev_seeker": "Yeah i think i will start fresh from tomorrow..Do you have any ideas about choosing next partner..",
     "emotion_type": "sadness",
     "problem_type": "breakup with partner",
-    "d2": "Navigator"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 706,
@@ -2241,7 +2241,7 @@
     "prev_seeker": "Maybe I'm just slow?\n",
     "emotion_type": "depression",
     "problem_type": "academic pressure",
-    "d2": "Companion"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 1236,
@@ -2252,7 +2252,7 @@
     "prev_seeker": "During this time with the affair, I had the strength to leave a narcissistic spouse that abused me emotionally. I am proud of myself for that. \n",
     "emotion_type": "sadness",
     "problem_type": "breakup with partner",
-    "d2": "Companion"
+    "d2": "Coach"
   },
   {
     "conv_idx": 121,
@@ -2274,7 +2274,7 @@
     "prev_seeker": "I think I'm good. Thank you though! This was nice :)\n",
     "emotion_type": "depression",
     "problem_type": "ongoing depression",
-    "d2": "Companion"
+    "d2": "Coach"
   },
   {
     "conv_idx": 1174,
@@ -2296,7 +2296,7 @@
     "prev_seeker": "Any suggestions for gig work?\n",
     "emotion_type": "fear",
     "problem_type": "job crisis",
-    "d2": "Coach"
+    "d2": "Navigator"
   },
   {
     "conv_idx": 198,
@@ -2318,7 +2318,7 @@
     "prev_seeker": "Thank you. It was hard not to let my emotions get the best of me. I don't even know why he told me. But I guess it's good he did.\n",
     "emotion_type": "sadness",
     "problem_type": "breakup with partner",
-    "d2": "Reflective Partner"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 807,
@@ -2362,7 +2362,7 @@
     "prev_seeker": "It's very sad.  Not what I wanted at all.  But they were really horrible to me and my girls.  I know he would not be happy that they have treated us so poorly.",
     "emotion_type": "sadness",
     "problem_type": "breakup with partner",
-    "d2": "Navigator"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 245,
@@ -2373,7 +2373,7 @@
     "prev_seeker": "No, they weren't, I agree there. He took all his devices with him. I can see his stuff from a user point of view, like anyone else in the public could, but nothing of his personal stuff.\n",
     "emotion_type": "sadness",
     "problem_type": "breakup with partner",
-    "d2": "Advisor"
+    "d2": "Navigator"
   },
   {
     "conv_idx": 764,
@@ -2384,7 +2384,7 @@
     "prev_seeker": "Do you draw?\n",
     "emotion_type": "depression",
     "problem_type": "ongoing depression",
-    "d2": "Companion"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 908,
@@ -2406,7 +2406,7 @@
     "prev_seeker": "That's exactly right, I kind of ignore myself and became zoned out or something. \n",
     "emotion_type": "anxiety",
     "problem_type": "ongoing depression",
-    "d2": "Coach"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 337,
@@ -2461,7 +2461,7 @@
     "prev_seeker": "Thanks, I will do. And thanks again for your help. ",
     "emotion_type": "depression",
     "problem_type": "ongoing depression",
-    "d2": "Coach"
+    "d2": "Companion"
   },
   {
     "conv_idx": 252,
@@ -2472,7 +2472,7 @@
     "prev_seeker": "I am trying to complete my senior year in Biblical studies",
     "emotion_type": "anxiety",
     "problem_type": "academic pressure",
-    "d2": "Advisor"
+    "d2": "Navigator"
   },
   {
     "conv_idx": 989,
@@ -2483,7 +2483,7 @@
     "prev_seeker": "Great\n",
     "emotion_type": "depression",
     "problem_type": "Sleep Problems",
-    "d2": "Reflective Partner"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 350,
@@ -2494,7 +2494,7 @@
     "prev_seeker": "i feel somewhat positive. i was in need of someone like this.",
     "emotion_type": "sadness",
     "problem_type": "breakup with partner",
-    "d2": "Coach"
+    "d2": "Companion"
   },
   {
     "conv_idx": 1047,
@@ -2505,7 +2505,7 @@
     "prev_seeker": "Ok I will try to get in an online class if I can.",
     "emotion_type": "depression",
     "problem_type": "academic pressure",
-    "d2": "Coach"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 188,
@@ -2516,7 +2516,7 @@
     "prev_seeker": "I have some leads on apartments and some savings I'm putting aside, and a friend I plan on living with",
     "emotion_type": "anxiety",
     "problem_type": "breakup with partner",
-    "d2": "Navigator"
+    "d2": "Companion"
   },
   {
     "conv_idx": 1232,
@@ -2527,7 +2527,7 @@
     "prev_seeker": "Unfortunately making amends in some ways depends on having money which requires a job. ",
     "emotion_type": "anxiety",
     "problem_type": "job crisis",
-    "d2": "Listener"
+    "d2": "Companion"
   },
   {
     "conv_idx": 30,
@@ -2560,7 +2560,7 @@
     "prev_seeker": "I am in depression",
     "emotion_type": "depression",
     "problem_type": "ongoing depression",
-    "d2": "Listener"
+    "d2": "Reflective Partner"
   },
   {
     "conv_idx": 84,
@@ -2571,7 +2571,7 @@
     "prev_seeker": "Well that is a good success story!  Thank you for the motivation.",
     "emotion_type": "anxiety",
     "problem_type": "breakup with partner",
-    "d2": "Coach"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 1222,
@@ -2582,7 +2582,7 @@
     "prev_seeker": "Thanks for that suggestion. I have tried, but they are immature and just want to party. I've started staying in my room which helps, but is very isolating. I wish I could afford my own place\n",
     "emotion_type": "anxiety",
     "problem_type": "academic pressure",
-    "d2": "Navigator"
+    "d2": "Coach"
   },
   {
     "conv_idx": 457,
@@ -2593,7 +2593,7 @@
     "prev_seeker": "What do you recommend i do?",
     "emotion_type": "anxiety",
     "problem_type": "ongoing depression",
-    "d2": "Coach"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 266,
@@ -2604,7 +2604,7 @@
     "prev_seeker": "so I reached out to him and he said that it wasn't true and he had lied about it\n",
     "emotion_type": "sadness",
     "problem_type": "breakup with partner",
-    "d2": "Reflective Partner"
+    "d2": "Listener"
   },
   {
     "conv_idx": 716,
@@ -2626,7 +2626,7 @@
     "prev_seeker": "Do you think that she wants to talk rather than end the relationship?",
     "emotion_type": "anger",
     "problem_type": "breakup with partner",
-    "d2": "Reflective Partner"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 911,
@@ -2648,7 +2648,7 @@
     "prev_seeker": "Trying to balance work pressure with family and having little support due to the pandemic ",
     "emotion_type": "depression",
     "problem_type": "job crisis",
-    "d2": "Reflective Partner"
+    "d2": "Listener"
   },
   {
     "conv_idx": 424,
@@ -2692,7 +2692,7 @@
     "prev_seeker": "Good advice and I am trying to get back into it. Thanks",
     "emotion_type": "depression",
     "problem_type": "ongoing depression",
-    "d2": "Coach"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 467,
@@ -2703,7 +2703,7 @@
     "prev_seeker": "I agree, I'm afraid that's what I have to do. Another one of our mutual friends passed away recently to an overdose. I don't want to lose another friend.",
     "emotion_type": "depression",
     "problem_type": "problems with friends",
-    "d2": "Companion"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 420,
@@ -2736,7 +2736,7 @@
     "prev_seeker": "Nice talking to you goodbye.",
     "emotion_type": "anxiety",
     "problem_type": "job crisis",
-    "d2": "Navigator"
+    "d2": "Companion"
   },
   {
     "conv_idx": 999,
@@ -2758,7 +2758,7 @@
     "prev_seeker": "I'm almost near gradution too.\n",
     "emotion_type": "shame",
     "problem_type": "academic pressure",
-    "d2": "Reflective Partner"
+    "d2": "Listener"
   },
   {
     "conv_idx": 504,
@@ -2769,7 +2769,7 @@
     "prev_seeker": "So, I get mad, then I get anxious, then I get down...\n",
     "emotion_type": "sadness",
     "problem_type": "ongoing depression",
-    "d2": "Listener"
+    "d2": "Navigator"
   },
   {
     "conv_idx": 1058,
@@ -2802,7 +2802,7 @@
     "prev_seeker": "please am not able to get sleep like 6 months now please help me",
     "emotion_type": "depression",
     "problem_type": "Sleep Problems",
-    "d2": "Advisor"
+    "d2": "Reflective Partner"
   },
   {
     "conv_idx": 755,
@@ -2824,7 +2824,7 @@
     "prev_seeker": "Just an average day if I had to describe it. Nothing particularly unusual or bad. Worked for about 8 hours and now no plans for the night\n",
     "emotion_type": "anxiety",
     "problem_type": "Alcohol Abuse",
-    "d2": "Companion"
+    "d2": "Listener"
   },
   {
     "conv_idx": 1027,
@@ -2835,7 +2835,7 @@
     "prev_seeker": "She is getting much better about putting clean underwear on everyday at least.\n\n",
     "emotion_type": "disgust",
     "problem_type": "Issues with Children",
-    "d2": "Advisor"
+    "d2": "Companion"
   },
   {
     "conv_idx": 392,
@@ -2868,7 +2868,7 @@
     "prev_seeker": "I sure am. Thanks for your help.",
     "emotion_type": "anger",
     "problem_type": "breakup with partner",
-    "d2": "Companion"
+    "d2": "Coach"
   },
   {
     "conv_idx": 274,
@@ -2890,7 +2890,7 @@
     "prev_seeker": "hopefully soon somethings will change for the better, i just hope i figure out what i should do and to make a better me and a better life for everyone\n",
     "emotion_type": "depression",
     "problem_type": "ongoing depression",
-    "d2": "Reflective Partner"
+    "d2": "Coach"
   },
   {
     "conv_idx": 147,
@@ -2901,7 +2901,7 @@
     "prev_seeker": "then paraguay",
     "emotion_type": "anxiety",
     "problem_type": "job crisis",
-    "d2": "Navigator"
+    "d2": "Companion"
   },
   {
     "conv_idx": 551,
@@ -2923,7 +2923,7 @@
     "prev_seeker": "I cannot seem to focus on online learn. FU covid\n",
     "emotion_type": "anxiety",
     "problem_type": "academic pressure",
-    "d2": "Companion"
+    "d2": "Listener"
   },
   {
     "conv_idx": 488,
@@ -2934,7 +2934,7 @@
     "prev_seeker": "when i lost my job in march\n",
     "emotion_type": "depression",
     "problem_type": "ongoing depression",
-    "d2": "Reflective Partner"
+    "d2": "Companion"
   },
   {
     "conv_idx": 385,
@@ -2989,7 +2989,7 @@
     "prev_seeker": "It feels like that way.  Even my parents seem to support her more than me.  I am all alone now watching a Buzzr marathon with no one to truly support me.",
     "emotion_type": "anxiety",
     "problem_type": "breakup with partner",
-    "d2": "Reflective Partner"
+    "d2": "Listener"
   },
   {
     "conv_idx": 215,
@@ -3000,7 +3000,7 @@
     "prev_seeker": "did you look at any websites or other job searching tools before you found your new job?\n",
     "emotion_type": "anxiety",
     "problem_type": "academic pressure",
-    "d2": "Advisor"
+    "d2": "Navigator"
   },
   {
     "conv_idx": 1231,
@@ -3033,7 +3033,7 @@
     "prev_seeker": "Getting someone else's perspective helps because like you recommending that app, there are things I don't know about out there so I appreciate that.",
     "emotion_type": "depression",
     "problem_type": "ongoing depression",
-    "d2": "Advisor"
+    "d2": "Navigator"
   },
   {
     "conv_idx": 1064,
@@ -3055,7 +3055,7 @@
     "prev_seeker": "I have anger issue",
     "emotion_type": "anger",
     "problem_type": "ongoing depression",
-    "d2": "Reflective Partner"
+    "d2": "Listener"
   },
   {
     "conv_idx": 615,
@@ -3066,7 +3066,7 @@
     "prev_seeker": "yes when it comes down to it. and i don't know if i will ever find it- especially these days. and i don't want to settle\n",
     "emotion_type": "anxiety",
     "problem_type": "breakup with partner",
-    "d2": "Companion"
+    "d2": "Reflective Partner"
   },
   {
     "conv_idx": 929,
@@ -3099,7 +3099,7 @@
     "prev_seeker": "Is it betrayal if i tell them that he has been drinking excessively?",
     "emotion_type": "anger",
     "problem_type": "problems with friends",
-    "d2": "Navigator"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 465,
@@ -3110,7 +3110,7 @@
     "prev_seeker": "Anyone tips for Mturk? I'm new to this. ",
     "emotion_type": "fear",
     "problem_type": "job crisis",
-    "d2": "Companion"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 1281,
@@ -3143,7 +3143,7 @@
     "prev_seeker": "Ah. I think it's more of a real issue when it comes to controlling himself or using sites because he was single for so long. He is currently staying with me. ",
     "emotion_type": "anger",
     "problem_type": "breakup with partner",
-    "d2": "Coach"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 992,
@@ -3176,7 +3176,7 @@
     "prev_seeker": "Thank you, I will try that. Like a journal maybe?",
     "emotion_type": "anxiety",
     "problem_type": "ongoing depression",
-    "d2": "Reflective Partner"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 803,
@@ -3209,7 +3209,7 @@
     "prev_seeker": "That is exactly right. I need to focus more on what progress has been made and not on what progress hasn't been made yet because there is still time to make that progress. \n",
     "emotion_type": "anxiety",
     "problem_type": "academic pressure",
-    "d2": "Reflective Partner"
+    "d2": "Coach"
   },
   {
     "conv_idx": 937,
@@ -3220,7 +3220,7 @@
     "prev_seeker": "Thank you for your trust in me. \n",
     "emotion_type": "nervousness",
     "problem_type": "academic pressure",
-    "d2": "Coach"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 148,
@@ -3231,7 +3231,7 @@
     "prev_seeker": "thanks!",
     "emotion_type": "anxiety",
     "problem_type": "job crisis",
-    "d2": "Companion"
+    "d2": "Listener"
   },
   {
     "conv_idx": 443,
@@ -3308,7 +3308,7 @@
     "prev_seeker": "hoping the same. want to  be the happy person like i was before.",
     "emotion_type": "depression",
     "problem_type": "breakup with partner",
-    "d2": "Coach"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 1205,
@@ -3319,7 +3319,7 @@
     "prev_seeker": "I have a friend who i talk to but I feel bad imposing so much\n",
     "emotion_type": "depression",
     "problem_type": "ongoing depression",
-    "d2": "Reflective Partner"
+    "d2": "Coach"
   },
   {
     "conv_idx": 886,
@@ -3374,7 +3374,7 @@
     "prev_seeker": "Yea i understand that is happens to a lot of people, and we just have to move on and learn. That is hwy im not mad anymore just upset. \n",
     "emotion_type": "anger",
     "problem_type": "academic pressure",
-    "d2": "Advisor"
+    "d2": "Companion"
   },
   {
     "conv_idx": 763,
@@ -3385,7 +3385,7 @@
     "prev_seeker": "I've send him so many messages. He reads them but won't respond. I did ask his best friend to help me but my ex pretended like nothing was wrong when his friend asked him.\n",
     "emotion_type": "depression",
     "problem_type": "breakup with partner",
-    "d2": "Reflective Partner"
+    "d2": "Coach"
   },
   {
     "conv_idx": 1151,
@@ -3407,7 +3407,7 @@
     "prev_seeker": "And mom needs a place to stay... sometimes I wonder if she just wants to be homeless\n",
     "emotion_type": "anxiety",
     "problem_type": "ongoing depression",
-    "d2": "Reflective Partner"
+    "d2": "Listener"
   },
   {
     "conv_idx": 657,
@@ -3418,7 +3418,7 @@
     "prev_seeker": "Yes, quite. At times over the years she can become quite self absorbed. But she's never been so downright hurtful. I can't really see a way for our relationship to be the same anymore.\n",
     "emotion_type": "anger",
     "problem_type": "problems with friends",
-    "d2": "Reflective Partner"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 304,
@@ -3429,7 +3429,7 @@
     "prev_seeker": "do you think anyone actually reads the cover letter part of your application?",
     "emotion_type": "anxiety",
     "problem_type": "job crisis",
-    "d2": "Listener"
+    "d2": "Companion"
   },
   {
     "conv_idx": 177,
@@ -3440,7 +3440,7 @@
     "prev_seeker": "I told my friend I kind of have a thing for this guy in our friend group and he actually told the guy! This guys has a girlfriend and I'm really cool with her. Now everything is soooo awkward\n",
     "emotion_type": "anger",
     "problem_type": "problems with friends",
-    "d2": "Companion"
+    "d2": "Listener"
   },
   {
     "conv_idx": 224,
@@ -3451,7 +3451,7 @@
     "prev_seeker": "plus netflix, hulu, amazon keep releasing new shows. if i need a reason, it can simply be to watch tv and detox (so to speak) and get away from the BS of work (obv stating it more nicely than that). ",
     "emotion_type": "anger",
     "problem_type": "job crisis",
-    "d2": "Advisor"
+    "d2": "Coach"
   },
   {
     "conv_idx": 444,
@@ -3462,7 +3462,7 @@
     "prev_seeker": "All the time. I didn't fail any this semester, but the anxiety makes me irritable and worried.\n",
     "emotion_type": "anxiety",
     "problem_type": "academic pressure",
-    "d2": "Advisor"
+    "d2": "Navigator"
   },
   {
     "conv_idx": 672,
@@ -3473,7 +3473,7 @@
     "prev_seeker": "i haven't felt like doing much of anything, my house is wreck. where are you finding motivation",
     "emotion_type": "depression",
     "problem_type": "ongoing depression",
-    "d2": "Reflective Partner"
+    "d2": "Coach"
   },
   {
     "conv_idx": 611,
@@ -3484,7 +3484,7 @@
     "prev_seeker": "yes cuz that's when he wanted me to be around him more\n",
     "emotion_type": "anxiety",
     "problem_type": "breakup with partner",
-    "d2": "Listener"
+    "d2": "Reflective Partner"
   },
   {
     "conv_idx": 1118,
@@ -3517,7 +3517,7 @@
     "prev_seeker": "Ok, well thanks for your help\n",
     "emotion_type": "depression",
     "problem_type": "ongoing depression",
-    "d2": "Navigator"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 920,
@@ -3528,7 +3528,7 @@
     "prev_seeker": "i wished we could, i just cannot get it of my mind\n",
     "emotion_type": "depression",
     "problem_type": "breakup with partner",
-    "d2": "Reflective Partner"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 236,
@@ -3572,7 +3572,7 @@
     "prev_seeker": "Anything involving my college degree. But when I do get to the interview stage, I feel like I don't know anything. I feel like an imposter.\n\n",
     "emotion_type": "depression",
     "problem_type": "job crisis",
-    "d2": "Question"
+    "d2": "Listener"
   },
   {
     "conv_idx": 5,
@@ -3583,7 +3583,7 @@
     "prev_seeker": "say i can't quit until we have exchanged 10 messages or spent 15min. I think that has all been done, yes?",
     "emotion_type": "anxiety",
     "problem_type": "job crisis",
-    "d2": "Information"
+    "d2": "Companion"
   },
   {
     "conv_idx": 466,
@@ -3616,7 +3616,7 @@
     "prev_seeker": "Wow I have never thought about that! That sounds awesome and like it would be great help, also trying something new would feel nice instead of filing the same stuff into applications!",
     "emotion_type": "depression",
     "problem_type": "ongoing depression",
-    "d2": "Coach"
+    "d2": "Navigator"
   },
   {
     "conv_idx": 146,
@@ -3627,7 +3627,7 @@
     "prev_seeker": "What I should have put in is about my uncle I'd rather talk about that. He passed yesterday to colon cancer",
     "emotion_type": "sadness",
     "problem_type": "problems with friends",
-    "d2": "Reflective Partner"
+    "d2": "Listener"
   },
   {
     "conv_idx": 965,
@@ -3638,7 +3638,7 @@
     "prev_seeker": "They were very harsh, with me.. just like my parents\n",
     "emotion_type": "depression",
     "problem_type": "School Bullying",
-    "d2": "Reflective Partner"
+    "d2": "Listener"
   },
   {
     "conv_idx": 70,
@@ -3660,7 +3660,7 @@
     "prev_seeker": "so much stress here with deaths in family, aloneness and bills\n\n",
     "emotion_type": "sadness",
     "problem_type": "breakup with partner",
-    "d2": "Companion"
+    "d2": "Listener"
   },
   {
     "conv_idx": 213,
@@ -3671,7 +3671,7 @@
     "prev_seeker": "I wish I had one\n",
     "emotion_type": "sadness",
     "problem_type": "ongoing depression",
-    "d2": "Navigator"
+    "d2": "Listener"
   },
   {
     "conv_idx": 1045,
@@ -3682,7 +3682,7 @@
     "prev_seeker": "I will certainly look in to it ...Thank you for all the suggestions and help..I really appreciate it..bye..",
     "emotion_type": "depression",
     "problem_type": "ongoing depression",
-    "d2": "Advisor"
+    "d2": "Navigator"
   },
   {
     "conv_idx": 404,
@@ -3704,7 +3704,7 @@
     "prev_seeker": "Health risks are primarily the pandemic. Covid-19 cases have gotten very high where I live and my family members are not very careful.",
     "emotion_type": "anxiety",
     "problem_type": "conflict with parents",
-    "d2": "Companion"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 639,
@@ -3748,7 +3748,7 @@
     "prev_seeker": "That's for sure but then friends need to decide who to invite \n",
     "emotion_type": "anger",
     "problem_type": "problems with friends",
-    "d2": "Reflective Partner"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 345,
@@ -3781,7 +3781,7 @@
     "prev_seeker": "If you are urgent, I do not want to delay you . Thanks, Bye.",
     "emotion_type": "anger",
     "problem_type": "problems with friends",
-    "d2": "Navigator"
+    "d2": "Listener"
   },
   {
     "conv_idx": 450,
@@ -3803,7 +3803,7 @@
     "prev_seeker": "That sounds like a good idea. Do you attend meetups?",
     "emotion_type": "sadness",
     "problem_type": "ongoing depression",
-    "d2": "Listener"
+    "d2": "Companion"
   },
   {
     "conv_idx": 110,
@@ -3814,7 +3814,7 @@
     "prev_seeker": "Hello.",
     "emotion_type": "depression",
     "problem_type": "job crisis",
-    "d2": "Companion"
+    "d2": "Listener"
   },
   {
     "conv_idx": 1084,
@@ -3836,7 +3836,7 @@
     "prev_seeker": "Thanks! It's reassuring to know other people felt the same way with this course. Sometimes I felt like I was dumb or lazy because I didn't understand, but it sounds like it's just challenging and those feelings are normal\n",
     "emotion_type": "anxiety",
     "problem_type": "academic pressure",
-    "d2": "Companion"
+    "d2": "Coach"
   },
   {
     "conv_idx": 1180,
@@ -3847,7 +3847,7 @@
     "prev_seeker": "I appreciate the support and need to hear positive words. Do you think I need to take a vacation or something?",
     "emotion_type": "sadness",
     "problem_type": "breakup with partner",
-    "d2": "Companion"
+    "d2": "Coach"
   },
   {
     "conv_idx": 938,
@@ -3858,7 +3858,7 @@
     "prev_seeker": "try\n",
     "emotion_type": "depression",
     "problem_type": "ongoing depression",
-    "d2": "Reflective Partner"
+    "d2": "Coach"
   },
   {
     "conv_idx": 19,
@@ -3891,7 +3891,7 @@
     "prev_seeker": "Do you think calling friends helps?",
     "emotion_type": "anxiety",
     "problem_type": "ongoing depression",
-    "d2": "Companion"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 618,
@@ -3902,7 +3902,7 @@
     "prev_seeker": "I have been keeping in touch with friends and family on social media. It is a lifeline but I would still really prefer to be back out there at work! ",
     "emotion_type": "fear",
     "problem_type": "job crisis",
-    "d2": "Navigator"
+    "d2": "Companion"
   },
   {
     "conv_idx": 136,
@@ -3946,7 +3946,7 @@
     "prev_seeker": "am struggling to make ends meet",
     "emotion_type": "depression",
     "problem_type": "ongoing depression",
-    "d2": "Reflective Partner"
+    "d2": "Coach"
   },
   {
     "conv_idx": 277,
@@ -3957,7 +3957,7 @@
     "prev_seeker": "took*\n",
     "emotion_type": "anger",
     "problem_type": "problems with friends",
-    "d2": "Companion"
+    "d2": "Listener"
   },
   {
     "conv_idx": 316,
@@ -3968,7 +3968,7 @@
     "prev_seeker": "No we just got married earlier this year.  We never even got around to putting our finances together.  So I'm good there.  Thank goodness\n",
     "emotion_type": "depression",
     "problem_type": "breakup with partner",
-    "d2": "Advisor"
+    "d2": "Reflective Partner"
   },
   {
     "conv_idx": 490,
@@ -3979,7 +3979,7 @@
     "prev_seeker": "Yeah, i'm kinda old for that - LOL!!!  My back would not hold up to that - and my salary wouldn't be comparable.\n",
     "emotion_type": "fear",
     "problem_type": "job crisis",
-    "d2": "Navigator"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 114,
@@ -4012,7 +4012,7 @@
     "prev_seeker": "the rents are too high in her city",
     "emotion_type": "sadness",
     "problem_type": "Issues with Children",
-    "d2": "Coach"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 1143,
@@ -4023,7 +4023,7 @@
     "prev_seeker": "So how I should do it?\n",
     "emotion_type": "fear",
     "problem_type": "job crisis",
-    "d2": "Reflective Partner"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 698,
@@ -4056,7 +4056,7 @@
     "prev_seeker": "I tried connecting with people via this app, sort of like a friend version of Tinder but no one responded back to me.\n",
     "emotion_type": "sadness",
     "problem_type": "problems with friends",
-    "d2": "Listener"
+    "d2": "Companion"
   },
   {
     "conv_idx": 203,
@@ -4089,7 +4089,7 @@
     "prev_seeker": "Oh yeah for sure. As much as I miss my friends I would never risk getting them or myself sick by visitng them\n",
     "emotion_type": "sadness",
     "problem_type": "problems with friends",
-    "d2": "Navigator"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 277,
@@ -4122,7 +4122,7 @@
     "prev_seeker": "I have known them for a long time so I want to make sure we stay friends.",
     "emotion_type": "sadness",
     "problem_type": "problems with friends",
-    "d2": "Reflective Partner"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 294,
@@ -4166,7 +4166,7 @@
     "prev_seeker": "I don't know why it's so hard for me to get over it",
     "emotion_type": "sadness",
     "problem_type": "problems with friends",
-    "d2": "Companion"
+    "d2": "Listener"
   },
   {
     "conv_idx": 82,
@@ -4177,7 +4177,7 @@
     "prev_seeker": "I was doing pretty good then there was this dog in the movie and I just broke down again.\n",
     "emotion_type": "sadness",
     "problem_type": "ongoing depression",
-    "d2": "Reflective Partner"
+    "d2": "Listener"
   },
   {
     "conv_idx": 388,
@@ -4199,7 +4199,7 @@
     "prev_seeker": "It is. And it happened so fast. He was really just fine in July.",
     "emotion_type": "sadness",
     "problem_type": "problems with friends",
-    "d2": "Reflective Partner"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 37,
@@ -4221,7 +4221,7 @@
     "prev_seeker": "Yeah that is good. That is everything that I'm hoping for. But it's not coming fast enough\n",
     "emotion_type": "depression",
     "problem_type": "breakup with partner",
-    "d2": "Reflective Partner"
+    "d2": "Companion"
   },
   {
     "conv_idx": 149,
@@ -4232,7 +4232,7 @@
     "prev_seeker": "probably it's true\n",
     "emotion_type": "sadness",
     "problem_type": "breakup with partner",
-    "d2": "Coach"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 923,
@@ -4243,7 +4243,7 @@
     "prev_seeker": "It is much easier to lean on other students when we are in a class. But with virtual, it is much more difficult. ",
     "emotion_type": "anxiety",
     "problem_type": "academic pressure",
-    "d2": "Reflective Partner"
+    "d2": "Listener"
   },
   {
     "conv_idx": 4,
@@ -4276,7 +4276,7 @@
     "prev_seeker": "Hi. I don't know... sort of down. Sort of empty... How about you?",
     "emotion_type": "sadness",
     "problem_type": "ongoing depression",
-    "d2": "Reflective Partner"
+    "d2": "Listener"
   },
   {
     "conv_idx": 165,
@@ -4287,7 +4287,7 @@
     "prev_seeker": "Maybe. I push myself a lot to the point where it is detrimental at times.",
     "emotion_type": "depression",
     "problem_type": "ongoing depression",
-    "d2": "Coach"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 973,
@@ -4298,7 +4298,7 @@
     "prev_seeker": "I didn't know that \n",
     "emotion_type": "sadness",
     "problem_type": "Sleep Problems",
-    "d2": "Companion"
+    "d2": "Advisor"
   },
   {
     "conv_idx": 274,
@@ -4331,7 +4331,7 @@
     "prev_seeker": "Yes I would\n",
     "emotion_type": "depression",
     "problem_type": "ongoing depression",
-    "d2": "Companion"
+    "d2": "Listener"
   },
   {
     "conv_idx": 272,
@@ -4342,7 +4342,7 @@
     "prev_seeker": "Watching tom and jerry with my kids",
     "emotion_type": "anxiety",
     "problem_type": "ongoing depression",
-    "d2": "Listener"
+    "d2": "Companion"
   },
   {
     "conv_idx": 665,
@@ -4353,7 +4353,7 @@
     "prev_seeker": "Yes, I think I going to get some bread pudding and drop it off over there too.  I can take enough precautions to make sure it is safe for them.",
     "emotion_type": "depression",
     "problem_type": "ongoing depression",
-    "d2": "Navigator"
+    "d2": "Companion"
   },
   {
     "conv_idx": 381,
@@ -4375,7 +4375,7 @@
     "prev_seeker": "yes. had my own dr stating i was injured but it didn't matter",
     "emotion_type": "depression",
     "problem_type": "job crisis",
-    "d2": "Reflective Partner"
+    "d2": "Navigator"
   },
   {
     "conv_idx": 1170,
@@ -4386,7 +4386,7 @@
     "prev_seeker": "They are all feeling stretched as well so they understand. I am trying to not talk about it too much with them, I don't want to be seen as the person who's always complaining!\n",
     "emotion_type": "anxiety",
     "problem_type": "job crisis",
-    "d2": "Companion"
+    "d2": "Reflective Partner"
   },
   {
     "conv_idx": 1185,
@@ -4397,6 +4397,6 @@
     "prev_seeker": "She's become brainwashed by the tabloid media...\n",
     "emotion_type": "fear",
     "problem_type": "ongoing depression",
-    "d2": "Navigator"
+    "d2": "Advisor"
   }
 ]

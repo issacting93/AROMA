@@ -51,7 +51,7 @@ DECISION RULES:
 - If the supporter drives toward an action plan or building competence, it is COACH.
 - If the supporter acts like a domain expert giving factual psychological/medical guidance, it is ADVISOR.
 
-Respond with ONLY a JSON array of objects, each with "index" (0-based position in the batch) and "d2" (one of: Listener, Reflective Partner, Coach, Advisor, Navigator, Companion). No other text, no markdown fences."""
+Respond with ONLY a JSON array of objects, each with "index" (0-based position in the batch) and "d2" (one of: Listener, Reflective Partner, Coach, Advisor, Navigator, Companion). You must use EXACTLY one of these 6 labels. Do NOT output a strategy name (e.g., Information, Restatement, Question). No other text, no markdown fences."""
 
 def classify_batch(batch, batch_num):
     turns_text = ""

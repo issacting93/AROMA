@@ -58,7 +58,7 @@ DECISION RULES:
 - Reframing or perspective-shifting classify as APPRAISAL, not INFORMATIONAL (they change interpretation, not provide facts)
 - Affirmation of abilities/strengths classify as ESTEEM. Affirmation of feelings/experiences classify as EMOTIONAL.
 
-Respond with ONLY a JSON array of objects, each with "index" (0-based position in the batch) and "d1" (one of: Emotional, Esteem, Informational, Network, Tangible, Appraisal). No other text, no markdown fences."""
+Respond with ONLY a JSON array of objects, each with "index" (0-based position in the batch) and "d1" (one of: Emotional, Esteem, Informational, Network, Tangible, Appraisal). You must use EXACTLY one of these 6 labels. Do NOT output a strategy name (e.g., Information, Restatement, Question). No other text, no markdown fences."""
 
 
 def classify_batch(batch, batch_num):
