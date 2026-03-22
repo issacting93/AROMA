@@ -205,10 +205,10 @@ The multi-task model achieved a weighted **F1-score of 0.51 (57% accuracy)** on 
 However, reflecting our PCA findings, the model achieved only **0.32 weighted F1-score on Care Role (D2)**. Confusion matrices showed high-entropy misclassification between non-directive roles like *Companion* and *Listener*. This result provides the formal mathematical proof for AROMA's core thesis: isolated semantic vectors are functionally blind to relational stance. Because Care Roles are defined by interactional persistence, they structurally demand longitudinal, sequence-level modeling rather than single-turn dense embeddings.
 
 ![Confusion Matrices D1 and D2](file:///Users/zac/Documents/Documents-it/AROMA/phase_5_computational_operationalization/cm_d1.png)
-*Figure 4: Multi-task Model Confusion Matrices. Left: Successful D1 separation. Right: The "D2 Collapse"—proving single-turn embeddings cannot resolve AROMA Care Roles.*
+*Figure 7: Multi-task Model Confusion Matrices. Left: Successful D1 separation. Right: The "D2 Collapse"—proving single-turn embeddings cannot resolve AROMA Care Roles.*
 
 ![Loss Curve](file:///Users/zac/Documents/Documents-it/AROMA/phase_5_computational_operationalization/multitask_loss.png)
-*Figure 5: Training Loss Curve showing the convergence of the three-headed neural architecture.*
+*Figure 8: Training Loss Curve showing the convergence of the three-headed neural architecture.*
 
 ---
 
