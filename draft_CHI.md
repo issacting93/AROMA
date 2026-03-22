@@ -145,7 +145,7 @@ We first ran a deterministic Heuristic rules-engine over the full 18,376-turn co
 This revealed a stark finding: ESConv operates almost entirely in a two-type world (Emotional and Informational). Four of Cutrona & Suhr's classic support types are structurally underserved. This empirical reality directly motivates why role-locking is dangerous: current training datasets barely expose AI to Network, Esteem, Appraisal, or Tangible support contexts. Consequently, mental health chatbots trained on generic dialog corpuses have no generative fluency to fall back on when a user's needs shift toward those areas, leaving the AI trapped in its default behavior.
 
 ![Support Type (D1) Distribution](file:///Users/zac/.gemini/antigravity/brain/aea16e0e-5f9e-40b4-a437-c148b980ec37/d1_heuristic_distribution.webp)
-*Figure 1: The "Two-Type World" - showing the heavy skew toward Emotional and Informational Support in the ESConv corpus.*
+*Figure 2: The "Two-Type World" - showing the heavy skew toward Emotional and Informational Support in the ESConv corpus.*
 
 ### 5.2 Annotator Baselines: Heuristic vs. LLM
 We then used two independent annotators to establish ground-truth labels across a stratified sample of 400 sequences (padded with 5 turns of conversational history context):
@@ -163,7 +163,7 @@ The results establish a profound structural hierarchy within the taxonomy. D1 (S
 This confirms our core theoretical claim: Care Role (D2) cannot be detected from single-turn semantics. A *Reflective Partner* and a *Companion* utilize identical linguistic structures, but differ entirely based on their historical sequential context. Because the PCA explained variance remained strictly low (13.3%), this empirically mandates the necessity of a supervised, context-aware downstream neural classifier (rather than unsupervised clustering) to successfully detect safe role boundaries.
 
 ![PCA Clusters of D1 and D2](file:///Users/zac/Documents/Documents-it/AROMA/phase_5_computational_operationalization/embedding_d1_pca.png)
-*Figure 2: Principal Component Analysis (PCA) of 385 sequences. Left: D1 (Support Type) shows soft semantic clustering. Right: D2 (Care Role) shows heavy intermixing, proving that relational stance is invisible to unsupervised semantic vectors.*
+*Figure 3: Principal Component Analysis (PCA) of 385 sequences. Left: D1 (Support Type) shows soft semantic clustering. Right: D2 (Care Role) shows heavy intermixing, proving that relational stance is invisible to unsupervised semantic vectors.*
 
 ### 5.4 Actual D2 Distribution Findings
 Actual runs of the LLM pipeline consistently classified Care Roles as heavily skewed toward **Reflective Partner** (30.5%) and **Companion** (25.3%), accurately reflecting ESConv's peer-support, non-clinical environment. Directive roles like Advisor (10.2%) were rare.
@@ -196,10 +196,10 @@ The multi-task model achieved a weighted **F1-score of 0.51 (57% accuracy)** on 
 However, reflecting our PCA findings, the model achieved only **0.32 weighted F1-score on Care Role (D2)**. Confusion matrices showed high-entropy misclassification between non-directive roles like *Companion* and *Listener*. This result provides the formal mathematical proof for AROMA's core thesis: isolated semantic vectors are functionally blind to relational stance. Because Care Roles are defined by interactional persistence, they structurally demand longitudinal, sequence-level modeling rather than single-turn dense embeddings.
 
 ![Confusion Matrices D1 and D2](file:///Users/zac/Documents/Documents-it/AROMA/phase_5_computational_operationalization/cm_d1.png)
-*Figure 3: Multi-task Model Confusion Matrices. Left: Successful D1 separation. Right: The "D2 Collapse"—proving single-turn embeddings cannot resolve AROMA Care Roles.*
+*Figure 4: Multi-task Model Confusion Matrices. Left: Successful D1 separation. Right: The "D2 Collapse"—proving single-turn embeddings cannot resolve AROMA Care Roles.*
 
 ![Loss Curve](file:///Users/zac/Documents/Documents-it/AROMA/phase_5_computational_operationalization/multitask_loss.png)
-*Figure 4: Training Loss Curve showing the convergence of the three-headed neural architecture.*
+*Figure 5: Training Loss Curve showing the convergence of the three-headed neural architecture.*
 
 ---
 
