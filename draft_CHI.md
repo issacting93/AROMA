@@ -60,21 +60,51 @@ No existing framework meets all three design requirements. None actively separat
 
 AROMA organizes AI caregiving along three orthogonal dimensions:
 
-**D1 — Support Type:** The category of need being addressed (Emotional, Informational, Esteem, Network, Tangible, Appraisal).
-**D2 — Care Role:** The stable relational stance the AI adopts across a 3–5 turn sequence. Roles dictate which boundaries and support types are appropriate.
+**D1 — Support Type:** The category of need being addressed. We follow the Social Support Behavior Code (SSBC) expanded for AI contexts.
+| Support Type | Subcategory | Definition | Purpose |
+|---|---|---|---|
+| **Informational** | Advice / Suggestion | Recommends a course of action | Help solve a problem |
+| | Referral | Directs to external help | Connect to resources |
+| | Teaching | Provides factual instructions | Increase knowledge |
+| **Esteem** | Compliment | Praises abilities or qualities | Reinforce self-worth |
+| | Relief of Blame | Removes or reduces guilt | Reduce self-blame |
+| **Network** | Access | Connects recipient with others | Expand social network |
+| | Presence | Signals availability | Reduce isolation |
+| | Companionship | Reminds of similar others | Reinforce belonging |
+| **Emotional** | Validation | Affirms perspective as legitimate | Normalize feelings |
+| | Sympathy | Expresses sorrow or concern | Acknowledge distress |
+| | Empathy | Demonstrates shared understanding | Create resonance |
+| | Encouragement | Provides hope or reassurance | Build resilience |
+| **Appraisal** | Situation Appraisal | Reframes the situation | Reduce uncertainty |
+| | Meaning-making | Helps find purpose in struggle | Cognitive reappraisal |
+| **Tangible** | Concrete Assistance | Offers practical help | Direct task execution |
+| | Urgent Intervention | Executes immediate crisis action | Prevent harm |
+
+**D2 — Care Role:** The stable relational stance the AI adopts across a 3–5 turn sequence. Roles dictate which boundaries and support types are appropriate. (See Table 2 in Section 3.1).
+
 **D3 — Support Strategy:** The concrete conversational tactic used in a single utterance (e.g., Restatement, Self-disclosure).
+| Strategy | Definition |
+|---|---|
+| **Question** | Asking for information to help the user articulate their situation |
+| **Restatement** | Concise rephrasing to help the user see their situation more clearly |
+| **Reflection** | Articulating the user's feelings to show understanding and empathy |
+| **Self-disclosure** | Sharing similar experiences or emotions to express empathy |
+| **Affirmation** | Affirming strengths and capabilities to provide encouragement |
+| **Suggestions** | Offering concrete suggestions for how to change the situation |
+| **Information** | Providing factual knowledge or psychoeducation |
+| **Others** | Greetings, transitions, or uncaptured statements |
 
 ### 3.1 The Six Care Roles and Falsifiability Constraints
 We identified six distinct care roles from our literature synthesis. Each role had to appear in at least three independent papers and produce distinct behaviors.
 
-| Role | Stance | Primary D1 | Primary Function | Paradox Level | Invited Human Role |
-|---|---|---|---|---|---|
-| **Listener** | Receptive, non-directive | Emotional | Validation | Low | Witness-seeker |
-| **Reflective Partner** | Curious, exploratory | Appraisal | Insight generation | Low | Client, Explorer |
-| **Coach** | Directive, forward-looking | Esteem | Self-efficacy building | Moderate | Self-manager, Goal-seeker |
-| **Advisor** | Authoritative, informational | Informational | Decision support | **High** | Patient, Student |
-| **Companion** | Warm, co-present | Emotional | Sustained presence | Low | Peer-seeker |
-| **Navigator** | Practical, resource-oriented | Network, Tangible | Resource connection | **High** | Advocate-seeker |
+| Role | Description | Literature Derivation | Unique & Identifiable Traits |
+|---|---|---|---|
+| **Listener** | Receptive, following role focused on emotional validation without steering or evaluation. | Rogers (1957); Chin (2025) | Markers: High count of paraphrasing and minimal encouragers. Follows user lead entirely. |
+| **Reflective Partner** | Socratic, exploratory role facilitating the user's discovery of internal insights/reframing. | Mead (1934); Karve (2025) | Markers: Socratic questioning + cognitive reappraisal prompts. Move: "Summarize and Invite Correction." |
+| **Coach** | Directive, motivating role focused on self-efficacy and action toward user-defined goals. | Bandura (1997); Vaidyam (2019) | Markers: Goal-setting + Change-talk elicitation. Returns to accountability over multiple sessions. |
+| **Advisor** | Authoritative, expertise-led role providing psychoeducation and structured clinical guidance. | Parsons (1951); Kaur (2026) | Markers: Psychoeducation delivery + direct advice. Move: Epistemic Humility statements. |
+| **Navigator** | Practical guide focused on bridge-building to external systems and crisis resources. | Cutrona & Russell (1990); Gabriel (2024) | Markers: Resource listing + Triage questions. Move: The "Warm Handoff". |
+| **Companion** | Persistent, warm presence focused on reducing isolation through relational bonding. | Savic (2024); Babu (2025) | Markers: Shared References ("Last time...") + Reciprocal disclosure. Stance is on the Bond. |
 
 *(Note: The empirical boundary between the Listener and Reflective Partner roles is particularly nuanced. Operationally, a Listener relies almost entirely on passive emotional validation, whereas a Reflective Partner crosses the boundary by leveraging Socratic questioning and targeted cognitive reappraisal to actively shift the user's perspective.)*
 
