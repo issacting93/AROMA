@@ -27,7 +27,7 @@ graph TD
 ```
 *Figure 1: The Authority-Agency Paradox - showing the structural disconnect between projected authority and institutional agency.*
 
-This separation allows designers to detect when a role transition is needed and safely calibrate the AI's stance. For example, when a user shifts from venting (Emotional support) to asking for options (Informational support), an AROMA-aware system can explicitly transition from a *Listener* to an *Advisor*, adjusting its epistemic framing to ensure it doesn't overstep its agency.
+	This separation allows designers to detect when a role transition is needed and safely calibrate the AI's stance. For example, when a user shifts from venting (Emotional support) to asking for options (Informational support), an AROMA-aware system can explicitly transition from a *Listener* to an *Advisor*, adjusting its epistemic framing to ensure it doesn't overstep its agency.
 
 This paper makes three primary contributions:
 1. **C1: The Authority-Agency Paradox** — A theoretical framework for predicting AI care failures.
@@ -144,8 +144,8 @@ We first ran a deterministic Heuristic rules-engine over the full 18,376-turn co
 
 This revealed a stark finding: ESConv operates almost entirely in a two-type world (Emotional and Informational). Four of Cutrona & Suhr's classic support types are structurally underserved. This empirical reality directly motivates why role-locking is dangerous: current training datasets barely expose AI to Network, Esteem, Appraisal, or Tangible support contexts. Consequently, mental health chatbots trained on generic dialog corpuses have no generative fluency to fall back on when a user's needs shift toward those areas, leaving the AI trapped in its default behavior.
 
-![Support Type (D1) Distribution](file:///Users/zac/.gemini/antigravity/brain/aea16e0e-5f9e-40b4-a437-c148b980ec37/d1_heuristic_distribution.webp)
-*Figure 2: The "Two-Type World" - showing the heavy skew toward Emotional and Informational Support in the ESConv corpus.*
+![Support Type (D1) LLM Distribution](file:///Users/zac/Documents/Documents-it/AROMA/phase_5_computational_operationalization/figures/d1_llm_distribution.png)
+*Figure 2: LLM-Adjudicated Support Type (D1) Distribution - proving the overwhelming skew toward Emotional and Informational Support in the ESConv corpus.*
 
 ### 5.2 Annotator Baselines: Heuristic vs. LLM
 We then used two independent annotators to establish ground-truth labels across a stratified sample of 400 sequences (padded with 5 turns of conversational history context):
@@ -177,12 +177,21 @@ Actual runs of the LLM pipeline consistently classified Care Roles as heavily sk
 | Coach | 36 | 8.9% |
 | Navigator | 6 | 1.5% |
 
+![D2 LLM Distribution and D1xD2 Heatmap](file:///Users/zac/Documents/Documents-it/AROMA/phase_5_computational_operationalization/figures/d2_llm_distribution.webp)
+*Figure 4: Left: Distribution of Care Roles (D2), showing the dominance of non-clinical peer roles. Right: D1xout_d1 Heatmap (see Figure 5).*
+
+![D1xD2 LLM Heatmap](file:///Users/zac/Documents/Documents-it/AROMA/phase_5_computational_operationalization/figures/d1_d2_llm_heatmap.webp)
+*Figure 5: LLM-Adjudicated D1 (Support Type) x D2 (Care Role) Heatmap - demonstrating the empirical overlap between Emotional Support and the 'Companion' role, and the isolation of Informational Support within the 'Advisor' role.*
+
 Cross-referencing D1 with D2 affirmed our theoretical predictions: Emotional Support clustered under Reflective Partner and Companion, while Informational Support remained the primary domain of the Advisor.
 
 ### 5.5 Inter-Rater Reliability: Model Capability Impacts Role Detection
 To validate the robustness of the LLM pipeline, we ran a three-way comparative baseline interpreting the exact same 400 ESConv sequences using three sequentially larger models: Claude 3 Haiku, Claude Sonnet 4.6, and Claude Opus 4.6. 
 
 The distributional shift between models empirically validates the hidden danger of the Authority-Agency paradox. While Haiku skewed heavily toward the Socratic *Reflective Partner* (122 sequences), Sonnet 4.6 explicitly preferred non-directive warmth and shifted into the *Companion* role (137). However, the massive Opus 4.6 model radically reshuffled the data—notably doubling the detection of the highly-authoritative **Advisor** role from 41 (Haiku) to 84 sequences. This proves that higher-capability models detect significantly more implicit clinical authority embedded within these conversational datasets. Without AROMA's taxonomy actively managing relational stance, a system could unknowingly role-lock into a dangerous Advice-giving stance simply by upgrading its underlying language model.
+
+![LLM Model Capability Comparison](file:///Users/zac/Documents/Documents-it/AROMA/phase_5_computational_operationalization/figures/d2_model_comparison.webp)
+*Figure 6: Comparative Role Detection across Claude 3 Models - showing the 'Authority-Detection Gap' where only high-frontier models like Opus successfully identify clinical authority in peer-support data.*
 
 ---
 
