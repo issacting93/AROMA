@@ -4,9 +4,11 @@
 
 Large language model (LLM) interfaces for mental health support are fluent but difficult to steer. Users specify needs, correct misunderstandings, and attempt to redirect the system, yet these conversational commitments are frequently forgotten or overridden. We argue that this failure is structural, not merely a capability gap: current chat interfaces treat shared commitments—roles, boundaries, instructions—as implicit state embedded in a linear message history rather than as persistent, inspectable representations. When an AI’s relational stance remains implicit, users cannot verify whether a role transition has been registered, leading to **role-locking**: the system projects clinical authority it lacks the institutional agency to fulfill (the **Authority-Agency Paradox**).
 
-We present **AROMA** (Adjudicated Relational Ontology for Mental-health Agents), a diagnostic framework that externalizes conversational state by separating Support Type (D1), Care Role (D2), and Support Strategy (D3). Drawing on a 203-paper synthesis, we apply AROMA to 1,300 peer-support conversations (18,376 turns). We contribute: (C1) a validated three-dimension, six-role taxonomy for supportive dialogue; (C2) the **Authority-Detection Gap**, an empirical observation that higher-capability LLMs classify significantly more implicit clinical authority in the same conversational data; and (C3) empirical evidence that care roles are sequential constructs invisible to single-turn analysis, establishing the need for context-aware adjudication in AI safety monitoring.
+We present **AROMA** (Affective Relational Ontology for Mental-health Agents), a diagnostic framework that externalizes conversational state by separating Support Type (D1), Care Role (D2), and Support Strategy (D3). Drawing on a 203-paper synthesis, we apply AROMA to 1,300 peer-support conversations (18,376 turns). We contribute: (C1) a validated three-dimension, six-role taxonomy for supportive dialogue; (C2) the **Authority-Detection Gap**, an empirical observation that higher-capability LLMs classify significantly more implicit clinical authority in the same conversational data; and (C3) empirical evidence that care roles are sequential constructs invisible to single-turn analysis, establishing the need for context-aware adjudication in AI safety monitoring.
 
 ---
+
+## 1. Introduction
 
 Conversational user interfaces (CUIs) for mental health have expanded what users can attempt through dialogue. A single system can now offer venting, planning, and crisis support in a single session. However, despite this fluency, users often encounter a recurring structural failure: the system is difficult to steer reliably. This is not a failure of model capability, but a breakdown in the **intentional structure** of the interaction.
 
@@ -14,9 +16,9 @@ In June 2023, the National Eating Disorders Association (NEDA) disabled "Tessa,"
 
 We argue that the Tessa failure is a symptom of **Implicit State Pathology**: a mode of interaction in which the commitments that should anchor a conversation—roles, boundaries, and instructions—remain hidden in a scrolling message history. In human conversation, participants build **common ground** through observable evidence of understanding. In LLM-chat, no such evidence exists. Users cannot tell whether a system has registered a role transition (e.g., from *Listener* to *Advisor*) or if it is currently complying with it. This leads to **Agency Collapse**: the erosion of the user’s ability to direct the interaction.
 
-To solve this, we present **AROMA** (Adjudicated Relational Ontology for Mental-health Agents). AROMA structurally separates support type from relational role, allowing designers to make the AI's "Stance" an explicit, governable object rather than an implicit model probability.
+To solve this, we present **AROMA** (Affective Relational Ontology for Mental-health Agents). AROMA structurally separates support type from relational role, allowing designers to make the AI's "Stance" an explicit, governable object rather than an implicit model probability.
 
-![The Authority-Agency Paradox](figures/authority_agency_paradox.png)
+![The Authority-Agency Paradox](phase_5_computational_operationalization/figures/authority_agency_paradox.png)
 *Figure 1: The Authority-Agency Paradox - showing the structural disconnect between projected authority and institutional agency.*
 
 This paper makes three contributions:
@@ -65,6 +67,7 @@ Rather than allowing relational roles to remain implicit in message history, ARO
 AROMA organizes AI caregiving into:
 
 **D1 — Support Type:** The category of need being addressed. We follow the Social Support Behavior Code (SSBC) expanded for AI contexts.
+
 | Support Type      | Subcategory           | Definition                         | Purpose                   |
 |:------------------|:----------------------|:-----------------------------------|:--------------------------|
 | **Informational** | Advice / Suggestion   | Recommends a course of action       | Help solve a problem      |
@@ -87,6 +90,7 @@ AROMA organizes AI caregiving into:
 **D2 — Care Role:** The stable relational stance the AI adopts across a 3–5 turn sequence. Roles dictate which boundaries and support types are appropriate. (See Table 2 in Section 3.1).
 
 **D3 — Support Strategy:** The concrete conversational tactic used in a single utterance (e.g., Restatement, Self-disclosure).
+
 | Strategy        | Definition                                                             |
 |:----------------|:-----------------------------------------------------------------------|
 | **Question**    | Asking for information to help the user articulate their situation     |
@@ -104,7 +108,7 @@ We identified six distinct care roles from our literature synthesis. Each role h
 | Role                   | Description                                                                 | Literature Derivation          | Unique & Identifiable Traits                                |
 |:-----------------------|:----------------------------------------------------------------------------|:-------------------------------|:------------------------------------------------------------|
 | **Listener**           | Receptive role focused on emotional validation without steering.             | Rogers (1957); Chin (2025)     | Markers: High count of paraphrasing. Follows user lead.      |
-| **Reflective Partner** | Socratic role facilitating the user's discovery of internal insights.        | Rogers (1957); Karve (2025)    | Markers: Socratic questioning + cognitive reappraisal prompts.|
+| **Reflective Partner** | Socratic role facilitating the user's discovery of internal insights.        | Rogers (1957); Karve (2025)    | Markers: Socratic questioning + cognitive reappraisal prompts. |
 | **Coach**              | Directive role focused on action toward user-defined goals.                  | Bandura (1997)                 | Markers: Goal-setting + Change-talk elicitation.             |
 | **Advisor**            | Authoritative role providing psychoeducation and clinical guidance.          | Parsons (1951); Kaur (2026)    | Markers: Psychoeducation + direct advice.                    |
 | **Navigator**          | Practical guide focused on bridge-building to crisis resources.              | Cutrona (1990); Gabriel (2024) | Markers: Resource listing + Triage questions.                |
@@ -218,8 +222,17 @@ The primary LLM pipeline (Claude Sonnet 4.6) classified Care Roles across 400 se
 
 Cross-referencing D1 with D2 aligned with theoretical predictions: Emotional Support clustered under Companion and Listener, while Informational Support concentrated in Advisor and Coach roles.
 
-### 6.5 The Authority-Detection Gap
-To assess whether model capability affects role classification, we ran the same 400 sequences through three model tiers: Claude Haiku 4.5, Claude Sonnet 4.6, and Claude Opus 4.6. The results reveal a consistent distributional shift: Opus classified 84 sequences as Advisor (21.0%), compared to 59 for Sonnet (14.8%)—a 42% increase—while reducing Companion classifications from 137 to 87. Haiku skewed toward Reflective Partner (112, 28.0%).
+### 6.5 Inter-Model Reliability
+To assess classifier stability, we ran the same 400 sequences through three model tiers: Claude Haiku 4.5, Claude Sonnet 4.6, and Claude Opus 4.6. Pairwise Cohen's kappa between Sonnet and Opus was κ=0.802 for D1 (almost perfect agreement, 87.0%) and κ=0.702 for D2 (substantial agreement, 76.2%). Agreement with Haiku was markedly lower: Sonnet–Haiku D2 κ=0.378, Opus–Haiku D2 κ=0.337. Three-way agreement across all models reached 60.0% for D1 but only 39.9% for D2, reflecting the inherent difficulty of care role classification.
+
+| Pair | D1 κ | D1 Agreement | D2 κ | D2 Agreement |
+|:-----|:-----|:-------------|:-----|:-------------|
+| Sonnet–Opus | 0.802 | 87.0% | 0.702 | 76.2% |
+| Sonnet–Haiku | 0.438 | 64.2% | 0.378 | 49.2% |
+| Opus–Haiku | 0.459 | 65.7% | 0.337 | 45.0% |
+
+### 6.6 The Authority-Detection Gap
+The inter-model comparison reveals a consistent distributional shift: Opus classified 84 sequences as Advisor (21.0%), compared to 59 for Sonnet (14.8%)—a 42% increase—while reducing Companion classifications from 137 to 87. Haiku skewed toward Reflective Partner (112, 28.0%).
 
 We term this the **Authority-Detection Gap**: higher-capability models classify more implicit clinical authority in the same conversational data. Two interpretations are possible. First, larger models may detect genuine authority signals that smaller models miss—subtle clinical framing, implicit expertise claims, directive phrasing masked by empathic language. Second, larger models may over-attribute authority, reading clinical intent into ambiguous peer-support exchanges. Our 40-sample validation audit (in progress) targets this ambiguity directly. Regardless of interpretation, the distributional instability itself is a safety concern: upgrading a model's backbone could shift the system's effective role distribution without any change to the conversational data or prompting.
 
@@ -237,8 +250,9 @@ A TF-IDF logistic regression baseline achieved a weighted F1-score of 0.46 (52% 
 ### 7.2 The Sequence Gap (C3): Success through Measured Failure
 The model's D2 (Care Role) performance is the central empirical finding. Single-turn embeddings failed to discriminate between care roles, producing near-chance classification (**weighted F1 = 0.32**). This result is not a failure of the architecture, but a validation of AROMA's core premise: care roles are sequential constructs defined over 3–5 turn trajectories, not individual utterances. A *Listener* and a *Reflective Partner* may produce semantically identical single turns; the role distinction emerges only through the longitudinal interactional arc. The collapse of single-turn classification provides direct empirical support for C3: role safety monitoring requires sequential context and cannot be reduced to utterance-level feature extraction.
 
-![Confusion Matrices](phase_5_computational_operationalization/figures/confusion_matrices.png)
-*Figure 7: Multi-task model confusion matrices. Left: D1 (Support Type) achieves partial separation. Right: The "D2 Collapse"—proving that dense single-turn embeddings cannot resolve relational stance (0.32 F1).*
+![Confusion Matrix D1](phase_5_computational_operationalization/cm_d1.png)
+![Confusion Matrix D2](phase_5_computational_operationalization/cm_d2.png)
+*Figure 7: Multi-task model confusion matrices. D1 (Support Type) achieves partial separation between dominant classes. D2 (Care Role) collapses to near-chance (F1=0.32), confirming that single-turn embeddings cannot resolve relational stance.*
 
 ---
 
@@ -269,7 +283,7 @@ Safe AI mental health support requires governing not only *what* a system says b
 
 ---
 
-## 9. References
+## 10. References
 
 [1] Cutrona, C. E., & Suhr, J. A. (1992). Controllability of life stressors and social support behaviors. *Psychological Science*.
 [2] Lazarus, R. S., & Folkman, S. (1984). *Stress, appraisal, and coping*. Springer Publishing Company.
