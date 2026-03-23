@@ -232,24 +232,23 @@ The model's poor performance on Care Role (D2) is actually our most important fi
 ## 7. Discussion and Design Implications
 
 ### 7.1 Breaking the Role-Lock
-AROMA provides an operational path out of role-locking. By detecting "Advisor" stances in training data or live inference, designers can implement safety gates—explicitly forcing the AI back into a "Reflective Partner" stance when it lacks the agency to back up its authority.
+AROMA gives designers a way to stop "role-locking." By identifying when an AI starts acting like an authoritative **Advisor**, designers can setup safety rules. This forces the AI back into a safer, more supportive role when it doesn't have the professional power to back up its advice.
 
 ### 7.2 The Obligation Gap in LLMs
-Our finding that Opus 4.6 detects double the authoritative roles of Haiku suggests a dangerous "competence creep." As models become more capable, they implicitly assume more authority, even without explicit prompting. AROMA allows us to measure and mitigate this creep.
+Our finding that the most powerful AI models (like Opus) detect twice as much hidden authority as smaller models is a warning. As AI gets smarter, it naturally starts to act with more "unearned" authority. AROMA allows us to measure this risk and keep AI behavior in check.
 
 ---
 
 ## 8. Limitations and Conclusion
 
 ### 8.1 Limitations
-Several structural and empirical limitations scope the framework:
-1. **Corpus Scope:** The synthesis is restricted to English-language literature published between 2015–2025.
-2. **ESConv Coverage Skew:** The dataset models non-clinical peer support, limiting representation of high-paradox roles (Navigator, Advisor).
-3. **User Validation:** We have not yet conducted a user study to verify if humans perceive these six roles naturally in situ.
-4. **Audit Sample Size:** While the precision audit yielded 100% agreement, the sample (n=80) was restricted to 20% of the filtered gold set, potentially overlooking rarer edge cases of role-locking.
+1. **Narrow Scope:** We only looked at English-language papers from the last decade.
+2. **Data Bias:** Our data focused on peer support (people helping each other), so we didn't see an even mix of all six roles.
+3. **Missing Human Testing:** We haven't yet asked real people if they notice these roles when talking to an AI.
+4. **Small Audit:** While our 100% accuracy score is great, we only audited 80 samples. A larger check might find rare mistakes.
 
 ### 8.2 Conclusion
-Designing for human-AI care requires moving beyond support type classification toward a dedicated science of relational stance. By separating Support Type (D1), Care Role (D2), and Strategy (D3), AROMA provides a structural response to the Authority-Agency Paradox. Our computational validation proves that while LLMs can guess at support types, the relational identity of a system exists in the interactional sequence—demanding a new class of context-aware, multidimensional design.
+Building safe AI for mental health means looking beyond *what* a chatbot says and focusing on *who* it is acting as. By separating support types from care roles, AROMA helps solve the "Authority-Agency Paradox." Our results show that while AI can guess at what a user needs, its relationship with that user is built turn-by-turn. We need this "big picture" view to build AI that is both helpful and safe.
 
 ---
 
