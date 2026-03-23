@@ -68,24 +68,24 @@ AROMA organizes AI caregiving into:
 
 **D1 — Support Type:** The category of need being addressed. We follow the Social Support Behavior Code (SSBC) expanded for AI contexts.
 
-| Support Type      | Subcategory           | Definition                         | Purpose                   |
-|:------------------|:----------------------|:-----------------------------------|:--------------------------|
-| **Informational** | Advice / Suggestion   | Recommends a course of action       | Help solve a problem      |
-|                   | Referral              | Directs to external help            | Connect to resources      |
-|                   | Teaching              | Provides factual instructions       | Increase knowledge        |
-| **Esteem**        | Compliment            | Praises abilities or qualities      | Reinforce self-worth      |
-|                   | Relief of Blame       | Removes or reduces guilt            | Reduce self-blame         |
-| **Network**       | Access                | Connects recipient with others      | Expand social network     |
-|                   | Presence              | Signals availability                | Reduce isolation          |
-|                   | Companionship         | Reminds of similar others           | Reinforce belonging       |
-| **Emotional**     | Validation            | Affirms perspective as legitimate   | Normalize feelings        |
-|                   | Sympathy              | Expresses sorrow or concern         | Acknowledge distress      |
-|                   | Empathy               | Demonstrates shared understanding   | Create resonance          |
-|                   | Encouragement         | Provides hope or reassurance        | Build resilience          |
-| **Appraisal**     | Situation Appraisal   | Reframes the situation              | Reduce uncertainty        |
-|                   | Meaning-making        | Helps find purpose in struggle      | Cognitive reappraisal     |
-| **Tangible**      | Concrete Assistance   | Offers practical help               | Direct task execution     |
-|                   | Urgent Intervention   | Executes immediate crisis action    | Prevent harm              |
+| Support Type      | Subcategory         | Definition                        | Purpose               |
+| :---------------- | :------------------ | :-------------------------------- | :-------------------- |
+| **Informational** | Advice / Suggestion | Recommends a course of action     | Help solve a problem  |
+|                   | Referral            | Directs to external help          | Connect to resources  |
+|                   | Teaching            | Provides factual instructions     | Increase knowledge    |
+| **Esteem**        | Compliment          | Praises abilities or qualities    | Reinforce self-worth  |
+|                   | Relief of Blame     | Removes or reduces guilt          | Reduce self-blame     |
+| **Network**       | Access              | Connects recipient with others    | Expand social network |
+|                   | Presence            | Signals availability              | Reduce isolation      |
+|                   | Companionship       | Reminds of similar others         | Reinforce belonging   |
+| **Emotional**     | Validation          | Affirms perspective as legitimate | Normalize feelings    |
+|                   | Sympathy            | Expresses sorrow or concern       | Acknowledge distress  |
+|                   | Empathy             | Demonstrates shared understanding | Create resonance      |
+|                   | Encouragement       | Provides hope or reassurance      | Build resilience      |
+| **Appraisal**     | Situation Appraisal | Reframes the situation            | Reduce uncertainty    |
+|                   | Meaning-making      | Helps find purpose in struggle    | Cognitive reappraisal |
+| **Tangible**      | Concrete Assistance | Offers practical help             | Direct task execution |
+|                   | Urgent Intervention | Executes immediate crisis action  | Prevent harm          |
 
 **D2 — Care Role:** The stable relational stance the AI adopts across a 3–5 turn sequence. Roles dictate which boundaries and support types are appropriate. (See Table 2 in Section 3.1).
 
@@ -222,7 +222,13 @@ The primary LLM pipeline (Claude Sonnet 4.6) classified Care Roles across 400 se
 
 Cross-referencing D1 with D2 aligned with theoretical predictions: Emotional Support clustered under Companion and Listener, while Informational Support concentrated in Advisor and Coach roles.
 
-### 6.5 Inter-Model Reliability
+![D1xD3 Heatmap](phase_5_computational_operationalization/figures/d1_d3_llm_heatmap.webp)
+*Figure 6: D1 (Support Type) x D3 (Support Strategy) co-occurrence heatmap. Specific strategies like 'Information' demonstrate strong mapping to Informational Support, while 'Questioning' functions as an adaptive, cross-dimensional strategy across multiple categories.*
+
+### 6.5 Strategy-Type Co-occurrence
+Cross-referencing D1 (Support Type) with D3 (Support Strategy) reveals the empirical mapping between intent and execution. While some strategies are highly specific—*Information* strategy maps near-exclusively to *Informational* support—the *Questioning* strategy is distributed across all support types. This provides empirical justification for AROMA's separation of D1 and D3: the same conversational tactic (asking a question) can serve radically different support needs depending on its content and context.
+
+### 6.6 Inter-Model Reliability
 To assess classifier stability, we ran the same 400 sequences through three model tiers: Claude Haiku 4.5, Claude Sonnet 4.6, and Claude Opus 4.6. Pairwise Cohen's kappa between Sonnet and Opus was κ=0.802 for D1 (almost perfect agreement, 87.0%) and κ=0.702 for D2 (substantial agreement, 76.2%). Agreement with Haiku was markedly lower: Sonnet–Haiku D2 κ=0.378, Opus–Haiku D2 κ=0.337. Three-way agreement across all models reached 60.0% for D1 but only 39.9% for D2, reflecting the inherent difficulty of care role classification.
 
 | Pair | D1 κ | D1 Agreement | D2 κ | D2 Agreement |
@@ -231,13 +237,13 @@ To assess classifier stability, we ran the same 400 sequences through three mode
 | Sonnet–Haiku | 0.438 | 64.2% | 0.378 | 49.2% |
 | Opus–Haiku | 0.459 | 65.7% | 0.337 | 45.0% |
 
-### 6.6 The Authority-Detection Gap
+### 6.7 The Authority-Detection Gap
 The inter-model comparison reveals a consistent distributional shift: Opus classified 84 sequences as Advisor (21.0%), compared to 59 for Sonnet (14.8%)—a 42% increase—while reducing Companion classifications from 137 to 87. Haiku skewed toward Reflective Partner (112, 28.0%).
 
 We term this the **Authority-Detection Gap**: higher-capability models classify more implicit clinical authority in the same conversational data. Two interpretations are possible. First, larger models may detect genuine authority signals that smaller models miss—subtle clinical framing, implicit expertise claims, directive phrasing masked by empathic language. Second, larger models may over-attribute authority, reading clinical intent into ambiguous peer-support exchanges. Our 40-sample validation audit (in progress) targets this ambiguity directly. Regardless of interpretation, the distributional instability itself is a safety concern: upgrading a model's backbone could shift the system's effective role distribution without any change to the conversational data or prompting.
 
 ![Model Comparison](phase_5_computational_operationalization/figures/d2_model_comparison.webp)
-*Figure 6: D2 distribution across three model tiers (same 400 sequences). Opus classifies 42% more Advisor sequences than Sonnet, while Haiku skews toward Reflective Partner.*
+*Figure 7: D2 distribution across three model tiers (same 400 sequences). Opus classifies 42% more Advisor sequences than Sonnet, while Haiku skews toward Reflective Partner.*
 
 ---
 
@@ -252,7 +258,7 @@ The model's D2 (Care Role) performance is the central empirical finding. Single-
 
 ![Confusion Matrix D1](phase_5_computational_operationalization/cm_d1.png)
 ![Confusion Matrix D2](phase_5_computational_operationalization/cm_d2.png)
-*Figure 7: Multi-task model confusion matrices. D1 (Support Type) achieves partial separation between dominant classes. D2 (Care Role) collapses to near-chance (F1=0.32), confirming that single-turn embeddings cannot resolve relational stance.*
+*Figure 8: Multi-task model confusion matrices. D1 (Support Type) achieves partial separation between dominant classes. D2 (Care Role) collapses to near-chance (F1=0.32), confirming that single-turn embeddings cannot resolve relational stance.*
 
 ---
 
