@@ -2,7 +2,7 @@
 
 ## Abstract
 
-AI mental health systems often confuse *what* support they provide with *who* they are being. By merging support type, care role, and strategy into a single label, designers create **role-locked** agents—systems trapped in one relational stance regardless of the user's changing needs. This failure is most acute when models project unearned clinical authority without institutional agency (the **Authority-Agency Paradox**). We present AROMA, a three-dimensional taxonomy separating Support Type (D1), Care Role (D2), and Support Strategy (D3). Grounded in a 203-paper literature synthesis, AROMA offers two primary contributions: (C1) A validated three-dimension, six-role ontology for supportive dialogue; and (C2) The discovery of the **Authority-Detection Gap**, revealing that as language models scale in capability, they project significantly more implicit clinical authority that simpler heuristic-based systems cannot detect. We demonstrate these through a contextual adjudication pipeline that achieves 100% expert audit precision.
+Grounded in a 203-paper literature synthesis, AROMA offers three primary contributions: (C1) A validated three-dimension, six-role ontology for supportive dialogue; (C2) The discovery of the **Authority-Detection Gap**, revealing that as language models scale in capability, they project significantly more implicit clinical authority; and (C3) A contextual adjudication pipeline for detecting role-locking across conversation sequences, which achieves 100% expert audit precision (n=80).
 
 ---
 ## 1. Introduction
@@ -13,24 +13,15 @@ The Tessa failure is not an isolated incident but a symptom of a deeper bottlene
 
 Arguing that role-locking is a structural design flaw, we present the AROMA (Adjudicated Relational Ontology for Mental-health Agents) framework. AROMA strictly separates Support Type (D1), Care Role (D2), and Support Strategy (D3). 
 
-```mermaid
-graph TD
-    A["AI Capability Increase"] --> B["Implicit Authority Projection"]
-    B --> C["User Therapeutic Misconception"]
-    C --> D["Expectation of Accountable Care"]
-    E["Institutional Accountability (Hospitals/Clinics)"] -.->|Binds| D
-    F["AI System (No Agency)"] -.->|Fails to Bind| D
-    D --> G["The Obligation Gap"]
-    G --> H["Authority-Agency Paradox"]
-    style H fill:#f96,stroke:#333,stroke-width:4px
-```
+![The Authority-Agency Paradox](file:///Users/zac/.gemini/antigravity/brain/aea16e0e-5f9e-40b4-a437-c148b980ec37/authority_agency_paradox_diagram_1774239464888.png)
 *Figure 1: The Authority-Agency Paradox - showing the structural disconnect between projected authority and institutional agency.*
 
 This separation allows designers to detect when a role transition is needed and safely calibrate the AI's stance. For example, when a user shifts from venting (Emotional support) to asking for options (Informational support), an AROMA-aware system can explicitly transition from a *Listener* to an *Advisor*, adjusting its epistemic framing to ensure it doesn't overstep its agency.
 
-This paper makes two primary contributions:
+This paper makes three primary contributions:
 1. **C1: The AROMA Taxonomy** — A three-dimension, six-role ontology grounded in a systematic synthesis of 203 papers.
-2. **C2: The Authority-Detection Gap** — An empirical finding demonstrating that higher-capability Large Language Models (LLMs) detect significantly more implicit clinical authority than heuristic models or smaller LLMs. This suggests the Paradox worsens as AI scales, requiring AROMA's structural guardrails.
+2. **C2: The Authority-Detection Gap** — An empirical finding demonstrating that higher-capability Large Language Models (LLMs) detect significantly more implicit clinical authority than heuristic models or smaller LLMs.
+3. **C3: The Computational Adjudication Pipeline** — A methodology for detecting role-locking by interpreting relational intent across sliding context windows, achieving 100% precision in expert audits (n=80).
 
 ---
 
@@ -95,8 +86,6 @@ AROMA organizes AI caregiving along three orthogonal dimensions:
 ### 3.1 The Six Care Roles and Falsifiability Constraints
 We identified six distinct care roles from our literature synthesis. Each role had to appear in at least three independent papers and produce distinct behaviors.
 
-| Role | Description | Literature Derivation | Unique & Identifiable Traits |
-|---|---|---|---|
 | Role | Description | Literature Derivation | Unique & Identifiable Traits |
 |---|---|---|---|
 | **Listener** | Receptive, following role focused on emotional validation without steering or evaluation. | Rogers (1957); Chin (2025) | Markers: High count of paraphrasing and minimal encouragers. Follows user lead entirely. |
@@ -177,13 +166,13 @@ We used a two-stage adjudication pipeline to generate a high-precision gold stan
 1. **Contextual Encoding:** For each turn, the model is provided with the full conversational state, the AROMA taxonomy codebook, and strict negative constraints to prevent "prompt leakage."
 2. **Agreement Filtering:** We ran two independent classification runs (deterministic heuristic mapping and LLM adjudication). By extracting only the sequences where both methods—or multiple model tiers—agreed, we filtered out conversational noise to create a pristine gold training set of **385 sequences**. (Note: While we analyzed a broader stratum of 400 sequences for model comparison in Section 5.5, only these 385 high-agreement turns were used for secondary neural validation).
 
-Finally, we conducted a **two-phase Expert Strategic Audit** of 80 random sequences from this gold set (approx. 20% of the corpus). The audit confirmed **100% taxonomic precision** for both Support Type (D1) and Care Role (D2), establishing the LLM-as-a-judge as a highly robust alternative to manual human coding for relational stance.
+Finally, we conducted a **two-phase Expert Strategic Audit** of 80 random sequences from this gold set (approx. 20% of the corpus). The audit confirmed **100% taxonomic precision** for both Support Type (D1) and Care Role (D2) (n=80), establishing the LLM-as-a-judge as a highly robust alternative to manual human coding for relational stance.
 
 ### 5.2 Findings: The "Two-Type World" Dataset Skew
 Applying this LLM-led adjudication revealed a fundamental structural weakness in the underlying ESConv corpus. While classical social support theory identifies six categories (SSBC), we found that supervised role-detection models effectively live in a "Two-Type World" dominated by Emotional and Informational support.
 
-![Support Type (D1) LLM Distribution](file:///Users/zac/Documents/Documents-it/AROMA/phase_5_computational_operationalization/figures/d1_llm_distribution.png)
-*Figure 2: LLM-Adjudicated Support Type (D1) Distribution - proving the overwhelming skew toward Emotional and Informational Support (96.3% combined) in existing peer-support data.*
+![Support Type (D1) LLM Distribution](phase_5_computational_operationalization/figures/d1_llm_distribution.png)
+*Figure 2: LLM-Adjudicated Support Type (D1) Distribution - proving the overwhelming skew toward Emotional and Informational Support (96.3% combined). Note: This finding may reflect an inherent dataset skew or a "measurement bias" where current LLM judges lack the cultural context to detect rarer forms of support.*
 
 This empirical reality directly motivates why role-locking is dangerous: current training datasets systematically starve AI models of exposure to *Appraisal, Tangible, Esteem,* and *Network* support. Consequently, mental health chatbots trained on these corpora have no generative fluency to fall back on when a user's needs shift toward those rare but critical areas, leaving the AI trapped in its default behavior.
 
@@ -194,7 +183,7 @@ The results establish a profound structural hierarchy within the taxonomy. D1 (S
 
 This confirms our core theoretical claim: Care Role (D2) cannot be detected from single-turn semantics. A *Reflective Partner* and a *Companion* utilize identical linguistic structures, but differ entirely based on their historical sequential context. Because the PCA explained variance remained strictly low (13.3%), this empirically mandates the necessity of a supervised, context-aware downstream neural classifier (rather than unsupervised clustering) to successfully detect safe role boundaries.
 
-![PCA Clusters of D1 and D2](file:///Users/zac/Documents/Documents-it/AROMA/phase_5_computational_operationalization/embedding_d1_pca.png)
+![PCA Clusters of D1 and D2](phase_5_computational_operationalization/embedding_d1_pca.png)
 *Figure 3: Principal Component Analysis (PCA) of 385 sequences. Left: D1 (Support Type) shows soft semantic clustering. Right: D2 (Care Role) shows heavy intermixing, proving that relational stance is invisible to unsupervised semantic vectors.*
 
 ### 5.4 Distribution Findings: The "Peer Support" Skew
@@ -209,10 +198,10 @@ Actual runs of our primary pipeline (Claude Sonnet 4.6) classified Care Roles as
 | Reflective Partner | 39 | 9.8% |
 | Navigator | 22 | 5.5% |
 
-![D2 LLM Distribution and D1xD2 Heatmap](file:///Users/zac/Documents/Documents-it/AROMA/phase_5_computational_operationalization/figures/d2_llm_distribution.webp)
+![D2 LLM Distribution and D1xD2 Heatmap](phase_5_computational_operationalization/figures/d2_llm_distribution.webp)
 *Figure 4: Distribution of Care Roles (D2), showing the dominance of non-clinical peer roles (Companion/Listener).*
 
-![D1xD2 LLM Heatmap](file:///Users/zac/Documents/Documents-it/AROMA/phase_5_computational_operationalization/figures/d1_d2_llm_heatmap.webp)
+![D1xD2 LLM Heatmap](phase_5_computational_operationalization/figures/d1_d2_llm_heatmap.webp)
 *Figure 5: LLM-Adjudicated D1 (Support Type) x D2 (Care Role) Heatmap - demonstrating the empirical overlap between Emotional Support and the 'Companion' role, and the isolation of Informational Support within the 'Advisor' role.*
 
 Cross-referencing D1 with D2 affirmed our theoretical predictions: Emotional Support clustered under Reflective Partner and Companion, while Informational Support remained the primary domain of the Advisor.
@@ -224,7 +213,7 @@ The results reveal the **Authority-Detection Gap**: the phenomenon where lower-c
 
 This finding empirically validates the **competence creep** at the heart of the Authority-Agency Paradox. As models become more capable, they recognize significantly more implicit clinical authority embedded within the same conversation. Without AROMA's taxonomy to actively monitor and cap these roles, a system could unknowingly role-lock into a dangerous clinical stance simply by upgrading its underlying language model. This makes the Authority-Detection Gap a primary safety metric for AI caregiving.
 
-![LLM Model Capability Comparison](file:///Users/zac/Documents/Documents-it/AROMA/phase_5_computational_operationalization/figures/d2_model_comparison.webp)
+![LLM Model Capability Comparison](phase_5_computational_operationalization/figures/d2_model_comparison.webp)
 *Figure 6: The Authority-Detection Gap - demonstrating how high-frontier models like Opus identify twice as much clinical authority as smaller models in the same peer-support data.*
 
 ---
@@ -240,10 +229,11 @@ The model's performance on Care Role (D2) provides the most critical empirical v
 
 Confusion matrices (Figure 7) reveal high-entropy misclassification between non-directive roles like *Companion* and *Listener*. This confirms that isolated semantic vectors are functionally blind to relational stance. Because AROMA Care Roles are defined by interactional persistence and trajectory, they structurally demand longitudinal, multi-turn modeling. The model's failure to resolve these roles from single utterances successfully falsifies the assumption that "better embeddings" alone can solve role-detection, necessitating the context-aware adjudication pipeline we propose.
 
-![Confusion Matrices D1 and D2](file:///Users/zac/Documents/Documents-it/AROMA/phase_5_computational_operationalization/cm_d1.png)
+![Confusion Matrices D1 and D2](phase_5_computational_operationalization/cm_d1.png)
 *Figure 7: Multi-task Model Confusion Matrices. Left: Successful D1 separation. Right: The "D2 Collapse"—proving single-turn embeddings cannot resolve AROMA Care Roles.*
 
-![Loss Curve](file:///Users/zac/Documents/Documents-it/AROMA/phase_5_computational_operationalization/multitask_loss.png)
+![Loss Curve](phase_5_computational_operationalization/multitask_loss.png)
+*Figure 8: Training Loss Curve showing the convergence of the three-headed neural architecture.*
 *Figure 8: Training Loss Curve showing the convergence of the three-headed neural architecture.*
 
 ---
@@ -265,6 +255,7 @@ Several structural and empirical limitations scope the framework:
 1. **Corpus Scope:** The synthesis is restricted to English-language literature published between 2015–2025.
 2. **ESConv Coverage Skew:** The dataset models non-clinical peer support, limiting representation of high-paradox roles (Navigator, Advisor).
 3. **User Validation:** We have not yet conducted a user study to verify if humans perceive these six roles naturally in situ.
+4. **Audit Sample Size:** While the precision audit yielded 100% agreement, the sample (n=80) was restricted to 20% of the filtered gold set, potentially overlooking rarer edge cases of role-locking.
 
 ### 8.2 Conclusion
 Designing for human-AI care requires moving beyond support type classification toward a dedicated science of relational stance. By separating Support Type (D1), Care Role (D2), and Strategy (D3), AROMA provides a structural response to the Authority-Agency Paradox. Our computational validation proves that while LLMs can guess at support types, the relational identity of a system exists in the interactional sequence—demanding a new class of context-aware, multidimensional design.
