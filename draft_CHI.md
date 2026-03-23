@@ -31,7 +31,6 @@ This separation allows designers to detect when a role transition is needed and 
 This paper makes two primary contributions:
 1. **C1: The AROMA Taxonomy** — A three-dimension, six-role ontology grounded in a systematic synthesis of 203 papers.
 2. **C2: The Authority-Detection Gap** — An empirical finding demonstrating that higher-capability Large Language Models (LLMs) detect significantly more implicit clinical authority than heuristic models or smaller LLMs. This suggests the Paradox worsens as AI scales, requiring AROMA's structural guardrails.
-versations.
 
 ---
 
@@ -122,7 +121,7 @@ The boundary between the *Listener* and *Reflective Partner* roles is the most c
 
 To ensure robustness, AROMA follows strict taxonomy ending conditions (Nickerson et al., 2013): (a) all AI care interactions must be classifiable by all three dimensions, (b) no new roles emerged during our final testing, and (c) the taxonomy remains falsifiable. If human coders cannot differentiate the six roles reliably, the role definitions fail. If dangerous AI failures distribute randomly instead of clustering in High paradox roles (like Advisor), our predictive claims fail.
 
-### 3.2 The Orthogonality of Role (D2) and Strategy (D3)
+### 3.3 The Orthogonality of Role (D2) and Strategy (D3)
 The core claim of AROMA is that role (D2) and concrete utterance strategy (D3) are separate. What defines a role is the stable relational stance over a sequence of turns, not a single utterance. 
 
 To illustrate why this separation is vital, consider the exact same conversational strategy—**Restatement**—deployed under two different roles:
@@ -131,7 +130,7 @@ To illustrate why this separation is vital, consider the exact same conversation
 
 The literal utterance strategy is identical, but the relational stance dictates entirely different safety constraints and user outcomes.
 
-### 3.3 The Authority-Agency Paradox
+### 3.4 The Authority-Agency Paradox
 Human care is bound by mutual obligations: the provider must act competently and the receiver must commit to recovery. AI dissolves this binding. The AI receives the authority of a caregiver but lacks the institutional agency or accountability to deliver real care.
 
 As a result, users suffer a **therapeutic misconception**: they act as if they are receiving governed clinical care when they are structurally unsupported. The risk level depends directly on the adopted Care Role:
