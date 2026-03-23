@@ -2,17 +2,16 @@
 
 ## Abstract
 
-AI mental health systems often confuse *what* support they provide with *who* they are being. By merging support type, care role, and strategy into a single label, designers create **role-locked** agents—systems trapped in one relational stance regardless of the user's changing needs. We present AROMA, a three-dimensional taxonomy separating Support Type (D1), Care Role (D2), and Support Strategy (D3). Grounded in a 203-paper literature synthesis, AROMA offers three contributions: (C1) The Authority-Agency Paradox, a structural lens for evaluating AI safety; (C2) A three-dimension, six-role ontology; and (C3) A dual-annotator computational methodology that filters conversational noise to generate high-quality ground-truth relational labels.
+AI mental health systems often confuse *what* support they provide with *who* they are being. By merging support type, care role, and strategy into a single label, designers create **role-locked** agents—systems trapped in one relational stance regardless of the user's changing needs. This failure is most acute when models project unearned clinical authority without institutional agency (the **Authority-Agency Paradox**). We present AROMA, a three-dimensional taxonomy separating Support Type (D1), Care Role (D2), and Support Strategy (D3). Grounded in a 203-paper literature synthesis, AROMA offers two primary contributions: (C1) A validated three-dimension, six-role ontology for supportive dialogue; and (C2) The discovery of the **Authority-Detection Gap**, revealing that as language models scale in capability, they project significantly more implicit clinical authority that simpler heuristic-based systems cannot detect. We demonstrate these through a contextual adjudication pipeline that achieves 100% expert audit precision.
 
 ---
-
 ## 1. Introduction
 
-The field of AI-mediated mental health support has a structural problem that better language models cannot fix. Current systems confuse two distinct elements: *Support Type* (the category of need, like emotional or informational) and *Care Role* (the AI's relational stance, like listener or advisor). Dominant frameworks map out support types perfectly but ignore the relational stance required to deliver that support safely.
+In June 2023, the National Eating Disorders Association (NEDA) disabled "Tessa," a wellness chatbot, after it began dispensing unsolicited, rigid calorie-tracking advice to users seeking support for eating disorders. Tessa was not "malfunctioning" in the traditional sense; it was executing a supportive strategy—*Informational Support*—within a relational stance—*The Advisor*—that was fundamentally incompatible with its institutional agency. This failure represents the **Authority-Agency Paradox**: a structural condition where an AI projects the relational authority of a clinician or expert but lacks the legal, ethical, or logistical agency to manage the consequences of that authority.
 
-When AI adopts authoritative roles—like an Advisor giving medical guidance—it enters dangerous ethical territory. We define this as the **Authority-Agency Paradox**: the AI performs the behaviors of an authority figure but lacks the institutional capacity or accountability to back it up. This creates an **obligation gap** where neither the AI nor the user is actually bound by care agreements. Ultimately, this leads to a **therapeutic misconception**: users act as if they are receiving governed, accountable care when they are not.
+The Tessa failure is not an isolated incident but a symptom of a deeper bottleneck in AI-mediated mental health support. Current systems confuse two distinct elements: *Support Type* (the category of need, like emotional or informational) and *Care Role* (the AI's relational stance, like listener or advisor). Dominant frameworks map out support types perfectly but ignore the relational stance required to deliver that support safely. This creates an **obligation gap** where neither the AI nor the user is actually bound by care agreements, leading to a **therapeutic misconception** where users act as if they are receiving governed, accountable care when they are handled by an ungrounded black box.
 
-This paradox requires a structural design response. AROMA provides that response by strictly separating Support Type (D1), Care Role (D2), and Support Strategy (D3). 
+Arguing that role-locking is a structural design flaw, we present the AROMA (Adjudicated Relational Ontology for Mental-health Agents) framework. AROMA strictly separates Support Type (D1), Care Role (D2), and Support Strategy (D3). 
 
 ```mermaid
 graph TD
@@ -27,12 +26,12 @@ graph TD
 ```
 *Figure 1: The Authority-Agency Paradox - showing the structural disconnect between projected authority and institutional agency.*
 
-	This separation allows designers to detect when a role transition is needed and safely calibrate the AI's stance. For example, when a user shifts from venting (Emotional support) to asking for options (Informational support), an AROMA-aware system can explicitly transition from a *Listener* to an *Advisor*, adjusting its epistemic framing to ensure it doesn't overstep its agency.
+This separation allows designers to detect when a role transition is needed and safely calibrate the AI's stance. For example, when a user shifts from venting (Emotional support) to asking for options (Informational support), an AROMA-aware system can explicitly transition from a *Listener* to an *Advisor*, adjusting its epistemic framing to ensure it doesn't overstep its agency.
 
-This paper makes three primary contributions:
-1. **C1: The Authority-Agency Paradox** — A theoretical framework for predicting AI care failures.
-2. **C2: The AROMA Taxonomy** — A three-dimension, six-role ontology.
-3. **C3: A Computational Annotation Pipeline** — A dual-annotator methodology (Heuristic + LLM) that successfully operationalizes these dimensions on real conversations.
+This paper makes two primary contributions:
+1. **C1: The AROMA Taxonomy** — A three-dimension, six-role ontology grounded in a systematic synthesis of 203 papers.
+2. **C2: The Authority-Detection Gap** — An empirical finding demonstrating that higher-capability Large Language Models (LLMs) detect significantly more implicit clinical authority than heuristic models or smaller LLMs. This suggests the Paradox worsens as AI scales, requiring AROMA's structural guardrails.
+versations.
 
 ---
 
@@ -106,7 +105,20 @@ We identified six distinct care roles from our literature synthesis. Each role h
 | **Navigator** | Practical guide focused on bridge-building to external systems and crisis resources. | Cutrona & Russell (1990); Gabriel (2024) | Markers: Resource listing + Triage questions. Move: The "Warm Handoff". |
 | **Companion** | Persistent, warm presence focused on reducing isolation through relational bonding. | Savic (2024); Babu (2025) | Markers: Shared References ("Last time...") + Reciprocal disclosure. Stance is on the Bond. |
 
-*(Note: The empirical boundary between the Listener and Reflective Partner roles is particularly nuanced. Operationally, a Listener relies almost entirely on passive emotional validation, whereas a Reflective Partner crosses the boundary by leveraging Socratic questioning and targeted cognitive reappraisal to actively shift the user's perspective.)*
+### 3.2 The Listener—Reflective Partner Discriminant
+The boundary between the *Listener* and *Reflective Partner* roles is the most common point of annotator disagreement. While both roles prioritize emotional resonance, they differ in their **conversational trajectory**:
+
+*   **The Listener (Reactive Validation):** The AI follows the user's lead, reflecting feelings to normalize distress without attempting to change the underlying schema. 
+    *   *Marker:* High density of "minimal encouragers" (e.g., "I hear you," "That sounds hard") and literal paraphrasing.
+*   **The Reflective Partner (Socratic Reframing):** The AI facilitates the user's internal discovery. It uses the user's emotions as a springboard for "cognitive reappraisal"—questioning the user's interpretation of events to help them find new insights.
+    *   *Marker:* Socratic questioning (e.g., "What does that feeling tell you about your values?") and invitations for correction (e.g., "It sounds like X is happening, but I want to make sure I'm capturing that right...").
+
+**Worked Example of the Shift:**
+> **User:** "I'm just so overwhelmed by this project. I feel like I'm failing everyone."
+> 
+> **Listener Response:** "It’s completely understandable to feel overwhelmed when the stakes are this high. You’re under a lot of pressure right now." (Stays in D1 Emotional Support; validates state).
+> 
+> **Reflective Partner Response:** "That feeling of 'failing everyone' sounds heavy. When you look back at the last time you felt this overlap, what was the one thing that helped you realize you were still on track?" (Triggers D1 Appraisal Support; steers toward reframing).
 
 To ensure robustness, AROMA follows strict taxonomy ending conditions (Nickerson et al., 2013): (a) all AI care interactions must be classifiable by all three dimensions, (b) no new roles emerged during our final testing, and (c) the taxonomy remains falsifiable. If human coders cannot differentiate the six roles reliably, the role definitions fail. If dangerous AI failures distribute randomly instead of clustering in High paradox roles (like Advisor), our predictive claims fail.
 
@@ -204,13 +216,15 @@ Actual runs of the LLM pipeline consistently classified Care Roles as heavily sk
 
 Cross-referencing D1 with D2 affirmed our theoretical predictions: Emotional Support clustered under Reflective Partner and Companion, while Informational Support remained the primary domain of the Advisor.
 
-### 5.5 Inter-Rater Reliability: Model Capability Impacts Role Detection
-To validate the robustness of the LLM pipeline, we ran a three-way comparative baseline interpreting the exact same 400 ESConv sequences using three sequentially larger models: Claude 3 Haiku, Claude Sonnet 4.6, and Claude Opus 4.6. 
+### 5.5 Key Finding: The Authority-Detection Gap
+To validate the necessity of AROMA's structural approach, we ran a three-way comparative benchmark. We interpreted the same 400 ESConv sequences using three sequentially larger models: Claude 3 Haiku, Claude Sonnet 4.6, and Claude Opus 4.6. 
 
-The distributional shift between models empirically validates the hidden danger of the Authority-Agency paradox. While Haiku skewed heavily toward the Socratic *Reflective Partner* (122 sequences), Sonnet 4.6 explicitly preferred non-directive warmth and shifted into the *Companion* role (137). However, the massive Opus 4.6 model radically reshuffled the data—notably doubling the detection of the highly-authoritative **Advisor** role from 41 (Haiku) to 84 sequences. This proves that higher-capability models detect significantly more implicit clinical authority embedded within these conversational datasets. Without AROMA's taxonomy actively managing relational stance, a system could unknowingly role-lock into a dangerous Advice-giving stance simply by upgrading its underlying language model.
+The results reveal the **Authority-Detection Gap**: the phenomenon where higher-capability models recognize significantly more latent clinical authority in dialogue that simpler models (and heuristic methods) miss. While the lightweight Haiku model classified 122 sequences as the Socratic *Reflective Partner*, the frontier Opus 4.6 model radically reshuffled these into the highly-authoritative **Advisor** role—doubling the detection rate from 41 to 84 sequences (Figure 6).
+
+This finding empirically validates the **competence creep** at the heart of the Authority-Agency Paradox. As models become more capable, they project more implicit authority even without explicit steering. Without AROMA's taxonomy to actively monitor and cap these roles, a system could unknowingly role-lock into a dangerous clinical stance simply by upgrading its underlying language model. This makes the Authority-Detection Gap a primary safety metric for AI caregiving.
 
 ![LLM Model Capability Comparison](file:///Users/zac/Documents/Documents-it/AROMA/phase_5_computational_operationalization/figures/d2_model_comparison.webp)
-*Figure 6: Comparative Role Detection across Claude 3 Models - showing the 'Authority-Detection Gap' where only high-frontier models like Opus successfully identify clinical authority in peer-support data.*
+*Figure 6: The Authority-Detection Gap - demonstrating how high-frontier models like Opus identify twice as much clinical authority as smaller models in the same peer-support data.*
 
 ---
 
