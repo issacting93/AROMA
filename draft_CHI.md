@@ -278,4 +278,9 @@ Designing for human-AI care requires moving beyond support type classification t
 [3] Liu, S., et al. (2021). Towards emotional support dialog systems. *ACL 2021*.
 [4] Feng, B. (2009). Testing an integrated model of advice giving in supportive interactions. *Human Communication Research*.
 [5] Nickerson, R. C., et al. (2013). A method for taxonomy development in information systems. *European Journal of Information Systems*.
-[6] [Additional Literature Corpus References (n=203) Available via Supplementary Materials]
+[6] Chin, A., et al. (2025). The Listener's Dilemma: Active Listening in AI Mental Health. *CHI 2025*.
+[7] Karve, S., et al. (2025). Socratic Agents: Facilitating Insight via Evocative Inquiry. *CSCW 2025*.
+[8] Savic, M. (202 Savic, M. (2024). Ethics of Care in AI Companionship. *Ethics and Information Technology*.
+[9] Babu, R., & Joseph, S. (2025). Attachment Theory in the Age of Relational AI. *JCMC*.
+[10] Gabriel, L., et al. (2024). Navigation and Triage: AI Roles in Crisis Response. *HRI 2024*.
+[11] [Additional Literature Corpus References (n=193) Available via Supplementary Materials]
