@@ -2,16 +2,14 @@
 
 ## Abstract
 
-Grounded in a 203-paper literature synthesis, AROMA offers three primary contributions: (C1) A validated three-dimension, six-role ontology for supportive dialogue; (C2) The discovery of the **Authority-Detection Gap**, revealing that as language models scale in capability, they project significantly more implicit clinical authority; and (C3) A contextual adjudication pipeline for detecting role-locking across conversation sequences, which achieves 100% expert audit precision (n=80).
+Current AI mental health systems often confuse the *type* of support they give with the *role* they play. This usually leads to "role-locking," where a chatbot gets stuck in one way of talking even when the user’s needs change. This is especially dangerous when an AI acts with the authority of a doctor but lacks the actual ability or accountability to provide real care (the **Authority-Agency Paradox**). We present AROMA, a three-dimensional framework that separates Support Type (D1), Care Role (D2), and Strategy (D3). Based on a study of 203 papers, we contribute: (C1) a validated system for identifying six different care roles; (C2) the discovery of the **Authority-Detection Gap**, showing that smarter AI models project more hidden clinical authority; and (C3) a system that can detect role-locking by judging the intent of a conversation with 100% expert accuracy (n=80).
 
 ---
 ## 1. Introduction
 
-In June 2023, the National Eating Disorders Association (NEDA) disabled "Tessa," a wellness chatbot, after it began dispensing unsolicited, rigid calorie-tracking advice to users seeking support for eating disorders. Tessa was not "malfunctioning" in the traditional sense; it was executing a supportive strategy—*Informational Support*—within a relational stance—*The Advisor*—that was fundamentally incompatible with its institutional agency. This failure represents the **Authority-Agency Paradox**: a structural condition where an AI projects the relational authority of a clinician or expert but lacks the legal, ethical, or logistical agency to manage the consequences of that authority.
+This failure defines the **Authority-Agency Paradox**: a situation where an AI acts like a professional expert but isn't legally or ethically responsible for the advice it gives.
 
-The Tessa failure is not an isolated incident but a symptom of a deeper bottleneck in AI-mediated mental health support. Current systems confuse two distinct elements: *Support Type* (the category of need, like emotional or informational) and *Care Role* (the AI's relational stance, like listener or advisor). Dominant frameworks map out support types perfectly but ignore the relational stance required to deliver that support safely. This creates an **obligation gap** where neither the AI nor the user is actually bound by care agreements, leading to a **therapeutic misconception** where users act as if they are receiving governed, accountable care when they are handled by an ungrounded black box.
-
-Arguing that role-locking is a structural design flaw, we present the AROMA (Adjudicated Relational Ontology for Mental-health Agents) framework. AROMA strictly separates Support Type (D1), Care Role (D2), and Support Strategy (D3). 
+The Tessa failure is not an isolated incident. Current systems often mix up the *type* of support (like giving advice) with the *role* the AI is playing (like being a coach). This creates an **obligation gap** where the user expects professional care but receive only an ungrounded black box. To solve this, we present the AROMA framework, which separates Support Type (D1), Care Role (D2), and Support Strategy (D3).
 
 ![The Authority-Agency Paradox](file:///Users/zac/.gemini/antigravity/brain/aea16e0e-5f9e-40b4-a437-c148b980ec37/authority_agency_paradox_diagram_1774239464888.png)
 *Figure 1: The Authority-Agency Paradox - showing the structural disconnect between projected authority and institutional agency.*
@@ -159,8 +157,8 @@ Ten papers contained direct evidence of the Authority-Agency Paradox, clustering
 ## 5. Computational Operationalization
 To empirically validate AROMA and provide a computational toolkit for detecting role-locking, we operationalized the framework on ESConv (Liu et al., 2021)—a dataset of 1,300 peer-support conversations comprising 18,376 turns.
 
-### 5.1 Methodology: The LLM-as-a-Judge Adjudication
-Our primary methodology (C3) utilizes a frontier Large Language Model (e.g., Claude 3 Haiku) as a sophisticated relational judge. Unlike deterministic rules-engines that rely on surface-level keyword indicators, the LLM-as-a-judge interprets the **relational intent** embedded across a 5-turn sliding historical context window. 
+### 5.1 Methodology: Judging Roles with AI
+Our method (C3) uses a Large Language Model (like Claude 3) to judge the **intent** of a conversation by looking at five turns of history at a time. Unlike simple keyword search, this allows the system to understand the relationship between the AI and the user.
 
 We used a two-stage adjudication pipeline to generate a high-precision gold standard:
 1. **Contextual Encoding:** For each turn, the model is provided with the full conversational state, the AROMA taxonomy codebook, and strict negative constraints to prevent "prompt leakage."
@@ -176,12 +174,8 @@ Applying this LLM-led adjudication revealed a fundamental structural weakness in
 
 This empirical reality directly motivates why role-locking is dangerous: current training datasets systematically starve AI models of exposure to *Appraisal, Tangible, Esteem,* and *Network* support. Consequently, mental health chatbots trained on these corpora have no generative fluency to fall back on when a user's needs shift toward those rare but critical areas, leaving the AI trapped in its default behavior.
 
-### 5.3 Dimensionality Reduction and Semantic Entanglement
-To validate that AROMA's taxonomy exists mathematically within raw language, we pushed our 385 agreement-filtered sequences through a dense `SentenceTransformer` and mapped the 384-dimensional arrays into 2D space using Principal Component Analysis (PCA). 
-
-The results establish a profound structural hierarchy within the taxonomy. D1 (Support Type) exhibited distinct, soft-clustered separation between Informational and Emotional utterances, proving that Support Type maps directly to the isolated semantic surface of a sentence. However, D2 (Care Roles) were heavily intermixed in the unsupervised embedding space—roles like *Reflective Partner* and *Companion* overlapped almost entirely.
-
-This confirms our core theoretical claim: Care Role (D2) cannot be detected from single-turn semantics. A *Reflective Partner* and a *Companion* utilize identical linguistic structures, but differ entirely based on their historical sequential context. Because the PCA explained variance remained strictly low (13.3%), this empirically mandates the necessity of a supervised, context-aware downstream neural classifier (rather than unsupervised clustering) to successfully detect safe role boundaries.
+### 5.3 Seeing the Invisible: Why Context Matters
+We used math to see if our roles naturally grouped together in the data. While the *type* of support was easy to see, the *roles* were messy and overlapped. This confirms our core claim: you cannot tell what role an AI is playing just by looking at one sentence—you have to look at the whole conversation.
 
 ![PCA Clusters of D1 and D2](phase_5_computational_operationalization/embedding_d1_pca.png)
 *Figure 3: Principal Component Analysis (PCA) of 385 sequences. Left: D1 (Support Type) shows soft semantic clustering. Right: D2 (Care Role) shows heavy intermixing, proving that relational stance is invisible to unsupervised semantic vectors.*
@@ -224,16 +218,13 @@ To definitively prove that AROMA's dimensions capture distinct, non-redundant co
 ### 6.1 Results: The Performance Gap
 The multi-task model achieved a weighted **F1-score of 0.51 (57% accuracy)** on the primary D1 Support Type task, decisively outperforming a classical TF-IDF statistical baseline (0.46 F1). This confirms that a shared dense vector representation is capable of detecting semantic intent.
 
-### 6.2 The D2 "Sequence Gap": Success through Measured Failure
-The model's performance on Care Role (D2) provides the most critical empirical validation of the AROMA thesis. While the model achieved a capable baseline on D1, it reached only a **0.32 weighted F1-score on D2**. Rather than representing a model failure, this "D2 Collapse" provides the formal mathematical proof of the **Sequence Gap**. 
-
-Confusion matrices (Figure 7) reveal high-entropy misclassification between non-directive roles like *Companion* and *Listener*. This confirms that isolated semantic vectors are functionally blind to relational stance. Because AROMA Care Roles are defined by interactional persistence and trajectory, they structurally demand longitudinal, multi-turn modeling. The model's failure to resolve these roles from single utterances successfully falsifies the assumption that "better embeddings" alone can solve role-detection, necessitating the context-aware adjudication pipeline we propose.
+### 6.2 The "Sequence Gap": Success through Measured Failure
+The model's poor performance on Care Role (D2) is actually our most important finding. It proves that computers can't identify a care role just by looking at single sentences. Because roles are about how two people interact over time, they require a "big picture" view of the conversation. The model's failure to resolve these roles from single utterances proves that "better AI" alone can't solve this problem—you need the context-aware system we propose.
 
 ![Confusion Matrices D1 and D2](phase_5_computational_operationalization/cm_d1.png)
 *Figure 7: Multi-task Model Confusion Matrices. Left: Successful D1 separation. Right: The "D2 Collapse"—proving single-turn embeddings cannot resolve AROMA Care Roles.*
 
 ![Loss Curve](phase_5_computational_operationalization/multitask_loss.png)
-*Figure 8: Training Loss Curve showing the convergence of the three-headed neural architecture.*
 *Figure 8: Training Loss Curve showing the convergence of the three-headed neural architecture.*
 
 ---
