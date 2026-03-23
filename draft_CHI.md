@@ -97,9 +97,11 @@ We identified six distinct care roles from our literature synthesis. Each role h
 
 | Role | Description | Literature Derivation | Unique & Identifiable Traits |
 |---|---|---|---|
+| Role | Description | Literature Derivation | Unique & Identifiable Traits |
+|---|---|---|---|
 | **Listener** | Receptive, following role focused on emotional validation without steering or evaluation. | Rogers (1957); Chin (2025) | Markers: High count of paraphrasing and minimal encouragers. Follows user lead entirely. |
-| **Reflective Partner** | Socratic, exploratory role facilitating the user's discovery of internal insights/reframing. | Mead (1934); Karve (2025) | Markers: Socratic questioning + cognitive reappraisal prompts. Move: "Summarize and Invite Correction." |
-| **Coach** | Directive, motivating role focused on self-efficacy and action toward user-defined goals. | Bandura (1997); Vaidyam (2019) | Markers: Goal-setting + Change-talk elicitation. Returns to accountability over multiple sessions. |
+| **Reflective Partner** | Socratic, exploratory role facilitating the user's discovery of internal insights/reframing. | Rogers (1957); Feng (2009); Karve (2025) | Markers: Socratic questioning + cognitive reappraisal prompts. Move: "Summarize and Invite Correction." |
+| **Coach** | Directive, motivating role focused on self-efficacy and action toward user-defined goals. | Bandura (1997); Miller & Rollnick (2013) | Markers: Goal-setting + Change-talk elicitation. Returns to accountability over multiple sessions. |
 | **Advisor** | Authoritative, expertise-led role providing psychoeducation and structured clinical guidance. | Parsons (1951); Kaur (2026) | Markers: Psychoeducation delivery + direct advice. Move: Epistemic Humility statements. |
 | **Navigator** | Practical guide focused on bridge-building to external systems and crisis resources. | Cutrona & Russell (1990); Gabriel (2024) | Markers: Resource listing + Triage questions. Move: The "Warm Handoff". |
 | **Companion** | Persistent, warm presence focused on reducing isolation through relational bonding. | Savic (2024); Babu (2025) | Markers: Shared References ("Last time...") + Reciprocal disclosure. Stance is on the Bond. |
@@ -195,17 +197,16 @@ This confirms our core theoretical claim: Care Role (D2) cannot be detected from
 ![PCA Clusters of D1 and D2](file:///Users/zac/Documents/Documents-it/AROMA/phase_5_computational_operationalization/embedding_d1_pca.png)
 *Figure 3: Principal Component Analysis (PCA) of 385 sequences. Left: D1 (Support Type) shows soft semantic clustering. Right: D2 (Care Role) shows heavy intermixing, proving that relational stance is invisible to unsupervised semantic vectors.*
 
-### 5.4 Actual D2 Distribution Findings
-Actual runs of the LLM pipeline consistently classified Care Roles as heavily skewed toward **Reflective Partner** (30.5%) and **Companion** (25.3%), accurately reflecting ESConv's peer-support, non-clinical environment. Directive roles like Advisor (10.2%) were rare.
+Actual runs of the LLM pipeline consistently classified Care Roles as heavily skewed toward **Companion** (34.2%) and **Listener** (25.2%), accurately reflecting ESConv's peer-support, non-clinical environment. Directive roles like Advisor (14.8%) were less common but significant.
 
 | Care Role (D2) | LLM Classification Count | Percentage |
 |---|---|---|
-| Reflective Partner | 122 | 30.5% |
-| Companion | 101 | 25.3% |
-| Listener | 94 | 23.5% |
-| Advisor | 41 | 10.2% |
-| Coach | 36 | 8.9% |
-| Navigator | 6 | 1.5% |
+| Companion | 137 | 34.2% |
+| Listener | 101 | 25.2% |
+| Advisor | 59 | 14.8% |
+| Coach | 42 | 10.5% |
+| Reflective Partner | 39 | 9.8% |
+| Navigator | 22 | 5.5% |
 
 ![D2 LLM Distribution and D1xD2 Heatmap](file:///Users/zac/Documents/Documents-it/AROMA/phase_5_computational_operationalization/figures/d2_llm_distribution.webp)
 *Figure 4: Left: Distribution of Care Roles (D2), showing the dominance of non-clinical peer roles. Right: D1xout_d1 Heatmap (see Figure 5).*
@@ -218,7 +219,7 @@ Cross-referencing D1 with D2 affirmed our theoretical predictions: Emotional Sup
 ### 5.5 Key Finding: The Authority-Detection Gap
 To validate the necessity of AROMA's structural approach, we ran a three-way comparative benchmark. We interpreted the same 400 ESConv sequences using three sequentially larger models: Claude 3 Haiku, Claude Sonnet 4.6, and Claude Opus 4.6. 
 
-The results reveal the **Authority-Detection Gap**: the phenomenon where higher-capability models recognize significantly more latent clinical authority in dialogue that simpler models (and heuristic methods) miss. While the lightweight Haiku model classified 122 sequences as the Socratic *Reflective Partner*, the frontier Opus 4.6 model radically reshuffled these into the highly-authoritative **Advisor** role—doubling the detection rate from 41 to 84 sequences (Figure 6).
+The results reveal the **Authority-Detection Gap**: the phenomenon where higher-capability models recognize significantly more latent clinical authority in dialogue that simpler models (and heuristic methods) miss. While the lightweight Haiku model classified 112 sequences as the Socratic *Reflective Partner*, the frontier Opus 4.6 model radically reshuffled these into the highly-authoritative **Advisor** role—increasing the detection rate from 59 (Sonnet) to 84 sequences (Opus).
 
 This finding empirically validates the **competence creep** at the heart of the Authority-Agency Paradox. As models become more capable, they project more implicit authority even without explicit steering. Without AROMA's taxonomy to actively monitor and cap these roles, a system could unknowingly role-lock into a dangerous clinical stance simply by upgrading its underlying language model. This makes the Authority-Detection Gap a primary safety metric for AI caregiving.
 
