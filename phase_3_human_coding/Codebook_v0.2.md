@@ -631,7 +631,7 @@ Shifting to sequence-level coding allows us to formally define **Successful Role
 | **user_stance** | Categorical | Passive / Exploratory / Active | **Sequence-level.** Based on seeker turns in *this* range. |
 | **primary_d2_role** | Categorical | Listener / RP / Coach / Advisor / Companion / Navigator / Ambiguous / None | **Sequence-level.** AI stance in *this* range. |
 | **confidence** | Ordinal (1–3) | 1 = Low, 2 = Medium, 3 = High | Coder's confidence |
-| **d1_support_type** | Categorical | Emotional / Informational / Esteem / Network / Tangible / Appraisal | Primary support type in the sequence |
+| **d1_support_type** | Categorical | Emotional / Informational / Esteem / Network / Tangible / Appraisal / Ambiguous / None | Primary support type in the sequence |
 | **role_transition** | Boolean | Y / N | Did a role transition occur? |
 | **stance_shift** | Boolean | Y / N | Did the user stance change from the previous sequence? |
 | **paradox_flag** | Boolean | Y / N | Does it contain an Authority-Agency Paradox instance? |

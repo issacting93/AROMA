@@ -55,7 +55,7 @@ Example (negative):  [user turn + AI turn showing NOT this role]
 
 ### 3.3 Calibration Coding (Batch 1)
 
-- Isaac and Ethan independently code 30 conversations using Codebook v0.1
+- Isaac and Ethan independently code **40 high-fidelity sequences** using Codebook v0.2
 - Compare every disagreement → **every disagreement is a codebook failure, not a coder failure**
 - Revise codebook: identify which definition was ambiguous, rewrite
 - Compute preliminary κ (informational only — not the reliability gate)
@@ -84,7 +84,7 @@ Example (negative):  [user turn + AI turn showing NOT this role]
 | Turn ID | auto | — |
 | Primary Care Role (D2) | categorical | Listener / Coach / Advisor / Companion / Navigator / [+candidates] / Ambiguous / None |
 | Confidence | 3-point | High / Medium / Low |
-| Primary Support Type (D1) | categorical | Emotional / Esteem / Informational / Network / Instrumental |
+| Primary Support Type (D1) | categorical | Emotional / Informational / Esteem / Network / Tangible / Appraisal / Ambiguous / None |
 | Role shift from prior turn | boolean | Yes / No |
 | Failure mode present | boolean | Yes / No |
 | Failure mode type | categorical | Authority-Agency gap / Role mismatch / Therapeutic misconception / Other |
