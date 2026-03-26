@@ -1,5 +1,6 @@
 import React from 'react';
 import { D2_ROLES } from '../types';
+import ExportButton from './ExportButton';
 
 interface Annotation {
   primary_d2_role: string;
@@ -70,8 +71,17 @@ const TurningPointDashboard: React.FC<TurningPointDashboardProps> = ({ annotatio
       </div>
 
       <div className="panel panel-pad section">
-        <h2>Turning Point Summary</h2>
-        <p className="subtle">This view correlates AI Care Roles (D2) with User Stance (Codebook §4), identifying the 'Relational Catalysts' in the ESConv corpus.</p>
+        <div className="row between" style={{alignItems: 'center'}}>
+          <div>
+            <h2>Turning Point Summary</h2>
+            <p className="subtle">This view correlates AI Care Roles (D2) with User Stance (Codebook §4), identifying the 'Relational Catalysts' in the ESConv corpus.</p>
+          </div>
+          <div className="row" style={{gap: 8}}>
+            <ExportButton format="json" />
+            <ExportButton format="csv" />
+          </div>
+        </div>
+        
         <div className="notice" style={{marginTop: 12}}>
            <strong>Protocol v0.2.2:</strong> Effectiveness represents the observed frequency of 'aligned' or 'mild_misfit' states. 
            Strategic goals prioritize minimizing 'misfit' and 'paradox_risk' (misaligned) interactions.

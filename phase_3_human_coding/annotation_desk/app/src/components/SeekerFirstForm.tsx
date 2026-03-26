@@ -34,6 +34,8 @@ const D1_HINTS: Record<string, string> = {
   'Network': 'Connecting the recipient to others, communities, or shared experiences.',
   'Tangible': 'Offering concrete, practical assistance or crisis resources.',
   'Appraisal': 'Helping the recipient reframe or make meaning of their situation.',
+  'Ambiguous': 'Turn contains support elements but does not fit a single category.',
+  'None': 'Non-supportive turn (e.g., greetings, small talk, technical log).',
 };
 
 const D2_HINTS: Record<string, string> = {
@@ -234,6 +236,11 @@ const SeekerFirstForm: React.FC<SeekerFirstFormProps> = ({
                 </button>
               ))}
             </div>
+            {formData.d1_support_type && (
+              <div style={{ fontSize: 11, color: 'var(--muted)', marginTop: 4, padding: '8px 12px', background: 'rgba(79, 70, 229, 0.03)', borderRadius: 8, border: '1px solid rgba(79, 70, 229, 0.1)' }}>
+                <strong>{formData.d1_support_type}:</strong> {D1_HINTS[formData.d1_support_type]}
+              </div>
+            )}
           </div>
 
           {/* D2: Care Role */}
@@ -284,7 +291,7 @@ const SeekerFirstForm: React.FC<SeekerFirstFormProps> = ({
 
           {/* Confidence */}
           <div className="stack" style={{ gap: 8, marginBottom: 20 }}>
-            <label className="subtle" style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Confidence</label>
+            <label className="subtle" style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Confidence · select one</label>
             <div className="row" style={{ gap: 8 }}>
               {([1, 2, 3] as const).map(v => (
                 <button

@@ -22,6 +22,7 @@ function App() {
   const [coderStance, setCoderStance] = useState<ConversationStance | null>(null);
   const [loading, setLoading] = useState(true);
   const [annotations, setAnnotations] = useState<any[]>([]);
+  const [stats, setStats] = useState({ total: 0, remainingSeqs: 0, remainingTurns: 0 });
 
   // Auth Initialization
   useEffect(() => {
@@ -55,10 +56,17 @@ function App() {
     if (data) setAnnotations(data);
   };
 
+  const fetchStats = async () => {
+    if (!user) return;
+    const s = await api.fetchRemainingWork(user.id);
+    setStats(s);
+  };
+
   useEffect(() => {
     if (user) {
       if (!currentConversation) fetchNext();
       fetchDashboardData();
+      fetchStats();
     }
   }, [user]);
 
@@ -180,9 +188,10 @@ function App() {
           <div className="calibration-banner" style={{ marginTop: 'auto' }}>
              <h3>Calibration Progress</h3>
              <div className="kpi">
-                {Math.round((annotations.length / 20) * 100)}%
+                {stats.total > 0 ? Math.round(((stats.total - stats.remainingSeqs) / stats.total) * 100) : 0}%
              </div>
-             <p>PHASE 3 BATCH 1</p>
+             <p>{stats.remainingSeqs} SEQS REMAINING</p>
+             <p style={{fontSize: 10, opacity: 0.8}}>{stats.remainingTurns} TURNS LEFT</p>
           </div>
         </aside>
 
@@ -216,6 +225,7 @@ function App() {
                     );
                     if (!error) {
                       fetchDashboardData();
+                      fetchStats();
                       // Advance to next sequence in this conversation, or next conversation
                       const seqs = currentConversation.sequences;
                       const idx = seqs.findIndex(s => s.id === currentSequence.id);

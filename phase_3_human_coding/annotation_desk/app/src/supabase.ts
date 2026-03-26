@@ -79,12 +79,27 @@ export async function fetchNextConversation(coderId: string): Promise<Conversati
 // ── Stances ──
 
 export async function saveStance(coderId: string, stance: ConversationStance) {
-  return supabase.from('conversation_stances').upsert({
+  // Check for existing stance
+  const { data: existing } = await supabase
+    .from('conversation_stances')
+    .select('id')
+    .eq('conversation_id', stance.conversation_id)
+    .eq('coder_id', coderId)
+    .maybeSingle();
+
+  if (existing) {
+    return supabase.from('conversation_stances').update({
+      user_stance: stance.user_stance,
+      stance_notes: stance.stance_notes,
+    }).eq('id', existing.id);
+  }
+
+  return supabase.from('conversation_stances').insert({
     conversation_id: stance.conversation_id,
     coder_id: coderId,
     user_stance: stance.user_stance,
     stance_notes: stance.stance_notes,
-  }, { onConflict: 'conversation_id,coder_id' });
+  });
 }
 
 export async function fetchStance(coderId: string, conversationId: string): Promise<ConversationStance | null> {
@@ -112,7 +127,16 @@ export async function saveAnnotation(
   data: AnnotationFormData,
 ) {
   const alignment: AlignmentLevel | null = getAlignment(data.primary_d2_role, conversationStance as any);
-  return supabase.from('annotations').upsert({
+  
+  // Check for existing annotation
+  const { data: existing } = await supabase
+    .from('annotations')
+    .select('id')
+    .eq('sequence_id', sequenceId)
+    .eq('coder_id', coderId)
+    .maybeSingle();
+
+  const payload = {
     sequence_id: sequenceId,
     coder_id: coderId,
     primary_d2_role: data.primary_d2_role,
@@ -121,7 +145,59 @@ export async function saveAnnotation(
     stance_mismatch: alignment,
     confidence: data.confidence,
     notes: data.notes || null,
-  }, { onConflict: 'sequence_id,coder_id' });
+  };
+
+  if (existing) {
+    return supabase.from('annotations').update(payload).eq('id', existing.id);
+  }
+
+  return supabase.from('annotations').insert(payload);
+}
+
+export async function fetchAllAnnotations() {
+  const { data, error } = await supabase
+    .from('annotations')
+    .select(`
+      id,
+      primary_d2_role,
+      d1_support_type,
+      d3_strategies,
+      stance_mismatch,
+      confidence,
+      notes,
+      created_at,
+      coder_id,
+      sequence_id (
+        id,
+        turn_range,
+        is_calibration,
+        conversation_id (
+          id,
+          external_id
+        )
+      )
+    `);
+  return { data, error };
+}
+
+export async function fetchRemainingWork(coderId: string) {
+  const { data: allSeqs } = await supabase.from('sequences').select('id, turn_range');
+  const { data: coded } = await supabase.from('annotations').select('sequence_id').eq('coder_id', coderId);
+  
+  const codedIds = new Set((coded ?? []).map(a => a.sequence_id));
+  const remaining = (allSeqs ?? []).filter(s => !codedIds.has(s.id));
+  
+  const turns = remaining.reduce((acc, s) => {
+    const range = parseRange(s.turn_range);
+    // [lower, upper-1] -> (upper-1) - lower + 1 = upper - lower
+    return acc + (range[1] - range[0] + 1);
+  }, 0);
+  
+  return { 
+    total: allSeqs?.length || 0,
+    remainingSeqs: remaining.length, 
+    remainingTurns: turns 
+  };
 }
 
 // ── Helpers ──

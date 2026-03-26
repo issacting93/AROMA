@@ -13,6 +13,7 @@ export type UserStance = typeof USER_STANCES[number];
 
 export const D1_SUPPORT_TYPES = [
   'Emotional', 'Informational', 'Esteem', 'Network', 'Tangible', 'Appraisal',
+  'Ambiguous', 'None',
 ] as const;
 export type D1SupportType = typeof D1_SUPPORT_TYPES[number];
 

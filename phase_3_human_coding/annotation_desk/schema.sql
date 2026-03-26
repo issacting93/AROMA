@@ -1,11 +1,13 @@
--- AROMA Annotation Desk Schema v0.3.1 (PERMISSION SYNC)
--- Run this in the Supabase SQL Editor to fix 404/400 errors.
+-- AROMA 'NUCLEAR' SCHEMA RESET (v0.3.3)
+-- ======================================
+-- RUN THIS IN SUPABASE SQL EDITOR TO FIX 404/400/RLS ERRORS.
+-- WARNING: This will delete ALL existing annotation data.
 
--- 1. CLEAN RESET (DESTRUCTIVE)
-DROP TABLE IF EXISTS public.annotations;
-DROP TABLE IF EXISTS public.conversation_stances;
-DROP TABLE IF EXISTS public.sequences;
-DROP TABLE IF EXISTS public.conversations;
+-- 1. CLEAN RESET
+DROP TABLE IF EXISTS public.annotations CASCADE;
+DROP TABLE IF EXISTS public.conversation_stances CASCADE;
+DROP TABLE IF EXISTS public.sequences CASCADE;
+DROP TABLE IF EXISTS public.conversations CASCADE;
 
 -- 2. CORE TABLES
 CREATE TABLE public.conversations (
@@ -27,17 +29,17 @@ CREATE TABLE public.sequences (
 CREATE TABLE public.conversation_stances (
     id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
     conversation_id uuid REFERENCES public.conversations(id) ON DELETE CASCADE,
-    coder_id uuid REFERENCES auth.users(id),
+    coder_id uuid REFERENCES auth.users(id) ON DELETE CASCADE,
     user_stance TEXT NOT NULL CHECK (user_stance IN ('Passive', 'Exploratory', 'Active')),
     stance_notes TEXT,
     created_at TIMESTAMPTZ DEFAULT now() NOT NULL,
-    UNIQUE(conversation_id, coder_id)
+    CONSTRAINT unique_conv_coder UNIQUE(conversation_id, coder_id)
 );
 
 CREATE TABLE public.annotations (
     id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
     sequence_id uuid REFERENCES public.sequences(id) ON DELETE CASCADE,
-    coder_id uuid REFERENCES auth.users(id),
+    coder_id uuid REFERENCES auth.users(id) ON DELETE CASCADE,
 
     primary_d2_role TEXT NOT NULL CHECK (primary_d2_role IN (
         'Listener', 'Reflective Partner', 'Coach', 'Advisor',
@@ -45,7 +47,8 @@ CREATE TABLE public.annotations (
     )),
 
     d1_support_type TEXT CHECK (d1_support_type IN (
-        'Emotional', 'Informational', 'Esteem', 'Network', 'Tangible', 'Appraisal'
+        'Emotional', 'Informational', 'Esteem', 'Network', 'Tangible', 'Appraisal',
+        'Ambiguous', 'None'
     )),
 
     d3_strategies TEXT[],
@@ -59,18 +62,14 @@ CREATE TABLE public.annotations (
     confidence INT NOT NULL CHECK (confidence BETWEEN 1 AND 3),
     notes TEXT,
     created_at TIMESTAMPTZ DEFAULT now() NOT NULL,
-    UNIQUE(sequence_id, coder_id)
+    CONSTRAINT unique_seq_coder UNIQUE(sequence_id, coder_id)
 );
 
--- 3. PERMISSIONS (Ensures PostgREST can see the tables)
-GRANT USAGE ON SCHEMA public TO anon, authenticated;
-GRANT ALL ON ALL TABLES IN SCHEMA public TO anon, authenticated;
-GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO anon, authenticated;
-GRANT ALL ON ALL FUNCTIONS IN SCHEMA public TO anon, authenticated;
-
--- Ensure future tables have permissions automatically
-ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO anon, authenticated;
-ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO anon, authenticated;
+-- 3. PERMISSIONS
+GRANT USAGE ON SCHEMA public TO anon, authenticated, service_role;
+GRANT ALL ON ALL TABLES IN SCHEMA public TO anon, authenticated, service_role;
+GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO anon, authenticated, service_role;
+GRANT ALL ON ALL FUNCTIONS IN SCHEMA public TO anon, authenticated, service_role;
 
 -- 4. ROW-LEVEL SECURITY
 ALTER TABLE public.conversations ENABLE ROW LEVEL SECURITY;
@@ -78,17 +77,14 @@ ALTER TABLE public.sequences ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.conversation_stances ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.annotations ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "Authenticated read conversations" ON public.conversations FOR SELECT TO authenticated USING (true);
-CREATE POLICY "Authenticated read sequences" ON public.sequences FOR SELECT TO authenticated USING (true);
+-- 5. RELAXED POLICIES for Researcher Seeding
+-- We allow 'anon' and 'authenticated' to INSERT for now during setup.
+CREATE POLICY "Allow All Conversations" ON public.conversations FOR ALL TO anon, authenticated USING (true) WITH CHECK (true);
+CREATE POLICY "Allow All Sequences" ON public.sequences FOR ALL TO anon, authenticated USING (true) WITH CHECK (true);
+CREATE POLICY "Stance CRUD" ON public.conversation_stances FOR ALL TO anon, authenticated USING (true) WITH CHECK (true);
+CREATE POLICY "Annotation CRUD" ON public.annotations FOR ALL TO anon, authenticated USING (true) WITH CHECK (true);
 
-CREATE POLICY "Coders manage own stances" ON public.conversation_stances FOR ALL TO authenticated
-    USING (auth.uid() = coder_id) WITH CHECK (auth.uid() = coder_id);
-
-CREATE POLICY "Coders manage own annotations" ON public.annotations FOR ALL TO authenticated
-    USING (auth.uid() = coder_id) WITH CHECK (auth.uid() = coder_id);
-
--- 5. INDEXES
-CREATE INDEX idx_sequences_conversation ON public.sequences(conversation_id);
-CREATE INDEX idx_stances_conversation_coder ON public.conversation_stances(conversation_id, coder_id);
-CREATE INDEX idx_annotations_sequence_coder ON public.annotations(sequence_id, coder_id);
-CREATE INDEX idx_annotations_coder ON public.annotations(coder_id);
+-- 6. INDEXES for Performance
+CREATE INDEX idx_seq_conv ON public.sequences(conversation_id);
+CREATE INDEX idx_ant_seq ON public.annotations(sequence_id);
+CREATE INDEX idx_ant_coder ON public.annotations(coder_id);
