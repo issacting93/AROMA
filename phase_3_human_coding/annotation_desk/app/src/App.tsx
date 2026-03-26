@@ -10,12 +10,13 @@ import TurningPointDashboard from './components/TurningPointDashboard';
 import CalibrationDashboard from './components/CalibrationDashboard';
 import Login from './components/Login';
 import * as api from './supabase';
-import { LogOut, Loader2, Database, BarChart3, Edit3 } from 'lucide-react';
+import CoderGuide from './components/CoderGuide';
+import { LogOut, Loader2, Database, BarChart3, Edit3, BookOpen } from 'lucide-react';
 import type { Conversation, Sequence, ConversationStance, User as SupaUser } from './types';
 
 function App() {
   const [user, setUser] = useState<SupaUser | null>(null);
-  const [activeTab, setActiveTab] = useState<'annotate' | 'batch' | 'insights'>('annotate');
+  const [activeTab, setActiveTab] = useState<'annotate' | 'batch' | 'insights' | 'guide'>('annotate');
   const [currentConversation, setCurrentConversation] = useState<Conversation | null>(null);
   const [currentSequence, setCurrentSequence] = useState<Sequence | null>(null);
   const [coderStance, setCoderStance] = useState<ConversationStance | null>(null);
@@ -122,6 +123,12 @@ function App() {
             >
               <BarChart3 size={14} style={{ marginRight: 6 }} /> Insights
             </button>
+           <button
+             className={activeTab === 'guide' ? 'primary' : ''}
+             onClick={() => setActiveTab('guide')}
+            >
+              <BookOpen size={14} style={{ marginRight: 6 }} /> Guide
+            </button>
         </div>
 
         <div className="row">
@@ -145,9 +152,11 @@ function App() {
                  </div>
                </div>
                <div className="sidebar-card">
-                 <h4>Sequence Range</h4>
+                 <h4>Sequence</h4>
                  <div className="sidebar-card-value">
-                   {currentSequence ? `Turns ${currentSequence.turn_range[0]}-${currentSequence.turn_range[1]}` : '—'}
+                   {currentSequence && currentConversation
+                     ? `${currentConversation.sequences.findIndex(s => s.id === currentSequence.id) + 1} / ${currentConversation.sequences.length} · Turns ${currentSequence.turn_range[0]}-${currentSequence.turn_range[1]}`
+                     : '—'}
                  </div>
                </div>
                <div className="sidebar-card">
@@ -185,9 +194,10 @@ function App() {
              </div>
           ) : activeTab === 'annotate' ? (
              currentConversation && currentSequence ? (
-               <SeekerFirstForm 
+               <SeekerFirstForm
+                  key={currentSequence.id}
                   conversationId={currentConversation.external_id}
-                  sequence={currentSequence} 
+                  sequence={currentSequence}
                   existingStance={coderStance?.user_stance}
                   onSaveStance={async (s: any, n: string) => {
                     await api.saveStance(user.id, { 
@@ -206,7 +216,14 @@ function App() {
                     );
                     if (!error) {
                       fetchDashboardData();
-                      fetchNext(); // Or prompt for next sequence in conv
+                      // Advance to next sequence in this conversation, or next conversation
+                      const seqs = currentConversation.sequences;
+                      const idx = seqs.findIndex(s => s.id === currentSequence.id);
+                      if (idx >= 0 && idx < seqs.length - 1) {
+                        setCurrentSequence(seqs[idx + 1]);
+                      } else {
+                        fetchNext();
+                      }
                     } else {
                       alert(error.message);
                     }
@@ -224,6 +241,8 @@ function App() {
                onSelectSequence={handleSelectSequence} 
                currentSequenceId={currentSequence?.id} 
              />
+          ) : activeTab === 'guide' ? (
+             <CoderGuide />
           ) : (
              <TurningPointDashboard annotations={annotations} />
           )}

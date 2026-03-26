@@ -28,14 +28,6 @@ export const D3_STRATEGIES = [
 ] as const;
 export type D3Strategy = typeof D3_STRATEGIES[number];
 
-export const PARADOX_TYPES = [
-  'Authority-Agency gap',
-  'Therapeutic misconception',
-  'Obligation gap',
-  'Paradox-potential',
-] as const;
-export type ParadoxType = typeof PARADOX_TYPES[number];
-
 // --- Alignment Matrix (Codebook §4.5) ---
 
 export type AlignmentLevel =
@@ -103,10 +95,7 @@ export interface AnnotationFormData {
   primary_d2_role: D2Role | '';
   d1_support_type: D1SupportType | '';
   d3_strategies: D3Strategy[];
-  role_transition: boolean;
-  paradox_flag: boolean;
-  paradox_type: ParadoxType | '';
-  stance_mismatch: boolean;
+  stance_mismatch: AlignmentLevel | null;
   confidence: 1 | 2 | 3;
   notes: string;
 }

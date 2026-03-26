@@ -14,27 +14,38 @@ const CalibrationDashboard: React.FC<CalibrationDashboardProps> = ({ onSelectSeq
 
   const fetchSequences = async () => {
     setLoading(true);
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+
     const { data } = await supabase
       .from('conversations')
-      .select('*, sequences(*, annotations(*))')
+      .select('*, sequences(*, annotations(*)), conversation_stances(*)')
       .order('external_id', { ascending: true });
 
     if (data) {
       const flattened = data.flatMap(conv => 
-        conv.sequences.map((seq: any) => ({
-          ...seq,
-          external_id: conv.external_id,
-          conversation_db_id: conv.id,
-          conversation_stance: conv.user_stance,
-          turns: conv.raw_json.dialog || [],
-          annotation_count: seq.annotations?.length || 0,
-          is_coded: seq.annotations?.length > 0
-        }))
+        conv.sequences.map((seq: any) => {
+          const userStanceRow = conv.conversation_stances?.find((s: any) => s.coder_id === user.id);
+          const turns = Array.isArray(conv.raw_json) 
+            ? conv.raw_json 
+            : (conv.raw_json.dialog || conv.raw_json.messages || []);
+
+          return {
+            ...seq,
+            external_id: conv.external_id,
+            conversation_db_id: conv.id,
+            conversation_stance: userStanceRow?.user_stance || null,
+            turns: turns,
+            annotation_count: seq.annotations?.length || 0,
+            is_coded: seq.annotations?.some((a: any) => a.coder_id === user.id)
+          };
+        })
       );
       setItems(flattened);
     }
     setLoading(false);
   };
+
 
   useEffect(() => {
     fetchSequences();

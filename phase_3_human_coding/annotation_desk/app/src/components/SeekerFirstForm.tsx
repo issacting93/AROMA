@@ -5,12 +5,12 @@
  * Last Refactor: March 2026
  */
 import { useState } from 'react';
-import { ShieldCheck, Zap, MessageSquare, Save, AlertCircle, AlertTriangle } from 'lucide-react';
+import { ShieldCheck, Zap, MessageSquare, Save } from 'lucide-react';
 import {
-  D2_ROLES, D1_SUPPORT_TYPES, D3_STRATEGIES, PARADOX_TYPES, USER_STANCES,
-  getAlignment, isMismatch, isParadoxRisk,
-  type D2Role, type D1SupportType, type D3Strategy, type ParadoxType,
-  type UserStance, type AlignmentLevel,
+  D2_ROLES, D1_SUPPORT_TYPES, D3_STRATEGIES, USER_STANCES,
+  getAlignment,
+  type D1SupportType, type D3Strategy,
+  type UserStance,
 } from '../types';
 
 interface Turn {
@@ -26,14 +26,6 @@ interface SeekerFirstFormProps {
   onSaveStance: (stance: string, notes: string) => Promise<void>;
   onSaveAnnotation: (data: any) => Promise<void>;
 }
-
-const ALIGNMENT_LABELS: Record<AlignmentLevel, { label: string; style: string }> = {
-  aligned:                 { label: 'Aligned',                   style: 'background: var(--green); color: #fff' },
-  mild_misfit:             { label: 'Mild Misfit',               style: 'background: var(--yellow); color: var(--text)' },
-  misfit:                  { label: 'Misfit',                    style: 'background: var(--orange); color: #fff' },
-  misaligned:              { label: 'Misaligned',                style: 'background: var(--red); color: #fff' },
-  misaligned_paradox_risk: { label: 'Misaligned + Paradox Risk', style: 'background: var(--red); color: #fff' },
-};
 
 const D1_HINTS: Record<string, string> = {
   'Emotional': 'Empathy, sympathy, concern directed at alleviating emotional distress.',
@@ -71,12 +63,9 @@ const SeekerFirstForm: React.FC<SeekerFirstFormProps> = ({
   });
 
   const [formData, setFormData] = useState({
-    primary_d2_role: '' as D2Role | '',
+    primary_d2_role: '' as string,
     d1_support_type: '' as D1SupportType | '',
     d3_strategies: [] as D3Strategy[],
-    role_transition: false,
-    paradox_flag: false,
-    paradox_type: '' as ParadoxType | '',
     confidence: 2 as 1 | 2 | 3,
     notes: '',
   });
@@ -225,7 +214,7 @@ const SeekerFirstForm: React.FC<SeekerFirstFormProps> = ({
 
           {/* D1: Support Type */}
           <div className="stack" style={{ gap: 8, marginBottom: 20 }}>
-            <label className="subtle" style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>D1: Support Type</label>
+            <label className="subtle" style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>D1: Support Type · select one</label>
             <div className="row wrap" style={{ gap: 8, flexWrap: 'wrap' }}>
               {D1_SUPPORT_TYPES.map(opt => (
                 <button
@@ -249,7 +238,7 @@ const SeekerFirstForm: React.FC<SeekerFirstFormProps> = ({
 
           {/* D2: Care Role */}
           <div className="stack" style={{ gap: 8, marginBottom: 20 }}>
-            <label className="subtle" style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>D2: Care Role</label>
+            <label className="subtle" style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>D2: Care Role · select one</label>
             <div className="row wrap" style={{ gap: 8, flexWrap: 'wrap' }}>
               {D2_ROLES.map(opt => (
                 <button
@@ -271,28 +260,9 @@ const SeekerFirstForm: React.FC<SeekerFirstFormProps> = ({
             </div>
           </div>
 
-          {/* Alignment alert (auto-computed) */}
-          {alignment && isMismatch(alignment) && (
-            <div style={{
-              padding: '10px 12px', borderRadius: 8, marginBottom: 12,
-              border: `1px solid ${isParadoxRisk(alignment) ? 'var(--red)' : 'var(--orange)'}`,
-              background: isParadoxRisk(alignment) ? 'rgba(225,29,72,.08)' : 'rgba(245,158,11,.08)',
-            }}>
-              <div className="row" style={{ gap: 6, fontSize: 12, fontWeight: 700 }}>
-                <AlertTriangle size={14} />
-                {ALIGNMENT_LABELS[alignment].label}: {formData.primary_d2_role} + {stanceData.user_stance}
-              </div>
-              {isParadoxRisk(alignment) && (
-                <div style={{ fontSize: 11, color: 'var(--muted)', marginTop: 4 }}>
-                  User cannot critically evaluate authority claims. Check paradox conditions below.
-                </div>
-              )}
-            </div>
-          )}
-
           {/* D3: Support Strategies (multi-select) */}
           <div className="stack" style={{ gap: 8, marginBottom: 20 }}>
-            <label className="subtle" style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>D3: Strategies</label>
+            <label className="subtle" style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>D3: Strategies · select all that apply</label>
             <div className="row wrap" style={{ gap: 6, flexWrap: 'wrap' }}>
               {D3_STRATEGIES.map(st => (
                 <div
@@ -335,50 +305,6 @@ const SeekerFirstForm: React.FC<SeekerFirstFormProps> = ({
             </div>
           </div>
 
-          {/* Toggles: Role Transition + Paradox */}
-          <div className="row" style={{ gap: 10, marginBottom: 12 }}>
-            <div
-              className={`row-btn ${formData.role_transition ? 'active' : ''}`}
-              onClick={() => setFormData({ ...formData, role_transition: !formData.role_transition })}
-            >
-              <Zap size={14} /> Transition
-            </div>
-            <div
-              className={`row-btn ${formData.paradox_flag ? 'active' : ''}`}
-              onClick={() => {
-                const next = !formData.paradox_flag;
-                setFormData({ ...formData, paradox_flag: next, paradox_type: next ? formData.paradox_type : '' });
-              }}
-            >
-              <AlertCircle size={14} /> Paradox
-            </div>
-          </div>
-
-          {/* Paradox type (shown when flagged) */}
-          {formData.paradox_flag && (
-            <div className="stack" style={{ gap: 8, marginBottom: 20 }}>
-              <label className="subtle" style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Paradox Type</label>
-              <div className="row wrap" style={{ gap: 8, flexWrap: 'wrap' }}>
-                {PARADOX_TYPES.map(p => (
-                  <button
-                    key={p}
-                    onClick={() => setFormData({ ...formData, paradox_type: p })}
-                    style={{
-                      padding: '8px 12px', fontSize: 11, borderRadius: 12,
-                      border: '1px solid var(--line)',
-                      background: formData.paradox_type === p ? 'var(--red)' : '#fff',
-                      color: formData.paradox_type === p ? '#fff' : 'var(--text)',
-                      cursor: 'pointer', flex: '1 0 calc(50% - 8px)',
-                      boxShadow: formData.paradox_type === p ? '0 4px 12px rgba(239, 68, 68, 0.2)' : 'none'
-                    }}
-                  >
-                    {p}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-
           {/* Notes */}
           <textarea
             className="input-small"
@@ -398,7 +324,6 @@ const SeekerFirstForm: React.FC<SeekerFirstFormProps> = ({
             disabled={
               !formData.primary_d2_role
               || !formData.d1_support_type
-              || (formData.paradox_flag && !formData.paradox_type)
               || (formData.confidence === 1 && !formData.notes.trim())
               || loading
             }
@@ -411,13 +336,6 @@ const SeekerFirstForm: React.FC<SeekerFirstFormProps> = ({
 
       <style>{`
         .aroma-coder-layout button { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
-        .row-btn {
-          flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px;
-          padding: 10px; border: 1px solid var(--line); border-radius: 12px;
-          font-size: 11px; font-weight: 700; cursor: pointer; background: #fff;
-          text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted);
-        }
-        .row-btn.active { background: var(--blue); color: #fff; border-color: var(--blue); box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2); }
         .scrollable { overflow-y: auto; }
         .input-small {
           width: 100%; padding: 14px; border: 1px solid var(--line); border-radius: 12px;
