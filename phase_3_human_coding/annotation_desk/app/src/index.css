@@ -1,0 +1,32 @@
+@import "tailwindcss";
+@import "./aroma_shared.css";
+
+/* Extra refinements to bridge Tailwind 4 and aroma_shared.css */
+@theme {
+  --color-brand-primary: #171923; /* Matching --text from shared.css */
+}
+
+/* Base Styles */
+:root {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, sans-serif;
+  color-scheme: light;
+}
+
+/* Global Icon Fix: Prevent Lucide icons from taking over the screen */
+svg.lucide {
+  width: 1em;
+  height: 1em;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+/* Specific Sizes for Form Icons */
+.icon-sm { width: 14px; height: 14px; }
+.icon-md { width: 18px; height: 18px; }
+.icon-lg { width: 24px; height: 24px; }
+.icon-xl { width: 48px; height: 48px; }
+
+/* Ensure consistent panel styling across components */
+.panel {
+  box-shadow: var(--shadow); /* Using the variable from aroma_shared.css */
+}

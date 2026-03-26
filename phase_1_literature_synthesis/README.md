@@ -90,10 +90,10 @@ Before scaling extraction to the full corpus, Isaac and Ethan independently extr
 
 **Why this matters:** "role terms" and "strategy terms" are harder to distinguish than they look. "Reflective listening" is simultaneously a role behaviour (what a Listener does) and a strategy (a specific conversational tactic). Define the boundary before you scale:
 
-| Boundary | Role term (D2) | Strategy term (D4) |
+| Boundary | Role term (D2) | Strategy term (D3) |
 |----------|---------------|--------------------|
 | Level of abstraction | Relational stance ("listener", "coach") | Specific technique ("reflective listening", "Socratic questioning") |
-| Scope | Describes the whole posture | Describes a single move/utterance |
+| Scope | Describes the whole stance | Describes a single move/utterance |
 | Test | Can you say "the AI *is* a ___"? | Can you say "the AI *uses* ___"? |
 
 After the pilot, reconcile disagreements and produce a shared extraction decision guide before proceeding.
@@ -111,7 +111,7 @@ For each included paper, extract into a structured spreadsheet:
 | `modality_features` | AI-specific interaction features: "turn-taking," "emoji use," "proactive check-ins," "session structure," etc. |
 | `failure_descriptions` | Any documented breakdowns, mismatches, or safety concerns (Flag instances of the **Authority-Agency Paradox**) |
 | `theoretical_frame` | What theoretical framework the paper uses (if any) |
-| `mapping_to_aroma` | Which AROMA dimension(s) each term maps to: D1/D2/D3/D4/D5 |
+| `mapping_to_aroma` | Which AROMA dimension(s) each term maps to: D1/D2/D3 (original extraction also included D4/D5, later consolidated) |
 
 > The `mapping_to_aroma` column turns extraction directly into Phase 3 input — instead of a separate mapping step, you build the codebook as you extract. It also lets you see in real time which dimensions are underrepresented, which becomes the gap narrative.
 
@@ -139,7 +139,7 @@ After initial extraction, run a forward + backward citation search on the **15 m
 - [x] Term extraction complete for all included papers
 - [x] **≥3 papers per Care Role** (Final count: 6 roles meet threshold; Connector role excluded at 1 paper)
 - [x] Pilot extraction reconciled (Top 5 papers analyzed for paradox signals)
-- [x] PRISMA results mapped to AROMA Dimensions (all 5 dimensions anchored)
+- [x] PRISMA results mapped to AROMA Dimensions (3 canonical dimensions anchored; original extraction used 5 dimensions, later consolidated)
 
 ## Corpus Synthesis Summary
 
@@ -154,4 +154,4 @@ The 203-paper corpus reveals a fragmented terminological landscape. Researchers 
 | **Companion** | Savic (2024), Babu (2025) | Long-term presence and pseudo-intimacy |
 | **Navigator** | Gabriel et al. (2024) | Crisis triage and system referral |
 
-Notably, **D3 (Core Function)** and **Navigator** are the least represented in the literature, highlighting a critical gap in service-navigation capabilities in current AI mental health design.
+Notably, **Navigator** is the least represented role in the literature, highlighting a critical gap in service-navigation capabilities in current AI mental health design. (The original extraction dimension "D3 Core Function" was later removed from the framework as redundant with D2.)

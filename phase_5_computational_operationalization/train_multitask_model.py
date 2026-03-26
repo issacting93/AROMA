@@ -1,5 +1,6 @@
 import os
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
 import json
 import numpy as np
 import torch
@@ -11,6 +12,7 @@ from sklearn.utils.class_weight import compute_class_weight
 from sklearn.metrics import classification_report, confusion_matrix
 import matplotlib.pyplot as plt
 import seaborn as sns
+import pickle
 
 torch.set_num_threads(1)
 
@@ -54,10 +56,11 @@ class MultiTaskAROMAModel(nn.Module):
 
 def main():
     print("Loading Ground Truth Dataset and ONNX Embeddings...")
-    with open("esconv_gold_400.json", "r") as f:
+    with open("data/esconv_gold_balanced.json", "r") as f:
         data = json.load(f)
         
-    X_embeddings = np.load("embeddings_384.npy")
+    embedding_path = "data/embeddings_balanced.npy" if os.path.exists("data/embeddings_balanced.npy") else "data/embeddings_384.npy"
+    X_embeddings = np.load(embedding_path)
     
     if len(data) != X_embeddings.shape[0]:
         raise ValueError(f"Mismatch: JSON has {len(data)} items but Numpy array has {X_embeddings.shape[0]} rows!")
@@ -128,7 +131,7 @@ def main():
     plt.xlabel('Epoch')
     plt.ylabel('Loss')
     plt.legend()
-    plt.savefig('multitask_loss.png')
+    plt.savefig('figures/multitask_loss.png')
     plt.close()
 
     print("\nEvaluating Multi-Task Model on Test Set...")
@@ -166,7 +169,7 @@ def main():
         plt.ylabel('True Label')
         plt.xlabel('Predicted Label')
         plt.tight_layout()
-        plt.savefig(filename)
+        plt.savefig(f"figures/{filename}")
         plt.close()
 
     print("\nGenerating Confusion Matrices...")
@@ -174,6 +177,19 @@ def main():
     plot_cm(all_true_d2, all_preds_d2, le_d2.classes_, 'D2 Care Role Confusion Matrix', 'cm_d2.png')
     plot_cm(all_true_d3, all_preds_d3, le_d3.classes_, 'D3 Strategy Confusion Matrix', 'cm_d3.png')
     print("SUCCESS: Graphs saved (multitask_loss.png, cm_d1.png, cm_d2.png, cm_d3.png)")
+
+    # Save Model and Encoders for Inference
+    print("\nPersisting model and encoders for full-corpus inference...")
+    torch.save(model.state_dict(), 'models/aroma_model.pth')
+    
+    encoders = {
+        'le_d1': le_d1,
+        'le_d2': le_d2,
+        'le_d3': le_d3
+    }
+    with open('models/label_encoders.pkl', 'wb') as f:
+        pickle.dump(encoders, f)
+    print("SUCCESS: Model saved to aroma_model.pth, Encoders saved to label_encoders.pkl")
 
 if __name__ == "__main__":
     main()

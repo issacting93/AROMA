@@ -16,13 +16,15 @@
 ---
 ## 2. Distribution by AROMA Dimension
 
-| Dimension | Paper Count |
+> **Note:** This report was auto-generated during Phase 1 using the original 5-dimension extraction schema. The canonical AROMA framework now uses **3 dimensions**: D1 (Support Type), D2 (Care Role), D3 (Support Strategy). Old D3 (Core Function) was removed as redundant with D2. Old D5 (Interaction Modality) was moved to Discussion. The paper counts below reflect the original extraction and are retained for traceability.
+
+| Dimension (original extraction label) | Paper Count |
 | --- | --- |
 | D1 · Support Type | 58 |
 | D2 · Care Role | 33 |
-| D3 · Core Function | 19 |
-| D4 · Support Strategy | 31 |
-| D5 · Interaction Modality | 62 |
+| ~~D3 · Core Function~~ *(removed — redundant with D2)* | 19 |
+| D3 · Support Strategy *(was D4 in original extraction)* | 31 |
+| ~~D5 · Interaction Modality~~ *(removed — moved to Discussion)* | 62 |
 
 ---
 ## 3. Top Papers per Dimension
@@ -43,7 +45,7 @@
 - **Emotional AI and the rise of pseudo-intimacy: are we trading authenticity for al** (2025) — Frontiers in Psychology
 - **Role of ChatGPT in health science and research: A correspondence addressing pote** (2023) — Health Science Reports
 
-### D3 · Core Function
+### ~~D3 · Core Function~~ *(removed — redundant with D2)*
 
 - **Telemedicine and e-Health Solutions for COVID-19: Patients' Perspective** (2020) — Telemedicine Journal and e-Health
 - **Toward emotional mediation: generative AI in art therapy for psychosocial health** (2025) — Frontiers in Public Health
@@ -51,7 +53,7 @@
 - **The Transformative Potential of AI Chatbots in Hearing Health Care** (2024) — The Hearing Journal
 - **Evaluation of chatbot-delivered interventions for self-management of depression:** (2022) — Journal of affective disorders
 
-### D4 · Support Strategy
+### D3 · Support Strategy *(was D4 in original extraction)*
 
 - **Chatbots for Well-Being: Exploring the Impact of Artificial Intelligence on Mood** (2024) — European Psychiatry
 - **A Systematic Review on Mental Health Chatbots: Trends, Design Principles, Evalua** (2025) — Human Behavior and Emerging Technologies
@@ -59,7 +61,7 @@
 - **Response Generation for Cognitive Behavioral Therapy with Large Language Models:** (2024) — arXiv.org
 - **A Prompt Engineering Framework for Large Language Model-Based Mental Health Chat** (2025) — JMIR mental health
 
-### D5 · Interaction Modality
+### ~~D5 · Interaction Modality~~ *(removed — moved to Discussion)*
 
 - **Applications of Natural Language Processing in the Domain of Mental Health** (2024) — nan
 - **Do We Talk to Robots Like Therapists, and Do They Respond Accordingly? Language ** (2025) — arXiv.org

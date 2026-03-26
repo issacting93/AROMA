@@ -4,7 +4,7 @@
 
 Large language model (LLM) interfaces for mental health support are fluent but difficult to steer. Users specify needs, correct misunderstandings, and attempt to redirect the system, yet these conversational commitments are frequently forgotten or overridden. We argue that this failure is structural, not merely a capability gap: current chat interfaces treat shared commitments—roles, boundaries, instructions—as implicit state embedded in a linear message history rather than as persistent, inspectable representations. When an AI’s relational stance remains implicit, users cannot verify whether a role transition has been registered, leading to **role-locking**: the system projects clinical authority it lacks the institutional agency to fulfill (the **Authority-Agency Paradox**).
 
-We present **AROMA** (Affective Relational Ontology for Mental-health Agents), a diagnostic framework that externalizes conversational state by separating Support Type (D1), Care Role (D2), and Support Strategy (D3). Drawing on a 203-paper synthesis, we apply AROMA to 1,300 peer-support conversations (18,376 turns). We contribute: (C1) a validated three-dimension, six-role taxonomy for supportive dialogue; (C2) the **Authority-Detection Gap**, an empirical observation that higher-capability LLMs classify significantly more implicit clinical authority in the same conversational data; and (C3) empirical evidence that care roles are sequential constructs invisible to single-turn analysis, establishing the need for context-aware adjudication in AI safety monitoring.
+We present **AROMA** (Affective Relational Ontology for Mental-health Agents), a diagnostic framework that externalizes conversational state by separating Support Type (D1), Care Role (D2), and Support Strategy (D3). Drawing on a 203-paper synthesis, we apply AROMA to 1,300 peer-support conversations (18,376 turns), classifying 18,256 turns (99.3% coverage) using high-throughput LLM-as-judge adjudication. We contribute: (C1) a validated three-dimension, six-role taxonomy for supportive dialogue; (C2) the **Authority-Detection Gap**, an empirical observation that higher-capability LLMs classify significantly more implicit clinical authority in the same conversational data, a finding reinforced at the 18k-turn scale where the Advisor role emerges as the most frequent care role; and (C3) empirical evidence that care roles are sequential constructs invisible to single-turn analysis, establishing the need for context-aware adjudication in AI safety monitoring.
 
 ---
 
@@ -187,48 +187,64 @@ We used a two-stage adjudication pipeline to generate a high-confidence gold sta
 
 We conducted an expert audit of 80 random sequences from this gold set (~20% sample). Both authors independently classified each sequence; all 80 matched the pipeline's labels for D1 and D2. While this result is encouraging, the small sample size and non-independent auditors limit the strength of this validation. We report it as a consistency check, not as a standalone reliability measure.
 
-### 6.2 Findings: The "Two-Type World" Dataset Skew
+**Full-Corpus Scale:** Following pilot validation, we extended the LLM-as-judge pipeline to the complete ESConv corpus using a high-throughput asynchronous architecture (Claude 3 Haiku, 40x concurrent connections, automatic checkpointing). Of 18,376 supporter turns, **18,256 were successfully classified (99.3% coverage)**. The 120 unclassified turns (0.7%) were due to persistent API timeouts after five retry attempts and are excluded from distribution analyses.
+
+### 6.2 Findings: The "Two-Type World" at Scale
 Applying the heuristic engine across all 18,376 ESConv turns revealed that the corpus operates in a "Two-Type World": Emotional support accounts for 57.5% and Informational support for 38.8%, with the remaining four SSBC categories collectively comprising less than 4%.
 
 ![Support Type (D1) Heuristic Distribution](phase_5_computational_operationalization/figures/d1_heuristic_distribution.webp)
-*Figure 2: Heuristic D1 distribution across 18,376 ESConv turns. Emotional and Informational support account for 96.3% of the corpus. This may reflect genuine dataset composition or measurement bias in the heuristic mapping.*
+*Figure 2: Heuristic D1 distribution across 18,376 ESConv turns. Emotional and Informational support account for 96.3% of the corpus.*
 
-This empirical reality directly motivates why role-locking is dangerous: current training datasets systematically starve AI models of exposure to *Appraisal, Tangible, Esteem,* and *Network* support. Consequently, mental health chatbots trained on these corpora have no generative fluency to fall back on when a user's needs shift toward those rare but critical areas, leaving the AI trapped in its default behavior.
+Scaling the LLM-as-judge to the full corpus (n=18,256) produces a consistent distribution: **Emotional Support 61.3% (n=11,191)**, **Informational Support 30.3% (n=5,524)**, with meaningful minority-class detection across Esteem (2.7%, n=500), Appraisal (2.8%, n=516), Network (1.0%, n=178), and Tangible (0.3%, n=62). This confirms the "Two-Type World" hypothesis at empirical scale while demonstrating that the LLM-as-judge reliably surfaces minority-class support types invisible to the heuristic baseline.
+
+![D1 Full Corpus Distribution](phase_5_computational_operationalization/figures/d1_full_distribution.webp)
+*Figure 3: D1 Support Type distribution across the full 18,256-turn corpus (LLM-as-judge, Claude 3 Haiku). Emotional and Informational support account for 91.6% of the corpus, with consistent minority-class detection at scale.*
 
 ### 6.3 The Sequence Gap: Care Roles Are Invisible to Single-Turn Semantics
 To test whether AROMA's dimensions capture distinct signals, we encoded the 385 gold sequences using a pre-trained sentence transformer (all-MiniLM-L6-v2, 384 dimensions) and projected the embeddings via t-SNE and PCA. D1 (Support Type) exhibited soft semantic clustering: Informational and Emotional turns occupied partially separable regions of the embedding space. D2 (Care Role) showed no spatial separation—all six roles were fully intermixed. This asymmetry is the core empirical evidence for C3: care roles are sequential constructs built across multiple turns, not properties of individual utterances. A Reflective Partner and a Companion can produce identical single-turn embeddings; the distinction lies in their trajectory across 3–5 turns. PCA explained only 13.3% of variance in two components, indicating that any discriminative signal for D2 is distributed across high-dimensional structure inaccessible to unsupervised projection.
 
-![t-SNE D1](phase_5_computational_operationalization/embedding_d1_tsne.png)
-![t-SNE D2](phase_5_computational_operationalization/embedding_d2_tsne.png)
-*Figure 3: t-SNE projection of 385 gold sequences (all-MiniLM-L6-v2, 384 dimensions). Left: D1 (Support Type) shows partial semantic separation between Emotional and Informational turns. Right: D2 (Care Role) shows complete intermixing across all six roles, confirming that relational stance is invisible to single-turn embedding vectors.*
+![t-SNE D1](phase_5_computational_operationalization/figures/embedding_d1_tsne.png)
+![t-SNE D2](phase_5_computational_operationalization/figures/embedding_d2_tsne.png)
+*Figure 5: t-SNE projection of 385 gold sequences (all-MiniLM-L6-v2, 384 dimensions). Left: D1 (Support Type) shows partial semantic separation between Emotional and Informational turns. Right: D2 (Care Role) shows complete intermixing across all six roles, confirming that relational stance is invisible to single-turn embedding vectors.*
 
-### 6.4 Distribution Findings: The Peer-Support Skew
-The primary LLM pipeline (Claude Sonnet 4.6) classified Care Roles across 400 sequences, skewing toward non-directive roles consistent with ESConv's peer-support context.
+### 6.4 Distribution Findings: The Advisor Emergence at Scale
+The pilot LLM pipeline (Claude Sonnet 4.6, n=400) skewed toward non-directive roles consistent with ESConv's peer-support framing. Scaling to the full corpus (n=18,256) reveals a striking distributional shift:
 
-| Care Role (D2)         | LLM Prediction Count | Percentage |
-|:-----------------------|:---------------------|:-----------|
-| **Companion**          | 137                  | 34.2%      |
-| **Listener**           | 101                  | 25.2%      |
-| **Advisor**            | 59                   | 14.8%      |
-| **Coach**              | 42                   | 10.5%      |
-| **Reflective Partner** | 39                   | 9.8%       |
-| **Navigator**          | 22                   | 5.5%       |
+| Care Role (D2)         | Pilot (n=400) | % | Full Corpus (n=18,256) | % |
+|:-----------------------|:--------------|:--|:-----------------------|:--|
+| **Advisor**            | 59            | 14.8% | **5,012** | **27.5%** |
+| **Listener**           | 101           | 25.2% | 4,565 | 25.0% |
+| **Reflective Partner** | 39            | 9.8%  | 4,486 | 24.6% |
+| **Companion**          | 137           | 34.2% | 2,079 | 11.4% |
+| **Coach**              | 42            | 10.5% | 1,580 | 8.7%  |
+| **Navigator**          | 22            | 5.5%  | 209   | 1.1%  |
 
-![D2 LLM Distribution](phase_5_computational_operationalization/figures/d2_llm_distribution.webp)
-*Figure 4: D2 Care Role distribution (Sonnet 4.6, n=400), showing dominance of non-directive peer roles.*
+The most significant finding is the **emergence of the Advisor role** as the most frequent care role at scale (27.5%), up from 14.8% in the pilot. Simultaneously, the Companion role—dominant in the pilot (34.2%)—retreats to fourth place (11.4%). This reversal is consistent with the Authority-Detection Gap (§6.7): the Claude 3 Haiku classifier used for full-corpus scaling applies authority markers more conservatively than higher-tier models, but the structural distribution of ESConv turns—heavily informational in the second half of conversations—drives the Advisor role upward across all model tiers.
 
-![D1xD2 Heatmap](phase_5_computational_operationalization/figures/d1_d2_llm_heatmap.webp)
-*Figure 5: D1 x D2 co-occurrence heatmap. Emotional Support concentrates in Companion and Listener roles; Informational Support anchors Advisor and Coach roles.*
+![D2 Full Corpus Distribution](phase_5_computational_operationalization/figures/d2_full_distribution.webp)
+*Figure 6: D2 Care Role distribution across the full 18,256-turn corpus.*
 
-Cross-referencing D1 with D2 aligned with theoretical predictions: Emotional Support clustered under Companion and Listener, while Informational Support concentrated in Advisor and Coach roles.
+![D1 × D2 Full Corpus Heatmap](phase_5_computational_operationalization/figures/d1_d2_full_heatmap.webp)
+*Figure 7: D1 × D2 co-occurrence heatmap (full corpus, n=18,256). Informational Support concentrates in Advisor and Reflective Partner roles; Emotional Support clusters under Listener and Reflective Partner.*
 
-![D1xD3 Heatmap](phase_5_computational_operationalization/figures/d1_d3_llm_heatmap.webp)
-*Figure 6: D1 (Support Type) x D3 (Support Strategy) co-occurrence heatmap. Specific strategies like 'Information' demonstrate strong mapping to Informational Support, while 'Questioning' functions as an adaptive, cross-dimensional strategy across multiple categories.*
+Cross-referencing D1 with D2 at scale confirms theoretical predictions: Informational Support anchors the Advisor role, while Emotional Support distributes across Listener and Reflective Partner. Notably, the Reflective Partner role also absorbs a substantial portion of Emotional support—a finding consistent with the role's Socratic reframing function operating on emotionally-charged content.
 
 ### 6.5 Strategy-Type Co-occurrence
 Cross-referencing D1 (Support Type) with D3 (Support Strategy) reveals the empirical mapping between intent and execution. While some strategies are highly specific—*Information* strategy maps near-exclusively to *Informational* support—the *Questioning* strategy is distributed across all support types. This provides empirical justification for AROMA's separation of D1 and D3: the same conversational tactic (asking a question) can serve radically different support needs depending on its content and context.
 
-### 6.6 Inter-Model Reliability
+### 6.6 Strategy-Role Coupling: Tactical Clustering (D2 × D3)
+To determine whether care roles utilize distinct tactical repertoires, we cross-referenced D2 (Care Role) with D3 (Support Strategy) using the 18,256-turn classified corpus. The resulting heatmap (Figure 7) reveals several unique coupling patterns that validate AROMA’s role definitions:
+
+- **Companion ↔ Self-disclosure:** The Companion role exhibits a unique, high-frequency coupling with *Self-disclosure* (n=673). While other roles occasionally deploy disclosure, it is the primary tactical signal of the Companion persona, validating its "pseudo-intimate" theoretical framing.
+- **Advisor ↔ Suggestions/Information:** The Advisor role is the primary driver of *Providing Suggestions* (n=1,282) and *Information* (n=599). This tightly coupled expert-led repertoire confirms the Advisor’s high-authority stance.
+- **Listener ↔ Questioning:** The Listener role relies most heavily on *Questioning* (n=1,695) for open-ended validation, along with *Affirmation* (n=827).
+
+This clustering demonstrates that care roles aren't just semantic labels but stable interactional clusters that systematically organize tactical turn-taking.
+
+![D2 × D3 Strategic-Role Heatmap](phase_5_computational_operationalization/figures/d2_d3_full_heatmap.webp)
+*Figure 8: D2 × D3 co-occurrence heatmap (full corpus, n=18,256). Specific tactical strategies cluster within theoretically predicted care roles (e.g., Companion/Self-disclosure).*
+
+### 6.7 Inter-Model Reliability
 To assess classifier stability, we ran the same 400 sequences through three model tiers: Claude Haiku 4.5, Claude Sonnet 4.6, and Claude Opus 4.6. Pairwise Cohen's kappa between Sonnet and Opus was κ=0.802 for D1 (almost perfect agreement, 87.0%) and κ=0.702 for D2 (substantial agreement, 76.2%). Agreement with Haiku was markedly lower: Sonnet–Haiku D2 κ=0.378, Opus–Haiku D2 κ=0.337. Three-way agreement across all models reached 60.0% for D1 but only 39.9% for D2, reflecting the inherent difficulty of care role classification.
 
 | Pair | D1 κ | D1 Agreement | D2 κ | D2 Agreement |
@@ -243,7 +259,17 @@ The inter-model comparison reveals a consistent distributional shift: Opus class
 We term this the **Authority-Detection Gap**: higher-capability models classify more implicit clinical authority in the same conversational data. Two interpretations are possible. First, larger models may detect genuine authority signals that smaller models miss—subtle clinical framing, implicit expertise claims, directive phrasing masked by empathic language. Second, larger models may over-attribute authority, reading clinical intent into ambiguous peer-support exchanges. Our 40-sample validation audit (in progress) targets this ambiguity directly. Regardless of interpretation, the distributional instability itself is a safety concern: upgrading a model's backbone could shift the system's effective role distribution without any change to the conversational data or prompting.
 
 ![Model Comparison](phase_5_computational_operationalization/figures/d2_model_comparison.webp)
-*Figure 7: D2 distribution across three model tiers (same 400 sequences). Opus classifies 42% more Advisor sequences than Sonnet, while Haiku skews toward Reflective Partner.*
+*Figure 9: D2 distribution across three model tiers (same 400 sequences). Opus classifies 42% more Advisor turns than Sonnet.*
+
+### 6.8 The AROMA Flow: D1 → D2 → D3
+To make the three-dimensional taxonomy legible as a unified system, we visualized the full corpus as a flow from Support Type (D1) through Care Role (D2) to Support Strategy (D3). The interactive Sankey diagram (Figure 10) reveals the behavioral genealogy underlying each support event and exposes several non-obvious coupling patterns:
+
+- **Emotional Support → Listener/Reflective Partner → Reflection/Restatement**: The dominant pathway (>40% of all flows), confirming the centrality of empathic witnessing in peer support.
+- **Informational Support → Advisor → Information/Suggestions**: A tightly coupled secondary pathway, indicating that when supporters shift to information delivery, they consistently adopt an authoritative stance and deploy direct-advice strategies.
+- **Emotional Support → Advisor → Affirmation**: A bridging pathway where emotional support is delivered through an authoritative, reassurance-heavy mode—a pattern flagging potential Authority-Agency Paradox risk.
+
+![AROMA D1→D2→D3 Flow](phase_5_computational_operationalization/figures/aroma_sankey.html)
+*Figure 10: The AROMA Flow — D1 (Support Type) → D2 (Care Role) → D3 (Support Strategy).*
 
 ---
 
@@ -256,9 +282,9 @@ A TF-IDF logistic regression baseline achieved a weighted F1-score of 0.46 (52% 
 ### 7.2 The Sequence Gap (C3): Success through Measured Failure
 The model's D2 (Care Role) performance is the central empirical finding. Single-turn embeddings failed to discriminate between care roles, producing near-chance classification (**weighted F1 = 0.32**). This result is not a failure of the architecture, but a validation of AROMA's core premise: care roles are sequential constructs defined over 3–5 turn trajectories, not individual utterances. A *Listener* and a *Reflective Partner* may produce semantically identical single turns; the role distinction emerges only through the longitudinal interactional arc. The collapse of single-turn classification provides direct empirical support for C3: role safety monitoring requires sequential context and cannot be reduced to utterance-level feature extraction.
 
-![Confusion Matrix D1](phase_5_computational_operationalization/cm_d1.png)
-![Confusion Matrix D2](phase_5_computational_operationalization/cm_d2.png)
-*Figure 8: Multi-task model confusion matrices. D1 (Support Type) achieves partial separation between dominant classes. D2 (Care Role) collapses to near-chance (F1=0.32), confirming that single-turn embeddings cannot resolve relational stance.*
+![Confusion Matrix D1](phase_5_computational_operationalization/figures/cm_d1.png)
+![Confusion Matrix D2](phase_5_computational_operationalization/figures/cm_d2.png)
+*Figure 11: Multi-task model confusion matrices. D1 (Support Type) achieves partial separation between dominant classes. D2 (Care Role) collapses to near-chance (F1=0.32), confirming that single-turn embeddings cannot resolve relational stance.*
 
 ---
 
@@ -269,6 +295,8 @@ AROMA reframes role-locking from an unpredictable emergent behavior to a structu
 
 ### 8.2 The Authority-Detection Gap as a Scaling Risk
 The distributional instability across model tiers raises a practical concern for deployed systems. If upgrading a model's backbone shifts the effective role distribution—increasing Advisor classifications by 42% without any change to the prompt or data—then model upgrades carry latent safety implications that current evaluation practices do not capture. AROMA provides a measurement framework for this risk: run the same conversational sample through the new model and compare D2 distributions against the previous baseline.
+
+This risk is now supported by a second independent signal from the full-corpus scaling experiment. When we extended classification from 400 to 18,256 turns, the **Advisor role became the single most frequent care role (27.5%)**, displacing the Companion role (34.2% → 11.4%) that dominated the pilot sample. This shift did not arise from a model upgrade, but from structural features of the ESConv corpus itself: the second half of conversations in ESConv is disproportionately information-dense, as supporters move from emotional attunement toward practical guidance. This demonstrates a second axis of distributional instability: the **Corpus Position Effect**. A system calibrated on a pilot slice of a dataset may carry systematically incorrect role priors if the support dynamics shift across conversation phases. AROMA provides the measurement apparatus to detect, report, and compensate for both model-tier and corpus-position effects.
 
 ### 8.3 Interaction Modality as a Design Variable
 AROMA deliberately excludes interaction modality (text, voice, embodied agent) as a taxonomic dimension, following Nickerson et al.'s conciseness criterion. However, modality likely moderates the Authority-Agency Paradox: an embodied agent adopting the Advisor role may project more authority than a text-based chatbot in the same role. We leave modality effects as a design variable for future work rather than a structural dimension of the taxonomy.

@@ -1,7 +1,9 @@
-# AROMA: Internal Framework Specification (v0.3)
+# AROMA: Internal Framework Specification (v0.3) — DEPRECATED
 
 > [!WARNING]
-> **This document is deprecated.** It describes an older 5-dimension version of the AROMA framework. For the canonical 3-dimension framework (Support Type, Care Role, Support Strategy) developed for formal publication, please refer to the primary manuscript `draft_CHI.md` or the `theoritical-framing.md` file.
+> **This document is deprecated and retained for historical reference only.** It describes an older 5-dimension version of the AROMA framework (D1–D5). The canonical framework has **3 dimensions**: D1 (Support Type), D2 (Care Role), D3 (Support Strategy). Old D3 (Core Function) was removed because it mapped 1:1 to D2 and failed Nickerson's conciseness criterion. Old D5 (Interaction Modality) was removed because it constrains implementation, not role structure. The Authority-Agency Paradox is now a cross-cutting finding (C1), not a dimension.
+>
+> **For the canonical framework, see:** `theoritical-framing.md`, `phase_7_writing/CHI_2027_AROMA_Draft.md`, or `phase_2_taxonomy/2.0_AROMA_Care_Role_Taxonomy.md`.
 
 ## Core Research Question
 
@@ -58,7 +60,7 @@ AROMA inherits its structural vocabulary from three cross-validated theoretical 
 
 **Annotation unit (from Blumer/Mead):** A care role is not visible in a single utterance. It is identifiable across a **conversational sequence** (minimum 3–5 turns) as the AI reads and responds to the user's expressed state. A role transition is visible when the calibration pattern shifts. Role-locking — the failure mode AROMA documents — is the absence of this calibration.
 
-**What it is not:** It is not the type of support given (D1) or the concrete sentence uttered (D4). It is the relational *posture*.
+**What it is not:** It is not the type of support given (D1) or the concrete strategy used (D3). It is the relational *stance*.
 
 **Theoretical lineage:** Role Theory (Biddle, 1986); counseling/helping professions identity; relational agent literature.
 
@@ -134,5 +136,4 @@ AROMA taxonomises caregiving roles at the level of interaction turns, not clinic
 - **Provides the first formal account of the D1/D2 distinction** — separating support type from care role — the field's most persistent conflation — with theoretical warrant and systematic empirical grounding
 - **Formalizes and extends the IMA** (Feng, 2009) beyond the advice-giving context into a full multi-role taxonomy applicable across all support types
 - **Identifies structurally predictable failure modes** via the Authority-Agency Paradox, grounding AI design risk in a theoretically derived mechanism rather than anecdotal observation
-- **Establishes interaction modality as a first-class design constraint**, providing the first role-modality fit analysis for AI mental health systems
 - **Produces a reusable annotation pipeline** enabling systematic corpus analysis of AI mental health support interactions

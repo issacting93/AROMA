@@ -15,7 +15,7 @@ Using the [Taxonomy Cross-Reference Map](../taxonomy-table.html) and the coded d
 | Question | Analysis |
 |----------|----------|
 | Which AROMA dimensions are well-covered by existing literature? | D1 (Support Type) — already theorised by Cutrona & Suhr |
-| Which are under-theorised? | D2 (Care Role), D4 (Support Strategy), D5 (Interaction Modality) |
+| Which are under-theorised? | D2 (Care Role), D3 (Support Strategy) |
 | Which role–dimension combinations are most empirically supported? | Frequency counts from coded data |
 | Which are theoretically predicted but empirically absent? | Roles the codebook defines but the data rarely instantiates |
 

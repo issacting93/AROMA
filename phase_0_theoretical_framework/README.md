@@ -13,7 +13,7 @@ Establish a cross-validated, defensible theoretical base that CHI reviewers will
 |--------|-----------------|-----------------|
 | Cutrona & Suhr (1992) SSBC | 5 support types: Emotional, Informational, Esteem, Network, Tangible | **D1 — Support Type** (direct inheritance) |
 | Biddle (1986) Role Theory | Theoretical warrant for distinguishing roles from functions — static vs. dynamic, enacted vs. expected | **D2 — Care Role** (conceptual foundation) |
-| Feng (2009) IMA | Sequential communicative moves as empirical precedent for coding utterance-level strategy | **D4 — Support Strategy** (methodological precedent) |
+| Feng (2009) IMA | Sequential communicative moves as empirical precedent for coding utterance-level strategy | **D3 — Support Strategy** (methodological precedent) |
 | Parsons (1951) | Mutual obligation / Structural Binding | **Authority-Agency Paradox** (cross-cutting lens) |
 
 **Deliverable:** A 1-page "Theoretical Anchors" document mapping each anchor to its AROMA dimension, citing the specific constructs inherited.

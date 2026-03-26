@@ -1,7 +1,7 @@
 # Phase 3 — Qualitative Coding (weeks 9–16)
 
 > **Shen et al. parallel:** 13 researchers performing inductive + deductive qualitative coding.
-> **AROMA equivalent:** Isaac + Ethan coding, Vedant arbitrating. Inductive codes (what terms appear in data) merged with deductive codes (which Cutrona & Suhr category does this map to).
+> **AROMA equivalent:** Issac + Ethan coding, Vedant arbitrating. Inductive codes (what terms appear in data) merged with deductive codes (which Cutrona & Suhr category does this map to).
 
 ## Purpose
 
