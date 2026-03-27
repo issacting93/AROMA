@@ -68,9 +68,27 @@ const CoderGuide: React.FC = () => (
     <div style={{ marginBottom: 8 }}>
       <h1 style={{ fontSize: 28, fontWeight: 900, margin: 0 }}>Coder Guide</h1>
       <p className="subtle" style={{ margin: '8px 0 0' }}>
-        Reference for AROMA Phase 3 annotation. Keep this open while you code.
+        Reference for AROMA Phase 3/4 annotation. Keep this open while you code.
       </p>
     </div>
+
+    {/* ── PROTOCOL ── */}
+    <Section title="The AROMA Annotation Protocol" defaultOpen>
+      <div className="notice" style={{ marginBottom: 16 }}>
+        <strong>Top-Down Coding:</strong> We use a 9-step systematic process to ensure high-reliability scientific results.
+      </div>
+      <ol style={{ fontSize: 13, lineHeight: 1.6, paddingLeft: 20 }}>
+        <li><strong>Establish Codes:</strong> Fixed definitions from the v0.5 codebook.</li>
+        <li><strong>Agree on Rules:</strong> Single-select D2 roles, multi-select D3 strategies.</li>
+        <li><strong>Independent Calibration:</strong> Group coding of shared sequences to find edge cases.</li>
+        <li><strong>Measure IRR:</strong> Statistics are run on the calibration batch.</li>
+        <li><strong>Reconcile:</strong> Disagreements are discussed until consensus is reached.</li>
+        <li><strong>Revise:</strong> Codebook definitions are refined based on reconciliation.</li>
+        <li><strong>Repeat:</strong> Steps 3-6 continue until satisfactory agreement.</li>
+        <li><strong>Production:</strong> Non-overlapping batches assigned to individuals.</li>
+        <li><strong>Complete:</strong> Data is finalized for analysis and model training.</li>
+      </ol>
+    </Section>
 
     {/* ── PHASE 1 ── */}
     <Section title="Phase 1: Seeker Stance" defaultOpen>

@@ -202,7 +202,7 @@ export async function fetchRemainingWork(coderId: string) {
 
 // ── Helpers ──
 
-function parseTurns(rawJson: any): Turn[] {
+export function parseTurns(rawJson: any): Turn[] {
   // Expects raw_json to be an array of { speaker, text } or ESConv-style dialogue
   if (Array.isArray(rawJson)) {
     return rawJson.map((entry: any, i: number) => ({

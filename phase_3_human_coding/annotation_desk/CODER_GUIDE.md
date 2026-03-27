@@ -4,6 +4,22 @@
 
 ---
 
+## The AROMA Annotation Protocol
+
+To ensure high-reliability scientific results, we follow a 9-step top-down coding protocol:
+
+1.  **Establish Codes**: Fixed definitions from the v0.5 codebook.
+2.  **Agree on Rules**: Single-select D2 roles, multi-select D3 strategies.
+3.  **Independent Calibration**: Group coding of shared sequences to find edge cases.
+4.  **Measure IRR**: Inter-Rater Reliability statistics are run on the calibration batch.
+5.  **Reconcile**: Disagreements are discussed until consensus is reached.
+6.  **Revise**: Codebook definitions are refined based on reconciliation.
+7.  **Repeat**: Steps 3-6 continue until satisfactory agreement (e.g., Cohen's Kappa > 0.7).
+8.  **Production**: Non-overlapping batches assigned to individuals for full coding.
+9.  **Complete**: Data is finalized for analysis and model training.
+
+---
+
 ## Before You Start
 
 1. **Log in** with the email and password you were given. If you don't have credentials, ask the lead researcher.

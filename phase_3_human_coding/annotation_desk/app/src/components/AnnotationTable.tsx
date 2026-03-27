@@ -1,8 +1,8 @@
 /**
  * AnnotationTable — Tabular view of all annotations with coder tabs and inline editing.
  */
-import { useState, useEffect, useMemo } from 'react';
-import { Save, X, Pencil, Filter, ChevronDown, ChevronUp } from 'lucide-react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { Save, X, Pencil, Filter, ChevronDown, ChevronUp, ExternalLink } from 'lucide-react';
 import * as api from '../supabase';
 import {
   D2_ROLES, D1_SUPPORT_TYPES, D3_STRATEGIES,
@@ -33,7 +33,11 @@ interface CoderInfo {
   label: string;
 }
 
-export default function AnnotationTable() {
+interface AnnotationTableProps {
+  onNavigateToSequence?: (sequenceId: string, conversationId: string) => void;
+}
+
+export default function AnnotationTable({ onNavigateToSequence }: AnnotationTableProps) {
   const [rows, setRows] = useState<AnnotationRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [coders, setCoders] = useState<CoderInfo[]>([]);
@@ -44,6 +48,7 @@ export default function AnnotationTable() {
   const [sortField, setSortField] = useState<SortField>('external_id');
   const [sortAsc, setSortAsc] = useState(true);
   const [filterConv, setFilterConv] = useState('');
+  const [irrMode, setIrrMode] = useState(false);
 
   const fetchData = async () => {
     setLoading(true);
@@ -144,6 +149,51 @@ export default function AnnotationTable() {
     return result;
   }, [rows, activeCoder, filterConv, sortField, sortAsc]);
 
+  // IRR Statistics & Grouping
+  const irrStats = useMemo(() => {
+    if (!rows.length) return { total: 0, shared: 0, d1_kappa: 0, d2_kappa: 0, groups: [] };
+
+    const groups: Record<string, AnnotationRow[]> = {};
+    rows.forEach(r => {
+      if (!groups[r.sequence_id]) groups[r.sequence_id] = [];
+      groups[r.sequence_id].push(r);
+    });
+
+    const sharedGroups = Object.entries(groups).filter(([_, annos]) => annos.length > 1);
+    
+    let d1_agreed = 0;
+    let d2_agreed = 0;
+
+    const irrGroups = sharedGroups.map(([sid, annos]) => {
+      const d1s = new Set(annos.map(a => a.d1_support_type));
+      const d2s = new Set(annos.map(a => a.primary_d2_role));
+      
+      const d1_agree = d1s.size === 1;
+      const d2_agree = d2s.size === 1;
+
+      if (d1_agree) d1_agreed++;
+      if (d2_agree) d2_agreed++;
+
+      return {
+        sequence_id: sid,
+        external_id: annos[0].external_id,
+        turn_range: annos[0].turn_range,
+        conversation_id: annos[0].conversation_id,
+        annotations: annos,
+        d1_agreement: d1_agree,
+        d2_agreement: d2_agree
+      };
+    });
+
+    return {
+      total: Object.keys(groups).length,
+      shared: sharedGroups.length,
+      d1_agreement_rate: sharedGroups.length ? (d1_agreed / sharedGroups.length) * 100 : 0,
+      d2_agreement_rate: sharedGroups.length ? (d2_agreed / sharedGroups.length) * 100 : 0,
+      groups: irrGroups
+    };
+  }, [rows]);
+
   const handleSort = (field: SortField) => {
     if (sortField === field) {
       setSortAsc(!sortAsc);
@@ -201,30 +251,6 @@ export default function AnnotationTable() {
     }
   };
 
-  const stanceBadge = (s: string) => {
-    const colors: Record<string, string> = {
-      aligned: 'var(--green)',
-      mild_misfit: '#C5C56A',
-      misfit: '#DDAA33',
-      misaligned: '#DD8452',
-      misaligned_paradox_risk: 'var(--red)',
-    };
-    return (
-      <span style={{
-        display: 'inline-block',
-        padding: '2px 8px',
-        borderRadius: 6,
-        fontSize: 11,
-        fontWeight: 500,
-        background: colors[s] ? `${colors[s]}22` : 'var(--surface)',
-        color: colors[s] || 'var(--muted)',
-        border: `1px solid ${colors[s] || 'var(--line)'}`,
-      }}>
-        {s || '—'}
-      </span>
-    );
-  };
-
   if (loading) {
     return (
       <div className="panel panel-pad" style={{ textAlign: 'center', padding: 40 }}>
@@ -237,18 +263,47 @@ export default function AnnotationTable() {
     <div className="stack" style={{ gap: 16, padding: 20 }}>
       {/* Header */}
       <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
-        <h2 style={{ margin: 0, fontSize: 18 }}>Annotation Data</h2>
-        <div className="row" style={{ gap: 8, alignItems: 'center' }}>
-          <Filter size={14} color="var(--muted)" />
-          <input
-            type="text"
-            placeholder="Filter by conversation..."
-            value={filterConv}
-            onChange={e => setFilterConv(e.target.value)}
-            style={{ padding: '6px 12px', borderRadius: 8, border: '1px solid var(--line)', fontSize: 13, width: 200 }}
-          />
+        <h2 style={{ margin: 0, fontSize: 18 }}>Annotation {irrMode ? 'IRR Analysis' : 'Data Explorer'}</h2>
+        <div className="row" style={{ gap: 12, alignItems: 'center' }}>
+          <div className="search-box row" style={{ background: '#fff', padding: '6px 12px', borderRadius: 8, border: '1px solid var(--line)' }}>
+            <Filter size={14} color="var(--muted)" />
+            <input
+              type="text"
+              placeholder="Filter by conversation..."
+              value={filterConv}
+              onChange={e => setFilterConv(e.target.value)}
+              style={{ border: 'none', outline: 'none', fontSize: 13, marginLeft: 8, width: 200 }}
+            />
+          </div>
+          <button 
+            className={irrMode ? 'primary' : ''} 
+            onClick={() => setIrrMode(!irrMode)}
+            style={{ fontSize: 12, fontWeight: 700 }}
+          >
+            {irrMode ? 'Exit IRR Mode' : 'Measure IRR'}
+          </button>
         </div>
       </div>
+
+      {/* IRR Summary Card */}
+      {irrMode && (
+        <div className="grid-3" style={{ gap: 12 }}>
+          <div className="panel panel-pad stack" style={{ gap: 8, border: '1px solid var(--line)', background: 'rgba(79, 70, 229, 0.03)' }}>
+             <h4 style={{ fontSize: 10, textTransform: 'uppercase', color: 'var(--muted)', margin: 0 }}>Shared Sequences</h4>
+             <div style={{ fontSize: 24, fontWeight: 900 }}>{irrStats.shared} <span style={{fontSize: 14, fontWeight: 500, color: 'var(--muted)'}}>of {irrStats.total}</span></div>
+          </div>
+          <div className="panel panel-pad stack" style={{ gap: 8, border: '1px solid var(--line)', background: 'rgba(16, 185, 129, 0.03)' }}>
+             <h4 style={{ fontSize: 10, textTransform: 'uppercase', color: 'var(--muted)', margin: 0 }}>D1 Agreement</h4>
+             <div style={{ fontSize: 24, fontWeight: 900, color: 'var(--green)' }}>{Math.round(Number(irrStats.d1_agreement_rate || 0))}%</div>
+             <p style={{fontSize: 10, color: 'var(--muted)', margin: 0}}>Support Type Concordance</p>
+          </div>
+          <div className="panel panel-pad stack" style={{ gap: 8, border: '1px solid var(--line)', background: 'rgba(79, 70, 229, 0.03)' }}>
+             <h4 style={{ fontSize: 10, textTransform: 'uppercase', color: 'var(--muted)', margin: 0 }}>D2 Agreement</h4>
+             <div style={{ fontSize: 24, fontWeight: 900, color: 'var(--blue)' }}>{Math.round(Number(irrStats.d2_agreement_rate || 0))}%</div>
+             <p style={{fontSize: 10, color: 'var(--muted)', margin: 0}}>Care Role Concordance</p>
+          </div>
+        </div>
+      )}
 
       {/* Coder tabs */}
       <div className="row" style={{ gap: 4, borderBottom: '1px solid var(--line)', paddingBottom: 0 }}>
@@ -285,161 +340,91 @@ export default function AnnotationTable() {
             <tr style={{ borderBottom: '2px solid var(--line)', textAlign: 'left' }}>
               <Th field="external_id" label="Conv" onSort={handleSort} sortField={sortField} sortAsc={sortAsc} />
               <Th field="turn_range" label="Turns" onSort={handleSort} sortField={sortField} sortAsc={sortAsc} />
+              {irrMode && <th style={thStyle}>Coder</th>}
               <Th field="primary_d2_role" label="D2 Role" onSort={handleSort} sortField={sortField} sortAsc={sortAsc} />
               <Th field="d1_support_type" label="D1 Type" onSort={handleSort} sortField={sortField} sortAsc={sortAsc} />
               <th style={thStyle}>D3 Strategies</th>
-              <th style={thStyle}>Stance</th>
               <Th field="confidence" label="Conf" onSort={handleSort} sortField={sortField} sortAsc={sortAsc} />
               <th style={thStyle}>Notes</th>
-              <th style={{ ...thStyle, width: 60 }}></th>
+              <th style={{ ...thStyle, width: 80 }}></th>
             </tr>
           </thead>
           <tbody>
-            {displayed.map(row => (
-              <tr
-                key={row.id}
-                style={{
-                  borderBottom: '1px solid var(--line)',
-                  background: editingId === row.id ? 'var(--surface)' : undefined,
-                }}
-              >
-                <td style={tdStyle}>{row.external_id.replace('ESConv_', '#')}</td>
-                <td style={{ ...tdStyle, fontFamily: 'monospace', fontSize: 12 }}>{row.turn_range}</td>
-
-                {/* D2 Role */}
-                <td style={tdStyle}>
-                  {editingId === row.id ? (
-                    <select
-                      value={editData.primary_d2_role ?? ''}
-                      onChange={e => setEditData({ ...editData, primary_d2_role: e.target.value })}
-                      style={editSelectStyle}
-                    >
-                      <option value="">—</option>
-                      {D2_ROLES.map(r => <option key={r} value={r}>{r}</option>)}
-                    </select>
-                  ) : row.primary_d2_role || '—'}
-                </td>
-
-                {/* D1 Type */}
-                <td style={tdStyle}>
-                  {editingId === row.id ? (
-                    <select
-                      value={editData.d1_support_type ?? ''}
-                      onChange={e => setEditData({ ...editData, d1_support_type: e.target.value })}
-                      style={editSelectStyle}
-                    >
-                      <option value="">—</option>
-                      {D1_SUPPORT_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
-                    </select>
-                  ) : row.d1_support_type || '—'}
-                </td>
-
-                {/* D3 Strategies */}
-                <td style={{ ...tdStyle, maxWidth: 220 }}>
-                  {editingId === row.id ? (
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
-                      {D3_STRATEGIES.map(s => (
-                        <label
-                          key={s}
-                          style={{
-                            display: 'inline-flex', alignItems: 'center', gap: 3,
-                            padding: '2px 6px', borderRadius: 4, fontSize: 11, cursor: 'pointer',
-                            background: (editData.d3_strategies ?? []).includes(s) ? 'var(--blue)' : 'var(--surface)',
-                            color: (editData.d3_strategies ?? []).includes(s) ? 'white' : 'var(--fg)',
-                            border: '1px solid var(--line)',
-                          }}
-                        >
-                          <input
-                            type="checkbox"
-                            checked={(editData.d3_strategies ?? []).includes(s)}
-                            onChange={() => toggleD3(s)}
-                            style={{ display: 'none' }}
-                          />
-                          {s}
-                        </label>
-                      ))}
-                    </div>
-                  ) : (
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 3 }}>
-                      {row.d3_strategies.length > 0
-                        ? row.d3_strategies.map(s => (
-                            <span key={s} style={{
-                              padding: '1px 6px', borderRadius: 4, fontSize: 11,
-                              background: 'var(--surface)', border: '1px solid var(--line)',
-                            }}>{s}</span>
-                          ))
-                        : <span style={{ color: 'var(--muted)' }}>—</span>
-                      }
-                    </div>
-                  )}
-                </td>
-
-                {/* Stance */}
-                <td style={tdStyle}>{stanceBadge(row.stance_mismatch)}</td>
-
-                {/* Confidence */}
-                <td style={{ ...tdStyle, textAlign: 'center' }}>
-                  {editingId === row.id ? (
-                    <select
-                      value={editData.confidence ?? 2}
-                      onChange={e => setEditData({ ...editData, confidence: Number(e.target.value) as 1 | 2 | 3 })}
-                      style={{ ...editSelectStyle, width: 50 }}
-                    >
-                      {[1, 2, 3].map(v => <option key={v} value={v}>{v}</option>)}
-                    </select>
-                  ) : row.confidence}
-                </td>
-
-                {/* Notes */}
-                <td style={{ ...tdStyle, maxWidth: 200, fontSize: 11, color: 'var(--muted)' }}>
-                  {editingId === row.id ? (
-                    <textarea
-                      value={editData.notes ?? ''}
-                      onChange={e => setEditData({ ...editData, notes: e.target.value })}
-                      rows={2}
-                      style={{ width: '100%', fontSize: 11, borderRadius: 6, border: '1px solid var(--line)', padding: 4, resize: 'vertical' }}
-                    />
-                  ) : (
-                    row.notes ? (
-                      <span title={row.notes}>
-                        {row.notes.length > 60 ? row.notes.slice(0, 60) + '...' : row.notes}
-                      </span>
-                    ) : '—'
-                  )}
-                </td>
-
-                {/* Actions */}
-                <td style={{ ...tdStyle, textAlign: 'center' }}>
-                  {editingId === row.id ? (
-                    <div className="row" style={{ gap: 4, justifyContent: 'center' }}>
-                      <button
-                        onClick={() => saveEdit(row)}
-                        disabled={saving}
-                        style={{ padding: 4, borderRadius: 6, background: 'var(--green)', color: 'white', border: 'none', cursor: 'pointer' }}
-                        title="Save"
-                      >
-                        <Save size={14} />
-                      </button>
-                      <button
-                        onClick={cancelEdit}
-                        style={{ padding: 4, borderRadius: 6, background: 'var(--surface)', border: '1px solid var(--line)', cursor: 'pointer' }}
-                        title="Cancel"
-                      >
-                        <X size={14} />
-                      </button>
-                    </div>
-                  ) : (
-                    <button
-                      onClick={() => startEdit(row)}
-                      style={{ padding: 4, borderRadius: 6, background: 'transparent', border: '1px solid var(--line)', cursor: 'pointer' }}
-                      title="Edit"
-                    >
-                      <Pencil size={14} />
-                    </button>
-                  )}
-                </td>
-              </tr>
-            ))}
+            {(irrMode ? irrStats.groups : displayed).map(itemOrGroup => {
+              if (irrMode) {
+                const group = itemOrGroup as typeof irrStats.groups[0];
+                return (
+                  <React.Fragment key={group.sequence_id}>
+                    {/* Header for group */}
+                    <tr style={{ background: (group.d1_agreement && group.d2_agreement) ? 'rgba(16, 185, 129, 0.05)' : 'rgba(239, 68, 68, 0.05)' }}>
+                      <td style={{ ...tdStyle, fontWeight: '900', color: 'var(--text)' }} colSpan={2}>
+                        <div className="row" style={{ gap: 8, alignItems: 'center' }}>
+                          <span style={{ fontSize: 13 }}>{group.external_id}</span>
+                          <span style={{ fontSize: 11, color: 'var(--muted)', fontWeight: 400 }}>({group.turn_range})</span>
+                        </div>
+                      </td>
+                      <td colSpan={7} style={{ ...tdStyle, textAlign: 'right' }}>
+                        <div className="row" style={{ gap: 8, justifyContent: 'flex-end', alignItems: 'center' }}>
+                          <span className="badge" style={{ 
+                            background: (group.d1_agreement && group.d2_agreement) ? 'var(--green)' : 'var(--red)',
+                            color: '#fff', fontSize: 10
+                          }}>
+                            {(group.d1_agreement && group.d2_agreement) ? 'AGREEMENT' : 'RECONCILE'}
+                          </span>
+                          {onNavigateToSequence && (
+                            <button 
+                              className="secondary small"
+                              onClick={() => onNavigateToSequence(group.sequence_id, group.conversation_id)}
+                              style={{ padding: '2px 8px', fontSize: 10, display: 'flex', alignItems: 'center', gap: 4 }}
+                            >
+                              <ExternalLink size={12} /> Open to Reconcile
+                            </button>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                    {group.annotations.map(row => (
+                      <AnnotationRowComponent 
+                        key={row.id} 
+                        row={row} 
+                        isEditing={editingId === row.id}
+                        editData={editData}
+                        saving={saving}
+                        irrMode={true}
+                        d1_conflict={!group.d1_agreement}
+                        d2_conflict={!group.d2_agreement}
+                        onEdit={startEdit}
+                        onCancel={cancelEdit}
+                        onSave={saveEdit}
+                        onSetEditData={setEditData}
+                        onToggleD3={toggleD3}
+                        onNavigate={onNavigateToSequence}
+                        coders={coders}
+                      />
+                    ))}
+                  </React.Fragment>
+                );
+              } else {
+                const row = itemOrGroup as AnnotationRow;
+                return (
+                  <AnnotationRowComponent 
+                    key={row.id} 
+                    row={row} 
+                    isEditing={editingId === row.id}
+                    editData={editData}
+                    saving={saving}
+                    irrMode={false}
+                    onEdit={startEdit}
+                    onCancel={cancelEdit}
+                    onSave={saveEdit}
+                    onSetEditData={setEditData}
+                    onToggleD3={toggleD3}
+                    onNavigate={onNavigateToSequence}
+                    coders={coders}
+                  />
+                );
+              }
+            })}
           </tbody>
         </table>
       </div>
@@ -453,11 +438,210 @@ export default function AnnotationTable() {
   );
 }
 
-// --- Sortable header cell ---
+interface AnnotationRowComponentProps {
+  row: AnnotationRow;
+  isEditing: boolean;
+  editData: Partial<AnnotationRow>;
+  saving: boolean;
+  irrMode: boolean;
+  d1_conflict?: boolean;
+  d2_conflict?: boolean;
+  onEdit: (row: AnnotationRow) => void;
+  onCancel: () => void;
+  onSave: (row: AnnotationRow) => Promise<void>;
+  onSetEditData: (data: Partial<AnnotationRow>) => void;
+  onToggleD3: (strat: D3Strategy) => void;
+  onNavigate?: (sid: string, cid: string) => void;
+  coders: CoderInfo[];
+}
+
+function AnnotationRowComponent({ 
+  row, isEditing, editData, saving, irrMode, d1_conflict, d2_conflict,
+  onEdit, onCancel, onSave, onSetEditData, onToggleD3, onNavigate, coders 
+}: AnnotationRowComponentProps) {
+  const coder = coders.find(c => c.id === row.coder_id);
+  const coderName = coder ? coder.label.split(' ')[1] : '?';
+
+  return (
+    <tr
+      style={{
+        borderBottom: '1px solid var(--line)',
+        background: isEditing ? 'rgba(79, 70, 229, 0.05)' : undefined,
+      }}
+    >
+      {!irrMode && <td style={tdStyle}>{row.external_id.replace('ESConv_', '#')}</td>}
+      {!irrMode && <td style={{ ...tdStyle, fontFamily: 'monospace', fontSize: 12 }}>{row.turn_range}</td>}
+      
+      {irrMode && (
+        <td style={{ ...tdStyle, color: 'var(--muted)', fontWeight: 700 }}>
+          {coderName}
+        </td>
+      )}
+
+      {/* D2 Role */}
+      <td style={{ 
+        ...tdStyle, 
+        background: (irrMode && d2_conflict) ? 'rgba(239, 68, 68, 0.03)' : undefined,
+        borderLeft: (irrMode && d2_conflict) ? '2px solid var(--red)' : undefined
+      }}>
+        {isEditing ? (
+          <select
+            value={editData.primary_d2_role ?? ''}
+            onChange={e => onSetEditData({ ...editData, primary_d2_role: e.target.value })}
+            style={editSelectStyle}
+          >
+            <option value="">—</option>
+            {D2_ROLES.map(r => <option key={r} value={r}>{r}</option>)}
+          </select>
+        ) : (
+          <span style={{ color: (irrMode && d2_conflict) ? 'var(--red)' : 'inherit', fontWeight: (irrMode && d2_conflict) ? 700 : 400 }}>
+            {row.primary_d2_role || '—'}
+          </span>
+        )}
+      </td>
+
+      {/* D1 Type */}
+      <td style={{ 
+        ...tdStyle, 
+        background: (irrMode && d1_conflict) ? 'rgba(239, 68, 68, 0.03)' : undefined,
+        borderLeft: (irrMode && d1_conflict) ? '2px solid var(--red)' : undefined
+      }}>
+        {isEditing ? (
+          <select
+            value={editData.d1_support_type ?? ''}
+            onChange={e => onSetEditData({ ...editData, d1_support_type: e.target.value as any })}
+            style={editSelectStyle}
+          >
+            <option value="">—</option>
+            {D1_SUPPORT_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
+          </select>
+        ) : (
+          <span style={{ color: (irrMode && d1_conflict) ? 'var(--red)' : 'inherit', fontWeight: (irrMode && d1_conflict) ? 700 : 400 }}>
+            {row.d1_support_type || '—'}
+          </span>
+        )}
+      </td>
+
+      {/* D3 Strategies */}
+      <td style={{ ...tdStyle, maxWidth: 220 }}>
+        {isEditing ? (
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+            {D3_STRATEGIES.map(s => (
+              <label
+                key={s}
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 3,
+                  padding: '2px 6px', borderRadius: 4, fontSize: 11, cursor: 'pointer',
+                  background: (editData.d3_strategies ?? []).includes(s) ? 'var(--blue)' : 'var(--bg)',
+                  color: (editData.d3_strategies ?? []).includes(s) ? 'white' : 'var(--muted)',
+                  border: '1px solid var(--line)',
+                }}
+              >
+                <input
+                  type="checkbox"
+                  checked={(editData.d3_strategies ?? []).includes(s)}
+                  onChange={() => onToggleD3(s)}
+                  style={{ display: 'none' }}
+                />
+                {s}
+              </label>
+            ))}
+          </div>
+        ) : (
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 3 }}>
+            {row.d3_strategies.length > 0
+              ? row.d3_strategies.map(s => (
+                  <span key={s} style={{
+                    padding: '1px 6px', borderRadius: 4, fontSize: 11,
+                    background: 'var(--bg)', border: '1px solid var(--line)', color: 'var(--muted)'
+                  }}>{s}</span>
+                ))
+              : <span style={{ color: 'var(--muted)' }}>—</span>
+            }
+          </div>
+        )}
+      </td>
+
+      {/* Confidence */}
+      <td style={{ ...tdStyle, textAlign: 'center' }}>
+        {isEditing ? (
+          <select
+            value={editData.confidence ?? 2}
+            onChange={e => onSetEditData({ ...editData, confidence: Number(e.target.value) as 1 | 2 | 3 })}
+            style={{ ...editSelectStyle, width: 50 }}
+          >
+            {[1, 2, 3].map(v => <option key={v} value={v}>{v}</option>)}
+          </select>
+        ) : row.confidence}
+      </td>
+
+      {/* Notes */}
+      <td style={{ ...tdStyle, maxWidth: 200, fontSize: 11, color: 'var(--muted)' }}>
+        {isEditing ? (
+          <textarea
+            value={editData.notes ?? ''}
+            onChange={e => onSetEditData({ ...editData, notes: e.target.value })}
+            rows={2}
+            style={{ width: '100%', fontSize: 11, borderRadius: 6, border: '1px solid var(--line)', padding: 4, resize: 'vertical' }}
+          />
+        ) : (
+          row.notes ? (
+            <span title={row.notes}>
+              {row.notes.length > 60 ? row.notes.slice(0, 60) + '...' : row.notes}
+            </span>
+          ) : '—'
+        )}
+      </td>
+
+      {/* Actions */}
+      <td style={{ ...tdStyle, textAlign: 'center' }}>
+        {isEditing ? (
+          <div className="row" style={{ gap: 4, justifyContent: 'center' }}>
+            <button
+              onClick={() => onSave(row)}
+              disabled={saving}
+              style={{ padding: 4, borderRadius: 6, background: 'var(--green)', color: 'white', border: 'none', cursor: 'pointer' }}
+              title="Save"
+            >
+              <Save size={14} />
+            </button>
+            <button
+              onClick={onCancel}
+              style={{ padding: 4, borderRadius: 6, background: 'var(--bg)', border: '1px solid var(--line)', cursor: 'pointer' }}
+              title="Cancel"
+            >
+              <X size={14} />
+            </button>
+          </div>
+        ) : (
+          <div className="row" style={{ gap: 4, justifyContent: 'center' }}>
+            <button
+              onClick={() => onEdit(row)}
+              style={{ padding: 4, borderRadius: 6, background: 'transparent', border: '1px solid var(--line)', cursor: 'pointer' }}
+              title="Edit inline"
+            >
+              <Pencil size={14} />
+            </button>
+            {onNavigate && (
+              <button
+                onClick={() => onNavigate(row.sequence_id, row.conversation_id)}
+                style={{ padding: 4, borderRadius: 6, background: 'var(--blue)', color: 'white', border: 'none', cursor: 'pointer' }}
+                title="Open in Annotate view"
+              >
+                <ExternalLink size={14} />
+              </button>
+            )}
+          </div>
+        )}
+      </td>
+    </tr>
+  );
+}
+
 function Th({ field, label, onSort, sortField, sortAsc }: {
   field: SortField; label: string;
   onSort: (f: SortField) => void;
-  sortField: SortField; sortAsc: boolean;
+  sortField: SortField | undefined; sortAsc: boolean;
 }) {
   return (
     <th

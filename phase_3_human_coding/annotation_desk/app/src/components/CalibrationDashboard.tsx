@@ -11,6 +11,7 @@ const CalibrationDashboard: React.FC<CalibrationDashboardProps> = ({ onSelectSeq
   const [items, setItems] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
+  const [activePhase, setActivePhase] = useState<1 | 2 | 3>(1);
 
   const fetchSequences = async () => {
     setLoading(true);
@@ -60,13 +61,13 @@ const CalibrationDashboard: React.FC<CalibrationDashboardProps> = ({ onSelectSeq
   };
 
   const calculateStats = () => {
-    const totalSequences = items.length;
-    const codedByAnyone = items.filter(i => i.annotation_count > 0).length;
-    const codedByMe = items.filter(i => i.is_coded).length;
+    const totalSequences = filteredItems.length;
+    const codedByAnyone = filteredItems.filter(i => i.annotation_count > 0).length;
+    const codedByMe = filteredItems.filter(i => i.is_coded).length;
     
     // Remaining for current user
     const remainingSequences = totalSequences - codedByMe;
-    const remainingTurns = items
+    const remainingTurns = filteredItems
       .filter(i => !i.is_coded)
       .reduce((acc, i) => acc + i.turns.length, 0);
 
@@ -77,15 +78,48 @@ const CalibrationDashboard: React.FC<CalibrationDashboardProps> = ({ onSelectSeq
     fetchSequences();
   }, []);
 
-  const filteredItems = items.filter(item => 
-    item.external_id.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredItems = items.filter(item => {
+    const matchesSearch = item.external_id.toLowerCase().includes(search.toLowerCase());
+    if (!matchesSearch) return false;
+
+    // Phase logic: 
+    // Phase 1 = ESConv_0 to ESConv_24 (50 seqs)
+    // Phase 2 = ESConv_25 to ESConv_29 (10 seqs)
+    // Phase 3 = ESConv_30 to ESConv_34 (10 seqs)
+    const num = parseInt(item.external_id.split('_')[1] || '0');
+    if (activePhase === 1) return num < 25;
+    if (activePhase === 2) return num >= 25 && num < 30;
+    return num >= 30;
+  });
 
   return (
     <div className="stack" style={{ gap: 20 }}>
       <div className="row between">
         <h2 style={{ fontSize: 20, fontWeight: 900 }}>Calibration Batch Manager</h2>
-        <div className="row" style={{ gap: 10 }}>
+        <div className="row" style={{ gap: 12, alignItems: 'center' }}>
+          <div className="row" style={{ background: 'var(--panel-alt)', padding: 3, borderRadius: 8 }}>
+            <button 
+              className={activePhase === 1 ? 'primary small' : 'secondary small'} 
+              style={{ border: 'none', background: activePhase === 1 ? 'var(--blue)' : 'transparent', color: activePhase === 1 ? 'white' : 'var(--muted)' }}
+              onClick={() => setActivePhase(1)}
+            >
+              Phase 1
+            </button>
+            <button 
+              className={activePhase === 2 ? 'primary small' : 'secondary small'} 
+              style={{ border: 'none', background: activePhase === 2 ? 'var(--blue)' : 'transparent', color: activePhase === 2 ? 'white' : 'var(--muted)' }}
+              onClick={() => setActivePhase(2)}
+            >
+              Phase 2
+            </button>
+            <button 
+              className={activePhase === 3 ? 'primary small' : 'secondary small'} 
+              style={{ border: 'none', background: activePhase === 3 ? 'var(--blue)' : 'transparent', color: activePhase === 3 ? 'white' : 'var(--muted)' }}
+              onClick={() => setActivePhase(3)}
+            >
+              Phase 3
+            </button>
+          </div>
           <div className="search-box row" style={{ background: '#fff', padding: '6px 12px', borderRadius: 8, border: '1px solid var(--line)' }}>
             <Search size={14} color="var(--muted)" />
             <input 

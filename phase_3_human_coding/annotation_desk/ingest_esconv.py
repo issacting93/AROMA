@@ -26,7 +26,7 @@ def wipe_db():
         except Exception as e:
             print(f"  - Error wiping {table}: {e}")
 
-def ingest(limit=25):
+def ingest(offset=0, limit=25):
     """Ingest conversations and segment them."""
     if not os.path.exists(DATA_PATH):
         print(f"ERROR: Data file not found at {DATA_PATH}")
@@ -36,10 +36,11 @@ def ingest(limit=25):
         data = json.load(f)
 
     print(f"Loaded {len(data)} conversations from {DATA_PATH}")
-    print(f"Ingesting top {limit} conversations...")
+    print(f"Ingesting conversations from index {offset} to {offset + limit}...")
 
-    for idx, conv in enumerate(data[:limit]):
-        ext_id = f"ESConv_{idx}"
+    for i in range(offset, min(offset + limit, len(data))):
+        conv = data[i]
+        ext_id = f"ESConv_{i}"
         
         # Normalize ESConv structure to AROMA schema
         dialog = []
@@ -81,11 +82,17 @@ def ingest(limit=25):
                 }
                 supabase.table("sequences").insert(seq_payload).execute()
         
-        if (idx + 1) % 5 == 0:
-            print(f"  - Processed {idx + 1}/{limit} conversations...")
+        if (i + 1) % 5 == 0:
+            print(f"  - Processed {i + 1}/{offset + limit} conversations...")
 
     print("Ingestion complete.")
 
 if __name__ == "__main__":
-    wipe_db()
-    ingest(limit=25)
+    import sys
+    
+    if "append" in sys.argv:
+        # Phase 2: next 10 conversations = 20 sequences
+        ingest(offset=25, limit=10)
+    else:
+        wipe_db()
+        ingest(offset=0, limit=25)
