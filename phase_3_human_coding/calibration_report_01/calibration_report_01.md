@@ -131,6 +131,58 @@ Coders naturally identify multiple strategies per sequence. This dimension captu
 
 ---
 
+## 9. D3 Strategy Agreement: ESConv Ground Truth vs Human Coders
+
+ESConv provides turn-level strategy labels (one per supporter turn). To compare with the human sequence-level annotations, we aggregated ESConv's turn-level labels into a strategy set per sequence, then measured agreement against each coder's multi-label D3 set.
+
+### Strategy Frequency Comparison
+
+![D3 Frequency Comparison](fig11_d3_frequency_comparison.png)
+
+The biggest divergences between ESConv labels and human coders:
+- **Reflection of Feelings**: Coder B labels this 12 times vs ESConv's 3 — a 4x inflation. Coder A barely uses it (1). This is the sharpest coder divergence on any strategy.
+- **Restatement/Paraphrasing**: ESConv labels this in 9 sequences, but both coders rarely use it (1–2). Human coders may be absorbing this into other categories (Reflection of Feelings, Question).
+- **Others**: ESConv uses this catch-all in 8 sequences; Coder A uses it 3 times, Coder B never. Human coders prefer specific labels.
+- **Affirmation and Reassurance**: Coder A aligns with ESConv (10 vs 7), but Coder B almost never uses it (1).
+
+### Per-Strategy Cohen's Kappa
+
+![D3 Kappa Heatmap](fig9_d3_kappa_heatmap.png)
+
+| Strategy | ESConv n | Coder A n | κ (A) | Coder B n | κ (B) |
+|---|---|---|---|---|---|
+| Question | 20 | 15 | 0.19 | 21 | 0.18 |
+| Affirmation and Reassurance | 7 | 10 | 0.42 | 1 | -0.07 |
+| Providing Suggestions | 6 | 8 | **0.62** | 2 | 0.16 |
+| Reflection of Feelings | 3 | 1 | -0.06 | 12 | -0.05 |
+| Self-disclosure | 4 | 1 | 0.36 | 2 | 0.26 |
+| Information | 1 | 3 | -0.06 | 1 | -0.04 |
+| Restatement/Paraphrasing | 9 | 1 | 0.15 | 2 | 0.07 |
+| Others | 8 | 3 | 0.25 | 0 | 0.00 |
+
+Only one strategy reaches "substantial" agreement (κ > 0.6): **Providing Suggestions** for Coder A. Most kappas are in the slight-to-fair range (0.0–0.4). Question has low kappa despite both coders and ESConv using it frequently — agreement on presence is high, but so is baseline prevalence, which deflates κ.
+
+### Set-Level Similarity
+
+![D3 Jaccard Distribution](fig10_d3_jaccard_distribution.png)
+
+| Comparison | Mean Jaccard | Median Jaccard | Exact Match |
+|---|---|---|---|
+| ESConv vs Coder A | 0.40 | 0.50 | 14.3% |
+| ESConv vs Coder B | 0.30 | 0.33 | 7.1% |
+| Coder A vs Coder B | 0.29 | 0.25 | 10.7% |
+
+Coder A is closer to ESConv ground truth (mean Jaccard 0.40) than Coder B (0.30). Notably, the two human coders agree with each other *less* than either agrees with ESConv — the inter-coder Jaccard (0.29) is the lowest of the three comparisons.
+
+### Interpretation
+
+The low kappa and Jaccard scores reflect a fundamental unit-of-analysis mismatch: ESConv labels individual turns, while human coders label 5-turn sequences holistically. A coder seeing a sequence with 3 questions and 1 suggestion may label it "Question; Providing Suggestions," while ESConv has 3 separate "Question" labels and 1 "Providing Suggestions" label — the sets match, but only by coincidence. The bigger issue is that human coders interpret strategies differently from ESConv's original annotators:
+- **Restatement/Paraphrasing** is systematically under-coded by humans (1–2 vs ESConv's 9), likely absorbed into Reflection of Feelings or Question
+- **Reflection of Feelings** is systematically over-coded by Coder B (12 vs ESConv's 3), suggesting a broader interpretation of what counts as reflecting feelings
+- The "Others" catch-all is avoided by human coders, who prefer specific strategy labels
+
+---
+
 ## Next Steps
 
 1. **Coder B completes ESConv_14–24** to achieve full double-coding on all 25 conversations
