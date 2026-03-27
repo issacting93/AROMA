@@ -200,6 +200,7 @@
   },
   "active": "9ae793cc203f8d8d",
   "lastOpenFiles": [
+    "phase_3_human_coding/annotation_desk/app/src/components/AnnotationTable.tsx",
     "phase_3_human_coding/calibration_report_01/fig11_d3_frequency_comparison.png",
     "phase_3_human_coding/calibration_report_01/fig10_d3_jaccard_distribution.png",
     "phase_3_human_coding/calibration_report_01/fig9_d3_kappa_heatmap.png",
@@ -213,7 +214,6 @@
     "phase_3_human_coding/calibration_report_01/fig6_stance_mismatch.png",
     "phase_3_human_coding/calibration_report_01/fig5_d2_confusion_matrix.png",
     "phase_3_human_coding/calibration_report_01/fig4_none_by_position.png",
-    "phase_3_human_coding/calibration_report_01/fig3_d3_strategies.png",
     "phase_3_human_coding/calibration_report_01/generate_figures.py",
     "phase_3_human_coding/calibration_report_01",
     "aroma_annotations_2026-03-26.csv",

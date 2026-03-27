@@ -11,12 +11,13 @@ import CalibrationDashboard from './components/CalibrationDashboard';
 import Login from './components/Login';
 import * as api from './supabase';
 import CoderGuide from './components/CoderGuide';
-import { LogOut, Loader2, Database, BarChart3, Edit3, BookOpen } from 'lucide-react';
+import AnnotationTable from './components/AnnotationTable';
+import { LogOut, Loader2, Database, BarChart3, Edit3, BookOpen, Table2 } from 'lucide-react';
 import type { Conversation, Sequence, ConversationStance, User as SupaUser } from './types';
 
 function App() {
   const [user, setUser] = useState<SupaUser | null>(null);
-  const [activeTab, setActiveTab] = useState<'annotate' | 'batch' | 'insights' | 'guide'>('annotate');
+  const [activeTab, setActiveTab] = useState<'annotate' | 'batch' | 'insights' | 'guide' | 'data'>('annotate');
   const [currentConversation, setCurrentConversation] = useState<Conversation | null>(null);
   const [currentSequence, setCurrentSequence] = useState<Sequence | null>(null);
   const [coderStance, setCoderStance] = useState<ConversationStance | null>(null);
@@ -130,6 +131,12 @@ function App() {
              onClick={() => setActiveTab('insights')}
             >
               <BarChart3 size={14} style={{ marginRight: 6 }} /> Insights
+            </button>
+           <button
+             className={activeTab === 'data' ? 'primary' : ''}
+             onClick={() => setActiveTab('data')}
+            >
+              <Table2 size={14} style={{ marginRight: 6 }} /> Data
             </button>
            <button
              className={activeTab === 'guide' ? 'primary' : ''}
@@ -251,6 +258,8 @@ function App() {
                onSelectSequence={handleSelectSequence} 
                currentSequenceId={currentSequence?.id} 
              />
+          ) : activeTab === 'data' ? (
+             <AnnotationTable />
           ) : activeTab === 'guide' ? (
              <CoderGuide />
           ) : (
