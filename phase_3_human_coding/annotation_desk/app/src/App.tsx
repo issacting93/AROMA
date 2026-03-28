@@ -13,7 +13,7 @@ import * as api from './supabase';
 import CoderGuide from './components/CoderGuide';
 import AnnotationTable from './components/AnnotationTable';
 import { LogOut, Loader2, Database, BarChart3, Edit3, BookOpen, Table2 } from 'lucide-react';
-import type { Conversation, Sequence, ConversationStance, User as SupaUser } from './types';
+import type { Conversation, Sequence, ConversationStance, User as SupaUser, Turn } from './types';
 
 function App() {
   const [user, setUser] = useState<SupaUser | null>(null);
@@ -71,33 +71,66 @@ function App() {
     }
   }, [user]);
 
-  const handleSelectSequence = async (seq: any) => {
+  const navigateToSequence = async (sequenceId: string, conversationId: string) => {
+    if (!user) return;
     setLoading(true);
     try {
-      // Fetch the full conversation for this sequence to get turns etc.
-      const { data: convRow } = await api.supabase
+      const { data: convRow, error: convErr } = await api.supabase
         .from('conversations')
         .select('id, external_id, raw_json')
-        .eq('id', seq.conversation_id)
+        .eq('id', conversationId)
         .single();
+      if (convErr) { console.error('Failed to fetch conversation:', convErr); return; }
 
-      if (convRow) {
-        // In this architecture, seq.turns is already expected to be parsed
-        // We'll trust the Dashboard sequence data or re-parse here
-        setCurrentConversation({
-          id: convRow.id,
-          external_id: convRow.external_id,
-          turns: seq.turns, // Assuming dash passes full turns
-          sequences: [] // Not strictly needed for the form
+      const { data: seqRow, error: seqErr } = await api.supabase
+        .from('sequences')
+        .select('id, conversation_id, turn_range, is_calibration')
+        .eq('id', sequenceId)
+        .single();
+      if (seqErr) { console.error('Failed to fetch sequence:', seqErr); return; }
+
+      if (convRow && seqRow) {
+        const turns = api.parseTurns(convRow.raw_json);
+        const range = api.parseRange(seqRow.turn_range);
+        const seq: Sequence = {
+          id: seqRow.id,
+          conversation_id: seqRow.conversation_id,
+          turn_range: range,
+          is_calibration: seqRow.is_calibration,
+          turns: turns.filter((t: Turn) => t.turn_number >= range[0] && t.turn_number <= range[1]),
+        };
+
+        // Fetch all sequences for sidebar context
+        const { data: allSeqRows } = await api.supabase
+          .from('sequences')
+          .select('id, conversation_id, turn_range, is_calibration')
+          .eq('conversation_id', conversationId)
+          .order('turn_range', { ascending: true });
+
+        const sequences: Sequence[] = (allSeqRows ?? []).map((s: any) => {
+          const r = api.parseRange(s.turn_range);
+          return {
+            id: s.id,
+            conversation_id: s.conversation_id,
+            turn_range: r,
+            is_calibration: s.is_calibration,
+            turns: turns.filter((t: Turn) => t.turn_number >= r[0] && t.turn_number <= r[1]),
+          };
         });
+
+        setCurrentConversation({ id: convRow.id, external_id: convRow.external_id, turns, sequences });
         setCurrentSequence(seq);
-        const stance = await api.fetchStance(user!.id, convRow.id);
+        const stance = await api.fetchStance(user.id, convRow.id);
         setCoderStance(stance);
         setActiveTab('annotate');
       }
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleSelectSequence = async (seq: any) => {
+    await navigateToSequence(seq.id, seq.conversation_id);
   };
 
   if (!user) return <Login />;
@@ -259,7 +292,7 @@ function App() {
                currentSequenceId={currentSequence?.id} 
              />
           ) : activeTab === 'data' ? (
-             <AnnotationTable />
+             <AnnotationTable onNavigateToSequence={navigateToSequence} />
           ) : activeTab === 'guide' ? (
              <CoderGuide />
           ) : (

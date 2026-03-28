@@ -1,12 +1,26 @@
 # AROMA Calibration Report #1
 
-**Date:** 2026-03-26
+**Date:** 2026-03-28
 **Coders:** 2 (Coder A: bf32f904, Coder B: 41f829d6)
-**Conversations:** ESConv_0 – ESConv_13 (14 conversations, double-coded)
-**Sequences:** 28 per coder (56 total annotations)
+**Conversations:** ESConv_0 – ESConv_24 (25 conversations, full double-coded)
+**Sequences:** 50 per coder (100 total annotations)
 **Sequence window:** 5 turns each — `[2,7)` (early) and `[7,12)` (later)
 
-> **Note:** Coder A also completed ESConv_14–24 (11 additional conversations, 22 sequences) which are excluded from this report. All analyses below use only the 28 sequences both coders labeled.
+> [!NOTE]
+> **Data Origin:** ESConv is a human-human dataset collected via crowd-sourcing. The "supporters" were human participants. Even in human-human interactions, our analysis detects significant "Paradox Risk" when supporters shift into directive roles.
+
+---
+
+## Summary of Agreement
+
+| Dimension | Exact Agreement | Cohen's κ | Interpretation |
+|---|---|---|---|
+| **D1 Support Type** | 20/50 (40%) | 0.163 | Slight |
+| **D2 Care Role** | 15/50 (30%) | 0.112 | Slight |
+| **Stance Mismatch** | 11/50 (22%) | — | Poor |
+| **D3 Strategy (Jaccard)** | Mean 0.34 | — | Low overlap |
+
+Both D1 and D2 kappas are below acceptable thresholds (κ > 0.60 for CHI-quality annotation). This is a calibration problem, not a taxonomy problem — the disagreement patterns are systematic and addressable.
 
 ---
 
@@ -14,12 +28,22 @@
 
 ![D1 Distribution](fig1_d1_distribution.png)
 
-Both coders show the same dominant pattern: Emotional support is the most common category. However, there are clear differences:
-- **Coder A** assigns Emotional more often (14 vs 8) and uses "None" less
-- **Coder B** assigns "None" more frequently (6 vs 4), consistent with a stricter threshold for when support begins
-- Esteem, Network, and Tangible appear only sporadically. **Appraisal is absent entirely.**
+Both coders show the same dominant pattern: Emotional support is the most common category. Key differences:
+- **Coder A** assigns Emotional more often and uses "None" less
+- **Coder B** assigns "None" more frequently, consistent with a stricter threshold for when support begins
+- Esteem, Network, and Tangible appear sporadically. **Appraisal is absent entirely.**
 
-The Emotional/Informational skew is a property of ESConv, not a coder artifact — both coders agree on the overall shape.
+### D1 Confusion Matrix
+
+![D1 Confusion Matrix](fig5b_d1_confusion_matrix.png)
+
+The dominant disagreement axis is **Emotional ↔ None** (14 sequences) — nearly half of all D1 disagreements. This is a threshold problem: coders disagree on whether early-sequence questioning constitutes emotional engagement.
+
+| D1 Boundary | Count | Pattern |
+|---|---|---|
+| **Emotional ↔ None** | 14 | When does questioning become emotional support? |
+| **Emotional ↔ Informational** | 6 | Validation vs. information-giving |
+| **Emotional ↔ Esteem** | 3 | Encouragement vs. emotional support |
 
 ---
 
@@ -27,11 +51,27 @@ The Emotional/Informational skew is a property of ESConv, not a coder artifact �
 
 ![D2 Distribution](fig2_d2_distribution.png)
 
-The biggest coder divergence is here:
-- **Coder A** codes more **Advisor** (8 vs 5) and **Listener** (9 vs 10 — similar)
-- **Coder B** codes more **Reflective Partner** (7 vs 4) and **None** (3 vs 2)
+The biggest coder divergence:
+- **Coder A** codes more **Advisor** and **Listener**
+- **Coder B** codes more **Reflective Partner** and **None**
 
 This suggests a systematic calibration difference: what Coder A reads as directive intent (Advisor), Coder B reads as still probing/reflective (Reflective Partner). Coach and Navigator are marginal for both. **Companion is absent.**
+
+### D2 Confusion Matrix
+
+![D2 Confusion Matrix](fig5_d2_confusion_matrix.png)
+
+Three systematic disagreement clusters:
+
+| D2 Boundary | Count | Pattern |
+|---|---|---|
+| **Listener ↔ None** | 9 | One coder sees incipient listening; the other sees no role yet |
+| **Listener ↔ Reflective Partner** | 8 | Acknowledging vs. synthesizing |
+| **None ↔ Reflective Partner** | 5 | Threshold for any role assignment |
+| **Advisor ↔ Reflective Partner** | 4 | Directive vs. insight-building |
+| **Advisor ↔ Listener** | 3 | Directive advice vs. active listening |
+
+The top 3 disagreement clusters all involve the **None/Listener/Reflective Partner triad** — they account for 22 of 35 disagreements (63%). This is a role-onset boundary problem.
 
 ---
 
@@ -40,14 +80,26 @@ This suggests a systematic calibration difference: what Coder A reads as directi
 ![D3 Strategies](fig3_d3_strategies.png)
 
 Question dominates for both coders. Key differences:
-- **Coder A** uses "Affirmation and Reassurance" and "Providing Suggestions" more — aligning with the more directive D2 coding pattern
+- **Coder A** uses "Affirmation and Reassurance" and "Providing Suggestions" more — aligning with the more directive D2 pattern
 - **Coder B** uses "Reflection of Feelings" more — aligning with the more reflective D2 pattern
 
 ### Multi-Label Distribution
 
 ![D3 Multi-Label](fig8_d3_multilabel.png)
 
-Coder A multi-labels more often (more 2- and 3-strategy sequences), while Coder B tends toward single labels. Both find multi-labeling natural — D3 captures observable co-occurring behaviors more reliably than D2's single-role assignment.
+Coder A multi-labels more often (more 2- and 3-strategy sequences), while Coder B tends toward single labels. D3 captures observable co-occurring behaviors more reliably than D2's single-role assignment.
+
+### D2 Role → D3 Strategy Profile
+
+![D2-D3 Cross-tabulation](fig14_d2_d3_crosstab.png)
+
+This cross-tabulation reveals clear strategy signatures per role:
+- **Listener** is dominated by Question (50%+) and Affirmation
+- **Advisor** is dominated by Providing Suggestions — validates the D2 label
+- **Reflective Partner** has a mixed profile (Question + Affirmation + Restatement)
+- **Coach** has too few instances (n=3) for a reliable profile
+
+This is a useful diagnostic: when D2 labels disagree, checking which D3 strategies were assigned can reveal whether the disagreement is about the label or the observation.
 
 ---
 
@@ -55,32 +107,35 @@ Coder A multi-labels more often (more 2- and 3-strategy sequences), while Coder 
 
 ![None by Position](fig4_none_by_position.png)
 
-Early `[2,7)` sequences receive "None" labels significantly more often than `[7,12)` sequences. Early turns are frequently intake or small talk — the supporter asks opening questions and the seeker describes their situation. Within 5 turns, coders often can't tell whether this will lead to listening, reflecting, or advising.
+Early `[2,7)` sequences receive "None" labels significantly more often than `[7,12)` sequences.
+
+### Agreement by Sequence Position
+
+![Agreement by Position](fig12_agreement_by_position.png)
+
+The position effect on agreement is severe:
+
+| Position | D1 Agreement | D2 Agreement |
+|---|---|---|
+| `[2,7)` early | 28% (7/25) | 20% (5/25) |
+| `[7,12)` later | 52% (13/25) | 40% (10/25) |
+
+Agreement roughly **doubles** in later sequences. Early turns are ambiguous — coders can't tell whether questioning is rapport-building, information-gathering, or emotional engagement within 5 turns.
 
 ### Implications
-- Questions in early sequences are ambiguous: small talk, rapport-building, or information-gathering that will lead to a role — but the short window doesn't reveal which
-- Breaking conversations into short sequences means **losing the trajectory**
+- 5-turn windows starting at turn 2 produce excessive "None" labels and inflate disagreement
 - The codebook needs explicit guidance: does early intake count as "Listener" or "None"?
+- Consider extending the first sequence window or adding a "role onset" marker
 
 ---
 
-## 5. Inter-Rater Agreement
+## 5. Per-Conversation Agreement
 
-### D2 — Care Role (Exact Agreement: 36%)
+![Per-Conversation Agreement](fig13_per_conversation_agreement.png)
 
-![D2 Confusion Matrix](fig5_d2_confusion_matrix.png)
+Agreement varies widely by conversation. ESConv_15 is the only conversation with perfect D1+D2 agreement on both sequences. Conversations ESConv_0, _1, _2, _5, _14, _18, _19, _21, _22, _23, _24 show **zero D2 agreement** — coders disagree on every sequence.
 
-Three systematic disagreement clusters:
-
-| Boundary | Count | Pattern |
-|---|---|---|
-| **Listener ↔ Reflective Partner** | 6 | Disagreement on whether the supporter is merely acknowledging or actively synthesizing/reframing |
-| **None ↔ Listener** | 4 | One coder sees incipient listening; the other sees no role yet |
-| **Advisor ↔ Reflective Partner** | 3 | The teleological distinction (guiding toward action vs. building insight) is hard to operationalize in 5-turn windows |
-
-### D1 — Support Type (Exact Agreement: 46%)
-
-Higher than D2 but still below acceptable calibration thresholds. Much of the disagreement comes from early sequences: one coder codes "None" (no support yet), the other codes "Emotional" (interpreting questions as emotional engagement).
+This suggests some conversations are intrinsically harder to code (ambiguous supporter behavior), while others have clearer role signatures.
 
 ---
 
@@ -88,11 +143,12 @@ Higher than D2 but still below acceptable calibration thresholds. Much of the di
 
 ![Stance Mismatch](fig6_stance_mismatch.png)
 
-- **Coder A** flags more "misaligned_paradox_risk" — sees supporters overstepping their relational position more often
-- **Coder B** assigns more "misfit" — sees a softer mismatch between approach and situation
-- Both agree that fully aligned support is the minority
+- Both coders agree that fully aligned support is the minority (~29%)
+- **Coder A** flags more "misaligned_paradox_risk" — driven by more Advisor labels
+- **Coder B** assigns more "misfit" — driven by more Reflective Partner labels
+- Stance agreement is only 22% — but this is a *downstream* metric. Stance mismatch is computed from D2 role + user stance, so D2 disagreement propagates directly.
 
-The combined misfit + paradox_risk prevalence supports the theoretical prediction that ESConv supporters frequently operate beyond their relational warrant.
+The combined misfit + paradox_risk prevalence supports the theoretical prediction that ESConv supporters frequently operate beyond their relational warrant, even in human-human settings.
 
 ---
 
@@ -100,50 +156,17 @@ The combined misfit + paradox_risk prevalence supports the theoretical predictio
 
 ![Confidence](fig7_confidence.png)
 
-Confidence is moderate for both sequence positions (mostly score 2). The 3 lowest-confidence annotations (score = 1) all involve ambiguous role boundaries — the same cases driving inter-rater disagreement.
+Confidence is moderate for both sequence positions (mostly score 2). Low confidence annotations (n=3 across both coders) are rare. Notably, confidence does **not** predict agreement — coders are equally confident in cases where they agree and disagree (D2 agreement hovers at ~31-33% across all confidence levels).
+
+This means coders aren't flagging their own uncertainty effectively. A calibration session should surface cases where high-confidence codes diverge.
 
 ---
 
-## 8. Key Findings and Codebook Recommendations
-
-### Finding 1: Systematic coder divergence on directiveness
-Coder A consistently codes more directive roles (Advisor) and strategies (Providing Suggestions, Affirmation), while Coder B codes more reflective roles (Reflective Partner) and strategies (Reflection of Feelings, Question). The adjudication session should focus on establishing shared thresholds for when probing becomes advising.
-
-### Finding 2: D1 and D2 are heavily skewed in ESConv
-Emotional and Informational dominate D1. Listener, Advisor, and Reflective Partner dominate D2. Navigator, Companion, Tangible, Network, and Appraisal are effectively absent. **Supplementary corpora will be needed** to validate the full taxonomy.
-
-### Finding 3: Short sequences obscure role emergence
-5-turn windows starting at turn 2 frequently capture intake/small talk rather than established support. This produces "None" labels and inflates disagreement. Consider:
-- Allowing "Pre-role" or "Establishing" as an explicit early-sequence code
-- Extending the first sequence window (e.g., `[2,10)`)
-- Adding a "role onset" marker so coders flag when support actually begins
-
-### Finding 4: The Listener/Reflective Partner boundary needs sharpening
-This is the #1 source of inter-rater disagreement (6/18 disagreements). Proposed anchors:
-- **Listener**: Supporter asks questions and/or acknowledges without adding interpretive content
-- **Reflective Partner**: Supporter explicitly reframes, paraphrases with added meaning, or names an emotion the seeker didn't state
-
-### Finding 5: D3 multi-labeling works well
-Coders naturally identify multiple strategies per sequence. This dimension captures observable behaviors rather than inferred relational stances, making it the most reliable for the embedding model.
-
-### Finding 6: Questions are ambiguous across all dimensions
-"Question" is ubiquitous but functionally heterogeneous — small talk, empathic probing, information gathering, or Socratic coaching. The codebook may benefit from distinguishing question subtypes (e.g., open-ended exploratory vs. directed/clarifying).
-
----
-
-## 9. D3 Strategy Agreement: ESConv Ground Truth vs Human Coders
-
-ESConv provides turn-level strategy labels (one per supporter turn). To compare with the human sequence-level annotations, we aggregated ESConv's turn-level labels into a strategy set per sequence, then measured agreement against each coder's multi-label D3 set.
+## 8. D3 Strategy Agreement: ESConv Ground Truth vs Human Coders
 
 ### Strategy Frequency Comparison
 
 ![D3 Frequency Comparison](fig11_d3_frequency_comparison.png)
-
-The biggest divergences between ESConv labels and human coders:
-- **Reflection of Feelings**: Coder B labels this 12 times vs ESConv's 3 — a 4x inflation. Coder A barely uses it (1). This is the sharpest coder divergence on any strategy.
-- **Restatement/Paraphrasing**: ESConv labels this in 9 sequences, but both coders rarely use it (1–2). Human coders may be absorbing this into other categories (Reflection of Feelings, Question).
-- **Others**: ESConv uses this catch-all in 8 sequences; Coder A uses it 3 times, Coder B never. Human coders prefer specific labels.
-- **Affirmation and Reassurance**: Coder A aligns with ESConv (10 vs 7), but Coder B almost never uses it (1).
 
 ### Per-Strategy Cohen's Kappa
 
@@ -151,16 +174,20 @@ The biggest divergences between ESConv labels and human coders:
 
 | Strategy | ESConv n | Coder A n | κ (A) | Coder B n | κ (B) |
 |---|---|---|---|---|---|
-| Question | 20 | 15 | 0.19 | 21 | 0.18 |
-| Affirmation and Reassurance | 7 | 10 | 0.42 | 1 | -0.07 |
-| Providing Suggestions | 6 | 8 | **0.62** | 2 | 0.16 |
-| Reflection of Feelings | 3 | 1 | -0.06 | 12 | -0.05 |
-| Self-disclosure | 4 | 1 | 0.36 | 2 | 0.26 |
-| Information | 1 | 3 | -0.06 | 1 | -0.04 |
-| Restatement/Paraphrasing | 9 | 1 | 0.15 | 2 | 0.07 |
-| Others | 8 | 3 | 0.25 | 0 | 0.00 |
+| Question | 32 | 28 | 0.255 | 36 | 0.361 |
+| Affirmation and Reassurance | 15 | 15 | 0.429 | 1 | -0.039 |
+| Providing Suggestions | 8 | 14 | 0.429 | 3 | 0.303 |
+| Reflection of Feelings | 11 | 3 | -0.104 | 16 | -0.052 |
+| Self-disclosure | 12 | 3 | 0.189 | 3 | 0.189 |
+| Information | 3 | 3 | -0.064 | 1 | -0.031 |
+| Restatement/Paraphrasing | 13 | 4 | 0.129 | 2 | 0.069 |
+| Others | 12 | 4 | 0.290 | 0 | 0.000 |
 
-Only one strategy reaches "substantial" agreement (κ > 0.6): **Providing Suggestions** for Coder A. Most kappas are in the slight-to-fair range (0.0–0.4). Question has low kappa despite both coders and ESConv using it frequently — agreement on presence is high, but so is baseline prevalence, which deflates κ.
+Key observations:
+- **Question** kappa improved (Coder B: 0.361) — most frequently co-assigned strategy
+- **Affirmation and Reassurance**: Coder A aligns with ESConv (κ=0.429); Coder B virtually never assigns it (n=1)
+- **Reflection of Feelings**: Neither coder aligns with ESConv (negative κ), but in opposite directions — Coder A under-detects, Coder B over-detects
+- **Restatement/Paraphrasing**: Both coders dramatically under-detect vs ESConv (13 in ESConv, 4 and 2 in human coding)
 
 ### Set-Level Similarity
 
@@ -168,25 +195,53 @@ Only one strategy reaches "substantial" agreement (κ > 0.6): **Providing Sugges
 
 | Comparison | Mean Jaccard | Median Jaccard | Exact Match |
 |---|---|---|---|
-| ESConv vs Coder A | 0.40 | 0.50 | 14.3% |
-| ESConv vs Coder B | 0.30 | 0.33 | 7.1% |
-| Coder A vs Coder B | 0.29 | 0.25 | 10.7% |
+| ESConv vs Coder A | 0.37 | 0.33 | 12.0% |
+| ESConv vs Coder B | 0.31 | 0.33 | 8.0% |
+| Coder A vs Coder B | 0.34 | 0.29 | 18.0% |
 
-Coder A is closer to ESConv ground truth (mean Jaccard 0.40) than Coder B (0.30). Notably, the two human coders agree with each other *less* than either agrees with ESConv — the inter-coder Jaccard (0.29) is the lowest of the three comparisons.
+Inter-coder exact match (18%) is higher than either coder vs ESConv — suggesting the human coders share a systematic re-interpretation of strategies relative to the ESConv ground truth, rather than being randomly noisy.
 
-### Interpretation
+---
 
-The low kappa and Jaccard scores reflect a fundamental unit-of-analysis mismatch: ESConv labels individual turns, while human coders label 5-turn sequences holistically. A coder seeing a sequence with 3 questions and 1 suggestion may label it "Question; Providing Suggestions," while ESConv has 3 separate "Question" labels and 1 "Providing Suggestions" label — the sets match, but only by coincidence. The bigger issue is that human coders interpret strategies differently from ESConv's original annotators:
-- **Restatement/Paraphrasing** is systematically under-coded by humans (1–2 vs ESConv's 9), likely absorbed into Reflection of Feelings or Question
-- **Reflection of Feelings** is systematically over-coded by Coder B (12 vs ESConv's 3), suggesting a broader interpretation of what counts as reflecting feelings
-- The "Others" catch-all is avoided by human coders, who prefer specific strategy labels
+## 9. Key Findings
+
+### Finding 1: Agreement is below acceptable thresholds
+D1 κ=0.163 and D2 κ=0.112 are both in the "slight agreement" range. For a CHI submission claiming empirical annotation, we need κ > 0.60. This requires targeted codebook clarification before proceeding to Phase 2.
+
+### Finding 2: The None/Listener/Reflective Partner triad is the primary disagreement source
+63% of D2 disagreements involve these three labels. The Emotional ↔ None boundary drives 47% of D1 disagreements. Both are role-onset problems.
+
+### Finding 3: Agreement doubles in later sequences
+Early sequences ([2,7)) have 20% D2 agreement; later sequences ([7,12)) have 40%. The 5-turn window at conversation start is systematically ambiguous.
+
+### Finding 4: Coder profiles are internally consistent but divergent
+Coder A codes more directive roles (Advisor) with directive strategies (Providing Suggestions, Affirmation). Coder B codes more reflective roles (Reflective Partner) with reflective strategies (Reflection of Feelings). This is a calibration gap, not random noise — addressable through adjudication.
+
+### Finding 5: D2 and D3 are mutually validating
+The D2→D3 cross-tabulation shows clear strategy signatures per role. When coders assign "Advisor", they also assign "Providing Suggestions". This internal consistency validates the taxonomy design even as inter-rater reliability needs improvement.
+
+### Finding 6: Confidence does not predict agreement
+Coders are equally confident in agreed and disagreed cases. The calibration session should include high-confidence disagreements as discussion cases.
+
+---
+
+## 10. Codebook Recommendations
+
+1. **Sharpen the None/Listener boundary.** Add explicit decision rule: if the supporter asks >= 2 questions in the sequence window, code at minimum "Listener" (not "None"). None should be reserved for pure small talk with zero support-oriented behavior.
+
+2. **Sharpen the Listener/Reflective Partner boundary.** Current distinction (acknowledging vs. synthesizing) is too subtle at 5-turn granularity. Propose operationalization: if the supporter restates or paraphrases *any* seeker content, it's Reflective Partner. Pure acknowledgment ("I understand", "that sounds hard") stays Listener.
+
+3. **Sharpen the Emotional/None D1 boundary.** Any questioning that acknowledges the seeker's emotional state (even implicitly via topic selection) should be coded Emotional. "None" is only for content with zero emotional or informational orientation.
+
+4. **Add "Restatement/Paraphrasing" calibration examples.** Both coders dramatically under-detect this relative to ESConv ground truth (13 in ESConv vs 4 and 2). Need explicit examples.
+
+5. **Consider extending early sequence window.** [2,7) may be too narrow for role emergence. Options: extend to [2,9), overlap windows, or add a "pre-role" phase marker.
 
 ---
 
 ## Next Steps
 
-1. **Coder B completes ESConv_14–24** to achieve full double-coding on all 25 conversations
-2. **Adjudication session** on the 18 D2 disagreements — focus on the Advisor vs. Reflective Partner threshold
-3. **Codebook v0.3** addressing the Listener/Reflective Partner boundary and early-sequence guidance
-4. **Discuss sequence windowing** — extend the first window or add a pre-role code
-5. **Plan supplementary corpus** for underrepresented roles and support types
+1. **Adjudication session** — walk through the 35 D2 disagreements together. Priority: the 22 in the None/Listener/Reflective Partner triad.
+2. **Codebook v0.3** — implement recommendations 1-4 above.
+3. **Re-code 10 sequences** post-adjudication to measure κ improvement.
+4. **Plan supplementary corpus** for underrepresented roles (Companion, Navigator, Coach).

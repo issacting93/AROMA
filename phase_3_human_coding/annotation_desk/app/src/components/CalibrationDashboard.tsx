@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { supabase } from '../supabase';
+import { supabase, parseRange } from '../supabase';
 import { Play, CheckCircle, Clock, Search, Layers, UserCheck } from 'lucide-react';
 
 interface CalibrationDashboardProps {
@@ -31,10 +31,8 @@ const CalibrationDashboard: React.FC<CalibrationDashboardProps> = ({ onSelectSeq
             ? conv.raw_json 
             : (conv.raw_json.dialog || conv.raw_json.messages || []);
 
-          // Parse Postgres range [start, end)
-          const match = seq.turn_range.match(/[\[(](\d+),(\d+)[)\]]/);
-          const lower = match ? parseInt(match[1]) : 0;
-          const upper = match ? parseInt(match[2]) : turnsRaw.length;
+          const [lower, upperInclusive] = parseRange(seq.turn_range);
+          const upper = upperInclusive + 1; // parseRange returns inclusive upper, filter below uses exclusive
           
           // Map to Turn objects and filter by range
           const turns = turnsRaw.map((t: any, i: number) => ({

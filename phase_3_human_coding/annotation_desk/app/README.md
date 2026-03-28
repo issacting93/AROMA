@@ -1,73 +1,58 @@
-# React + TypeScript + Vite
+# AROMA Annotation Desk
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Research annotation tool for the AROMA project (Phase 3 human coding). Built with React 19, TypeScript, Vite, and Supabase.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Annotate** — Code conversation sequences across three dimensions (D1 Support Type, D2 Care Role, D3 Strategy) with stance-alignment tracking
+- **Batch** — Calibration batch manager with 3-phase workflow, progress tracking, and per-coder status
+- **Data** — Tabular annotation explorer with inline editing, coder tabs, sorting, filtering, and IRR (inter-rater reliability) analysis mode
+- **Insights** — Turning-point dashboard visualizing annotation distributions
+- **Guide** — Embedded coder guide / codebook reference
 
-## React Compiler
+## Architecture
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+├── App.tsx                  # Main shell: auth, routing, sidebar, navigation
+├── supabase.ts              # Supabase client, auth, CRUD, helpers (parseTurns, parseRange)
+├── types.ts                 # Shared types, enums (D1/D2/D3), alignment matrix
+└── components/
+    ├── Login.tsx             # Auth form
+    ├── SeekerFirstForm.tsx   # Primary annotation form (seeker-first protocol)
+    ├── CalibrationDashboard.tsx  # Batch/sequence browser with phase filters
+    ├── AnnotationTable.tsx   # Data explorer with IRR mode and inline edit
+    ├── TurningPointDashboard.tsx # Annotation analytics
+    ├── CoderGuide.tsx        # Embedded codebook reference
+    └── ExportButton.tsx      # Data export utility
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Setup
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
+
+Create `.env` with your Supabase credentials:
+
+```
+VITE_SUPABASE_URL=https://your-project.supabase.co
+VITE_SUPABASE_ANON_KEY=your-anon-key
+```
+
+## Development
+
+```bash
+npm run dev      # Start dev server with HMR
+npm run build    # Type-check + production build
+npm run lint     # ESLint
+npm run preview  # Preview production build
+```
+
+## Codebook Version
+
+This app tracks **Codebook v0.2.2** (Protocol v0.2.2). The annotation schema maps to:
+
+- **D1** — Support Type (Cutrona & Suhr 1992): Emotional, Informational, Esteem, Network, Tangible, Appraisal
+- **D2** — Care Role (Biddle 1986 + Blumer 1969): Listener, Reflective Partner, Coach, Advisor, Navigator, Companion
+- **D3** — Support Strategy (Hill 2009 + ESConv): Question, Restatement/Paraphrasing, Reflection of Feelings, Self-disclosure, Affirmation and Reassurance, Providing Suggestions, Information, Others

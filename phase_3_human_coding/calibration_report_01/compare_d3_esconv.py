@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Compare original ESConv D3 strategy labels with human coder labels.
 
+Full Phase 1 dataset: 50 double-coded sequences across ESConv_0–24.
+
 ESConv labels are turn-level (one strategy per supporter turn).
 Human labels are sequence-level (multi-label per 5-turn window).
 
@@ -28,7 +30,7 @@ matplotlib.rcParams.update({
 })
 
 OUT = os.path.dirname(os.path.abspath(__file__))
-CSV_PATH = os.path.join(OUT, "..", "..", "aroma_annotations_2026-03-26.csv")
+CSV_PATH = os.path.join(OUT, "..", "..", "aroma_annotations_2026-03-28.csv")
 ESCONV_PATH = os.path.join(OUT, "..", "..",
     "phase_5_computational_operationalization", "data", "ESConv.json")
 

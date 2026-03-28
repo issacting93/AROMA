@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Generate all figures for AROMA Calibration Report #1 (2026-03-26).
+"""Generate all figures for AROMA Calibration Report #1.
 
-All figures use ONLY the 28 double-coded sequences (ESConv_0–13)
-to ensure fair coder-to-coder comparison.
+Uses the full Phase 1 dataset: 50 double-coded sequences across
+ESConv_0–24 (25 conversations, 2 sequences each, 2 coders).
 """
 
 import csv
@@ -22,7 +22,7 @@ matplotlib.rcParams.update({
 })
 
 OUT = os.path.dirname(os.path.abspath(__file__))
-CSV_PATH = os.path.join(OUT, "..", "..", "aroma_annotations_2026-03-26.csv")
+CSV_PATH = os.path.join(OUT, "..", "..", "aroma_annotations_2026-03-28.csv")
 
 # ---------- Load data ----------
 rows = []
@@ -40,19 +40,46 @@ for r in rows:
     paired.setdefault(key, {})[r["coder_id"].strip()] = r
 both = {k: v for k, v in paired.items() if len(v) == 2}
 
-# Flat lists of only double-coded rows
 rows_a = [v[CODER_A] for v in both.values()]
 rows_b = [v[CODER_B] for v in both.values()]
-N = len(both)  # 28
+N = len(both)
 
 print(f"Double-coded sequences: {N}")
 print(f"Conversations: {sorted(set(r['external_id'].strip() for r in rows_a))}")
 
-w = 0.35  # bar width
+w = 0.35
+
+
+# ---------- Helpers ----------
+def cohens_kappa_nominal(list_a, list_b):
+    """Cohen's kappa for nominal categories."""
+    n = len(list_a)
+    cats = sorted(set(list_a) | set(list_b))
+    agree = sum(1 for a, b in zip(list_a, list_b) if a == b)
+    po = agree / n
+    pe = sum((list_a.count(c) / n) * (list_b.count(c) / n) for c in cats)
+    if pe == 1.0:
+        return 1.0 if po == 1.0 else 0.0
+    return (po - pe) / (1 - pe)
+
+
+# Compute kappas for the report
+d1_labels_a = [v[CODER_A]["d1_support_type"].strip() for v in both.values()]
+d1_labels_b = [v[CODER_B]["d1_support_type"].strip() for v in both.values()]
+d2_labels_a = [v[CODER_A]["primary_d2_role"].strip() for v in both.values()]
+d2_labels_b = [v[CODER_B]["primary_d2_role"].strip() for v in both.values()]
+
+d1_kappa = cohens_kappa_nominal(d1_labels_a, d1_labels_b)
+d2_kappa = cohens_kappa_nominal(d2_labels_a, d2_labels_b)
+d1_agree = sum(1 for a, b in zip(d1_labels_a, d1_labels_b) if a == b)
+d2_agree = sum(1 for a, b in zip(d2_labels_a, d2_labels_b) if a == b)
+
+print(f"D1 agreement: {d1_agree}/{N} = {d1_agree/N*100:.1f}%, κ = {d1_kappa:.3f}")
+print(f"D2 agreement: {d2_agree}/{N} = {d2_agree/N*100:.1f}%, κ = {d2_kappa:.3f}")
 
 
 # ============================================================
-# Fig 1 — D1 Support Type (per coder, double-coded only)
+# Fig 1 — D1 Support Type (per coder)
 # ============================================================
 D1_ORDER = ["Emotional", "Informational", "Esteem", "Network", "Tangible",
             "Appraisal", "None", "Ambiguous"]
@@ -68,7 +95,7 @@ ax.bar(x + w/2, [d1_b[l] for l in labels], w, label="Coder B", color="#DD8452")
 ax.set_xticks(x)
 ax.set_xticklabels(labels, rotation=30, ha="right")
 ax.set_ylabel("Count")
-ax.set_title(f"D1 — Support Type Distribution (double-coded, n={N} per coder)")
+ax.set_title(f"D1 — Support Type Distribution (n={N} per coder)")
 ax.legend()
 for i, l in enumerate(labels):
     for offset, val in [(-w/2, d1_a[l]), (w/2, d1_b[l])]:
@@ -80,7 +107,7 @@ plt.close()
 
 
 # ============================================================
-# Fig 2 — D2 Care Role (per coder, double-coded only)
+# Fig 2 — D2 Care Role (per coder)
 # ============================================================
 D2_ORDER = ["Listener", "Reflective Partner", "Coach", "Advisor",
             "Navigator", "Companion", "None", "Ambiguous"]
@@ -95,7 +122,7 @@ ax.bar(x + w/2, [d2_b[l] for l in labels2], w, label="Coder B", color="#DD8452")
 ax.set_xticks(x)
 ax.set_xticklabels(labels2, rotation=30, ha="right")
 ax.set_ylabel("Count")
-ax.set_title(f"D2 — Care Role Distribution (double-coded, n={N} per coder)")
+ax.set_title(f"D2 — Care Role Distribution (n={N} per coder)")
 ax.legend()
 for i, l in enumerate(labels2):
     for offset, val in [(-w/2, d2_a[l]), (w/2, d2_b[l])]:
@@ -107,7 +134,7 @@ plt.close()
 
 
 # ============================================================
-# Fig 3 — D3 Strategy frequency (per coder, double-coded only)
+# Fig 3 — D3 Strategy frequency (per coder)
 # ============================================================
 d3_a = Counter()
 d3_b = Counter()
@@ -130,7 +157,7 @@ ax.barh(y - w/2, [d3_b[s] for s in all_strats[::-1]], w,
 ax.set_yticks(y)
 ax.set_yticklabels(all_strats[::-1], fontsize=9)
 ax.set_xlabel("Frequency (multi-label)")
-ax.set_title(f"D3 — Support Strategy Frequency (double-coded, n={N} per coder)")
+ax.set_title(f"D3 — Support Strategy Frequency (n={N} per coder)")
 ax.legend(fontsize=9)
 plt.tight_layout()
 plt.savefig(os.path.join(OUT, "fig3_d3_strategies.png"))
@@ -138,9 +165,9 @@ plt.close()
 
 
 # ============================================================
-# Fig 4 — None-role by sequence position (double-coded only)
+# Fig 4 — None-role by sequence position
 # ============================================================
-all_dc = rows_a + rows_b  # both coders' labels on same sequences
+all_dc = rows_a + rows_b
 seq1 = [r for r in all_dc if "[2,7)" in r["turn_range"]]
 seq2 = [r for r in all_dc if "[7,12)" in r["turn_range"]]
 none1 = sum(1 for r in seq1 if r["primary_d2_role"].strip() == "None")
@@ -164,7 +191,7 @@ plt.close()
 
 
 # ============================================================
-# Fig 5 — Inter-rater confusion matrix (D2)
+# Fig 5 — D2 Inter-rater confusion matrix
 # ============================================================
 role_labels = ["Listener", "Reflective Partner", "Coach", "Advisor",
                "Navigator", "None", "Ambiguous"]
@@ -176,7 +203,7 @@ for k, coders in both.items():
     if a_role in role_labels and b_role in role_labels:
         matrix[role_labels.index(a_role), role_labels.index(b_role)] += 1
 
-agree = sum(matrix[i, i] for i in range(n_roles))
+agree_d2 = sum(matrix[i, i] for i in range(n_roles))
 total_paired = int(matrix.sum())
 
 fig, ax = plt.subplots(figsize=(7, 6))
@@ -189,7 +216,7 @@ ax.set_xlabel("Coder B")
 ax.set_ylabel("Coder A")
 ax.set_title(
     f"D2 Inter-Rater Confusion Matrix (n={total_paired})\n"
-    f"Exact agreement: {agree}/{total_paired} = {agree/max(total_paired,1)*100:.0f}%"
+    f"Exact agreement: {agree_d2}/{total_paired} = {agree_d2/max(total_paired,1)*100:.0f}%  |  κ = {d2_kappa:.3f}"
 )
 for i in range(n_roles):
     for j in range(n_roles):
@@ -203,7 +230,45 @@ plt.close()
 
 
 # ============================================================
-# Fig 6 — Stance mismatch (per coder, double-coded only)
+# Fig 5b — D1 Inter-rater confusion matrix (NEW)
+# ============================================================
+d1_labels_order = [l for l in D1_ORDER if l in set(d1_labels_a) | set(d1_labels_b)]
+n_d1 = len(d1_labels_order)
+d1_matrix = np.zeros((n_d1, n_d1), dtype=int)
+for v in both.values():
+    a_type = v[CODER_A]["d1_support_type"].strip()
+    b_type = v[CODER_B]["d1_support_type"].strip()
+    if a_type in d1_labels_order and b_type in d1_labels_order:
+        d1_matrix[d1_labels_order.index(a_type), d1_labels_order.index(b_type)] += 1
+
+agree_d1 = sum(d1_matrix[i, i] for i in range(n_d1))
+total_d1 = int(d1_matrix.sum())
+
+fig, ax = plt.subplots(figsize=(7, 6))
+im = ax.imshow(d1_matrix, cmap="Oranges")
+ax.set_xticks(range(n_d1))
+ax.set_yticks(range(n_d1))
+ax.set_xticklabels(d1_labels_order, rotation=45, ha="right", fontsize=9)
+ax.set_yticklabels(d1_labels_order, fontsize=9)
+ax.set_xlabel("Coder B")
+ax.set_ylabel("Coder A")
+ax.set_title(
+    f"D1 Inter-Rater Confusion Matrix (n={total_d1})\n"
+    f"Exact agreement: {agree_d1}/{total_d1} = {agree_d1/max(total_d1,1)*100:.0f}%  |  κ = {d1_kappa:.3f}"
+)
+for i in range(n_d1):
+    for j in range(n_d1):
+        if d1_matrix[i, j] > 0:
+            ax.text(j, i, str(d1_matrix[i, j]), ha="center", va="center",
+                    color="white" if d1_matrix[i, j] > 2 else "black", fontsize=11)
+plt.colorbar(im, ax=ax, shrink=0.8)
+plt.tight_layout()
+plt.savefig(os.path.join(OUT, "fig5b_d1_confusion_matrix.png"))
+plt.close()
+
+
+# ============================================================
+# Fig 6 — Stance mismatch (per coder)
 # ============================================================
 stance_a = Counter(r["stance_mismatch"].strip() for r in rows_a)
 stance_b = Counter(r["stance_mismatch"].strip() for r in rows_b)
@@ -221,7 +286,7 @@ ax.bar(x + w/2, [stance_b.get(s, 0) for s in stance_order], w,
 ax.set_xticks(x)
 ax.set_xticklabels(stance_labels_clean)
 ax.set_ylabel("Count")
-ax.set_title(f"Stance Mismatch Distribution (double-coded, n={N} per coder)")
+ax.set_title(f"Stance Mismatch Distribution (n={N} per coder)")
 ax.legend()
 for i, s in enumerate(stance_order):
     for offset, cnt in [(-w/2, stance_a.get(s, 0)), (w/2, stance_b.get(s, 0))]:
@@ -233,7 +298,7 @@ plt.close()
 
 
 # ============================================================
-# Fig 7 — Confidence by sequence position (double-coded only)
+# Fig 7 — Confidence by sequence position
 # ============================================================
 conf1 = [int(r["confidence"]) for r in seq1 if r["confidence"].strip()]
 conf2 = [int(r["confidence"]) for r in seq2 if r["confidence"].strip()]
@@ -254,7 +319,7 @@ plt.close()
 
 
 # ============================================================
-# Fig 8 — D3 multi-label count (per coder, double-coded only)
+# Fig 8 — D3 multi-label count (per coder)
 # ============================================================
 def get_d3_counts(rlist):
     return [len([s.strip() for s in r["d3_strategies"].split(";") if s.strip()])
@@ -275,11 +340,133 @@ ax.set_xticks(x_vals)
 ax.set_xticklabels(["0", "1", "2", "3+"])
 ax.set_xlabel("Number of D3 strategies per sequence")
 ax.set_ylabel("Count")
-ax.set_title(f"D3 Multi-Label Distribution (double-coded, n={N} per coder)")
+ax.set_title(f"D3 Multi-Label Distribution (n={N} per coder)")
 ax.legend()
 plt.tight_layout()
 plt.savefig(os.path.join(OUT, "fig8_d3_multilabel.png"))
 plt.close()
 
 
-print(f"All 8 figures saved to: {OUT}")
+# ============================================================
+# Fig 12 — Agreement by sequence position (NEW)
+# ============================================================
+early_pairs = {k: v for k, v in both.items() if "[2,7)" in v[CODER_A]["turn_range"]}
+later_pairs = {k: v for k, v in both.items() if "[7,12)" in v[CODER_A]["turn_range"]}
+
+metrics = {
+    "[2,7) early": {
+        "D1": sum(1 for v in early_pairs.values()
+                  if v[CODER_A]["d1_support_type"].strip() == v[CODER_B]["d1_support_type"].strip()) / len(early_pairs) * 100,
+        "D2": sum(1 for v in early_pairs.values()
+                  if v[CODER_A]["primary_d2_role"].strip() == v[CODER_B]["primary_d2_role"].strip()) / len(early_pairs) * 100,
+    },
+    "[7,12) later": {
+        "D1": sum(1 for v in later_pairs.values()
+                  if v[CODER_A]["d1_support_type"].strip() == v[CODER_B]["d1_support_type"].strip()) / len(later_pairs) * 100,
+        "D2": sum(1 for v in later_pairs.values()
+                  if v[CODER_A]["primary_d2_role"].strip() == v[CODER_B]["primary_d2_role"].strip()) / len(later_pairs) * 100,
+    },
+}
+
+fig, ax = plt.subplots(figsize=(6, 4.5))
+x = np.arange(2)
+d1_vals = [metrics["[2,7) early"]["D1"], metrics["[7,12) later"]["D1"]]
+d2_vals = [metrics["[2,7) early"]["D2"], metrics["[7,12) later"]["D2"]]
+ax.bar(x - w/2, d1_vals, w, label="D1 Support Type", color="#DD8452")
+ax.bar(x + w/2, d2_vals, w, label="D2 Care Role", color="#4C72B0")
+ax.set_xticks(x)
+ax.set_xticklabels(["[2,7) early", "[7,12) later"])
+ax.set_ylabel("Exact Agreement (%)")
+ax.set_title("Inter-Rater Agreement by Sequence Position")
+ax.legend()
+ax.set_ylim(0, 70)
+for i in range(2):
+    ax.text(i - w/2, d1_vals[i] + 1.5, f"{d1_vals[i]:.0f}%", ha="center", fontsize=10, fontweight="bold")
+    ax.text(i + w/2, d2_vals[i] + 1.5, f"{d2_vals[i]:.0f}%", ha="center", fontsize=10, fontweight="bold")
+plt.tight_layout()
+plt.savefig(os.path.join(OUT, "fig12_agreement_by_position.png"))
+plt.close()
+
+
+# ============================================================
+# Fig 13 — Per-conversation agreement heatmap (NEW)
+# ============================================================
+conv_ids = sorted(set(k[0] for k in both.keys()), key=lambda x: int(x.split("_")[1]))
+
+conv_d1_agree = []
+conv_d2_agree = []
+for conv in conv_ids:
+    conv_pairs = {k: v for k, v in both.items() if k[0] == conv}
+    d1_a_count = sum(1 for v in conv_pairs.values()
+                     if v[CODER_A]["d1_support_type"].strip() == v[CODER_B]["d1_support_type"].strip())
+    d2_a_count = sum(1 for v in conv_pairs.values()
+                     if v[CODER_A]["primary_d2_role"].strip() == v[CODER_B]["primary_d2_role"].strip())
+    n_conv = len(conv_pairs)
+    conv_d1_agree.append(d1_a_count / n_conv)
+    conv_d2_agree.append(d2_a_count / n_conv)
+
+fig, ax = plt.subplots(figsize=(12, 3.5))
+heatmap_data = np.array([conv_d1_agree, conv_d2_agree])
+im = ax.imshow(heatmap_data, cmap="RdYlGn", vmin=0, vmax=1, aspect="auto")
+ax.set_xticks(range(len(conv_ids)))
+ax.set_xticklabels([c.replace("ESConv_", "#") for c in conv_ids], fontsize=8, rotation=45)
+ax.set_yticks([0, 1])
+ax.set_yticklabels(["D1 Support Type", "D2 Care Role"])
+ax.set_title("Per-Conversation Agreement (green = agree, red = disagree)")
+for i in range(2):
+    for j in range(len(conv_ids)):
+        val = heatmap_data[i, j]
+        ax.text(j, i, f"{val:.0%}", ha="center", va="center",
+                fontsize=8, color="white" if val < 0.4 else "black")
+plt.colorbar(im, ax=ax, shrink=0.7, label="Agreement rate")
+plt.tight_layout()
+plt.savefig(os.path.join(OUT, "fig13_per_conversation_agreement.png"))
+plt.close()
+
+
+# ============================================================
+# Fig 14 — D2 Role ↔ D3 Strategy cross-tabulation (NEW)
+# ============================================================
+D3_ORDER = ["Question", "Affirmation and Reassurance", "Providing Suggestions",
+            "Reflection of Feelings", "Self-disclosure", "Information",
+            "Restatement/Paraphrasing", "Others"]
+D2_ACTIVE = ["Listener", "Reflective Partner", "Coach", "Advisor", "Navigator"]
+
+# Aggregate both coders
+role_strat_matrix = np.zeros((len(D2_ACTIVE), len(D3_ORDER)), dtype=int)
+for r in rows_a + rows_b:
+    role = r["primary_d2_role"].strip()
+    if role not in D2_ACTIVE:
+        continue
+    strats = [s.strip() for s in r["d3_strategies"].split(";") if s.strip()]
+    ri = D2_ACTIVE.index(role)
+    for s in strats:
+        if s in D3_ORDER:
+            role_strat_matrix[ri, D3_ORDER.index(s)] += 1
+
+# Normalize per role (row-wise percentages)
+row_sums = role_strat_matrix.sum(axis=1, keepdims=True)
+row_sums[row_sums == 0] = 1
+role_strat_pct = role_strat_matrix / row_sums * 100
+
+fig, ax = plt.subplots(figsize=(10, 5))
+im = ax.imshow(role_strat_pct, cmap="YlOrRd", aspect="auto", vmin=0)
+ax.set_xticks(range(len(D3_ORDER)))
+ax.set_xticklabels(D3_ORDER, rotation=40, ha="right", fontsize=9)
+ax.set_yticks(range(len(D2_ACTIVE)))
+ax.set_yticklabels(D2_ACTIVE)
+ax.set_title("D2 Care Role → D3 Strategy Profile (% of strategies per role)")
+for i in range(len(D2_ACTIVE)):
+    for j in range(len(D3_ORDER)):
+        val = role_strat_pct[i, j]
+        count = role_strat_matrix[i, j]
+        if count > 0:
+            ax.text(j, i, f"{val:.0f}%\n({count})", ha="center", va="center",
+                    fontsize=8, color="white" if val > 40 else "black")
+plt.colorbar(im, ax=ax, shrink=0.7, label="% of role's strategies")
+plt.tight_layout()
+plt.savefig(os.path.join(OUT, "fig14_d2_d3_crosstab.png"))
+plt.close()
+
+
+print(f"\nAll figures saved to: {OUT}")

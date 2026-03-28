@@ -222,7 +222,7 @@ export function parseTurns(rawJson: any): Turn[] {
   }));
 }
 
-function parseRange(pgRange: string): [number, number] {
+export function parseRange(pgRange: string): [number, number] {
   // PostgreSQL int4range like "[1,5)" → [1, 4]
   const match = pgRange.match(/[\[(](\d+),(\d+)[)\]]/);
   if (!match) return [1, 1];
