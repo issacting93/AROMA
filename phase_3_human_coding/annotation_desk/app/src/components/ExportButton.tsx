@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Download, Loader2 } from 'lucide-react';
-import { fetchAllAnnotations } from '../supabase';
+import { fetchAllAnnotations, fetchAllStances } from '../supabase';
 import { flattenAnnotation, convertToCSV, downloadFile } from '../utils/exportUtils';
 
 interface ExportButtonProps {
@@ -13,13 +13,15 @@ const ExportButton: React.FC<ExportButtonProps> = ({ format }) => {
   const handleExport = async () => {
     setExporting(true);
     try {
-      const { data, error } = await fetchAllAnnotations();
-      if (error) {
-        alert(`Export failed: ${error.message}`);
+      const { data: annotations, error: annError } = await fetchAllAnnotations();
+      const { data: stances, error: stanceError } = await fetchAllStances();
+      
+      if (annError || stanceError) {
+        alert(`Export failed: ${annError?.message || stanceError?.message}`);
         return;
       }
 
-      if (!data || data.length === 0) {
+      if (!annotations || annotations.length === 0) {
         alert('No data to export.');
         return;
       }
@@ -28,14 +30,15 @@ const ExportButton: React.FC<ExportButtonProps> = ({ format }) => {
       const fileName = `aroma_annotations_${timestamp}.${format}`;
 
       if (format === 'json') {
-        const content = JSON.stringify(data, null, 2);
+        const content = JSON.stringify({ annotations, stances }, null, 2);
         downloadFile(content, fileName, 'application/json');
       } else {
-        const flattenedData = data.map(flattenAnnotation);
+        const flattenedData = annotations.map(ann => flattenAnnotation(ann, stances || []));
         const csvContent = convertToCSV(flattenedData);
         downloadFile(csvContent, fileName, 'text/csv');
       }
     } catch (err: any) {
+
       alert(`Export error: ${err.message}`);
     } finally {
       setExporting(false);

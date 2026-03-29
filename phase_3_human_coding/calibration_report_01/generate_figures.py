@@ -77,6 +77,39 @@ d2_agree = sum(1 for a, b in zip(d2_labels_a, d2_labels_b) if a == b)
 print(f"D1 agreement: {d1_agree}/{N} = {d1_agree/N*100:.1f}%, κ = {d1_kappa:.3f}")
 print(f"D2 agreement: {d2_agree}/{N} = {d2_agree/N*100:.1f}%, κ = {d2_kappa:.3f}")
 
+if "seeker_stance" in rows_a[0]:
+    stance_labels_a = [v[CODER_A]["seeker_stance"].strip() for v in both.values()]
+    stance_labels_b = [v[CODER_B]["seeker_stance"].strip() for v in both.values()]
+    stance_kappa = cohens_kappa_nominal(stance_labels_a, stance_labels_b)
+    stance_agree = sum(1 for a, b in zip(stance_labels_a, stance_labels_b) if a == b)
+    print(f"Stance agreement: {stance_agree}/{N} = {stance_agree/N*100:.1f}%, κ = {stance_kappa:.3f}")
+
+# ============================================================
+# Fig 0 — Seeker Stance (per coder)
+# ============================================================
+if "seeker_stance" in rows_a[0]:
+    STANCE_ORDER = ["Passive", "Exploratory", "Active"]
+    st_a = Counter(r["seeker_stance"].strip() for r in rows_a)
+    st_b = Counter(r["seeker_stance"].strip() for r in rows_b)
+    labels0 = [l for l in STANCE_ORDER if st_a[l] + st_b[l] > 0]
+    
+    fig, ax = plt.subplots(figsize=(7, 4))
+    x = np.arange(len(labels0))
+    ax.bar(x - w/2, [st_a[l] for l in labels0], w, label="Coder A", color="#4C72B0")
+    ax.bar(x + w/2, [st_b[l] for l in labels0], w, label="Coder B", color="#DD8452")
+    ax.set_xticks(x)
+    ax.set_xticklabels(labels0)
+    ax.set_ylabel("Count")
+    ax.set_title(f"Phase 1 — Seeker Stance Distribution (n={N})")
+    ax.legend()
+    for i, l in enumerate(labels0):
+        for offset, val in [(-w/2, st_a[l]), (w/2, st_b[l])]:
+            if val > 0:
+                ax.text(i + offset, val + 0.2, str(val), ha="center", fontsize=9)
+    plt.tight_layout()
+    plt.savefig(os.path.join(OUT, "fig0_stance_distribution.png"))
+    plt.close()
+
 
 # ============================================================
 # Fig 1 — D1 Support Type (per coder)
@@ -265,6 +298,46 @@ plt.colorbar(im, ax=ax, shrink=0.8)
 plt.tight_layout()
 plt.savefig(os.path.join(OUT, "fig5b_d1_confusion_matrix.png"))
 plt.close()
+
+
+# ============================================================
+# Fig 5c — Seeker Stance Inter-rater confusion matrix (NEW)
+# ============================================================
+if "seeker_stance" in rows_a[0]:
+    st_labels = ["Passive", "Exploratory", "Active"]
+    n_st = len(st_labels)
+    st_matrix = np.zeros((n_st, n_st), dtype=int)
+    for v in both.values():
+        a_s = v[CODER_A]["seeker_stance"].strip()
+        b_s = v[CODER_B]["seeker_stance"].strip()
+        if a_s in st_labels and b_s in st_labels:
+            st_matrix[st_labels.index(a_s), st_labels.index(b_s)] += 1
+            
+    agree_st = sum(st_matrix[i, i] for i in range(n_st))
+    total_st = int(st_matrix.sum())
+    
+    fig, ax = plt.subplots(figsize=(6, 5))
+    im = ax.imshow(st_matrix, cmap="Greens")
+    ax.set_xticks(range(n_st))
+    ax.set_yticks(range(n_st))
+    ax.set_xticklabels(st_labels)
+    ax.set_yticklabels(st_labels)
+    ax.set_xlabel("Coder B")
+    ax.set_ylabel("Coder A")
+    ax.set_title(
+        f"Phase 1 — Seeker Stance Confusion Matrix (n={total_st})\n"
+        f"Exact agreement: {agree_st}/{total_st} = {agree_st/max(total_st,1)*100:.0f}%  |  κ = {stance_kappa:.3f}"
+    )
+    for i in range(n_st):
+        for j in range(n_st):
+            if st_matrix[i, j] > 0:
+                ax.text(j, i, str(st_matrix[i, j]), ha="center", va="center",
+                        color="white" if st_matrix[i, j] > 2 else "black", fontsize=11)
+    plt.colorbar(im, ax=ax, shrink=0.8)
+    plt.tight_layout()
+    plt.savefig(os.path.join(OUT, "fig5c_stance_confusion_matrix.png"))
+    plt.close()
+
 
 
 # ============================================================

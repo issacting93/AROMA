@@ -3,9 +3,13 @@
  * Handles flattening of Supabase nested records and CSV conversion.
  */
 
-export function flattenAnnotation(annotation: any) {
+export function flattenAnnotation(annotation: any, stances: any[] = []) {
   const seq = annotation.sequence_id;
   const conv = seq?.conversation_id;
+
+  const seekerStance = stances.find(s => 
+    s.conversation_id === conv?.id && s.coder_id === annotation.coder_id
+  )?.user_stance || 'N/A';
 
   return {
     annotation_id: annotation.id,
@@ -13,6 +17,7 @@ export function flattenAnnotation(annotation: any) {
     sequence_id: seq?.id || 'N/A',
     turn_range: seq?.turn_range || 'N/A',
     is_calibration: seq?.is_calibration ? 'TRUE' : 'FALSE',
+    seeker_stance: seekerStance,
     primary_d2_role: annotation.primary_d2_role,
     d1_support_type: annotation.d1_support_type || 'None',
     d3_strategies: (annotation.d3_strategies || []).join('; '),
@@ -23,6 +28,7 @@ export function flattenAnnotation(annotation: any) {
     created_at: annotation.created_at,
   };
 }
+
 
 export function convertToCSV(data: any[]) {
   if (data.length === 0) return '';

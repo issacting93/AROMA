@@ -180,6 +180,14 @@ export async function fetchAllAnnotations() {
   return { data, error };
 }
 
+export async function fetchAllStances() {
+  const { data, error } = await supabase
+    .from('conversation_stances')
+    .select('conversation_id, coder_id, user_stance');
+  return { data, error };
+}
+
+
 export async function fetchRemainingWork(coderId: string) {
   const { data: allSeqs } = await supabase.from('sequences').select('id, turn_range');
   const { data: coded } = await supabase.from('annotations').select('sequence_id').eq('coder_id', coderId);

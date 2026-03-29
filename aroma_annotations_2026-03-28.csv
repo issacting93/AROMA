@@ -1,0 +1,102 @@
+external_id,sequence_id,turn_range,coder_id,d1_support_type,primary_d2_role,d3_strategies,stance_mismatch,confidence,notes
+ESConv_0,3be93cc8-6e5c-482c-b080-2503d38b0fee,"[2,7)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,Emotional,Listener,Question,aligned,3,
+ESConv_0,ebf7dd4d-4933-4c3c-b4b0-4272ca7ba279,"[7,12)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,Esteem,Listener,Affirmation and Reassurance;Question,aligned,3,
+ESConv_2,5c55ef68-9635-47a5-a0bd-3dceb60bcb06,"[2,7)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,Informational,Advisor,Providing Suggestions;Question,misaligned_paradox_risk,3,Supporter is only asking about needs and trying to provide advice
+ESConv_3,78bcce09-2954-4b80-938a-3c5f373dee53,"[2,7)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,Emotional,Advisor,Question;Information;Self-disclosure,mild_misfit,2,Supporter seems to be giving advice on how to handle isolation
+ESConv_0,3be93cc8-6e5c-482c-b080-2503d38b0fee,"[2,7)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,None,Reflective Partner,Question,misfit,2,"Since this conversation is pretty short and it only inquires about the user, I don't think there's any support time right now because we are not supporting. "
+ESConv_4,310b6798-365a-470c-82c5-d382e86e63f1,"[2,7)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,Emotional,Reflective Partner,Question,misfit,3,"Support offered affirmation followed by clarifying questions
+"
+ESConv_3,ed7a9f4d-4ed1-4426-a8e5-d2dc5d597fc2,"[7,12)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,Network,Advisor,Providing Suggestions,mild_misfit,3,strong focus on finding community and support groups
+ESConv_5,d2eded2f-0c0d-4992-b2cf-2ff849ecfe33,"[7,12)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,Informational,Navigator,Providing Suggestions;Affirmation and Reassurance;Information,misaligned_paradox_risk,3,a mix of different strategies but feels like they revolve around finding the right solutions
+ESConv_5,979d700e-8c28-4a21-ba62-40c9b15298a6,"[2,7)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,Informational,Advisor,Question;Affirmation and Reassurance;Providing Suggestions,misaligned_paradox_risk,3,
+ESConv_6,75a33208-a941-494d-a71a-c92efed85165,"[2,7)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,Emotional,Reflective Partner,Reflection of Feelings;Affirmation and Reassurance,misfit,2,
+ESConv_6,af7634d3-b1c1-4d60-867d-3cbb15c3cc65,"[7,12)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,Informational,Advisor,Information;Providing Suggestions,misaligned_paradox_risk,3,
+ESConv_7,b587e214-5d7f-465f-964e-40e88fd52f82,"[2,7)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,None,None,Others,N/A,2,no support given at this point
+ESConv_7,c3401816-b867-47c9-a341-e86b88743589,"[7,12)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,Emotional,Listener,Affirmation and Reassurance,misfit,2,
+ESConv_8,deea06b4-0980-4a4e-a1c0-3d4d9b49123d,"[2,7)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,Informational,Advisor,Providing Suggestions,aligned,2,
+ESConv_0,ebf7dd4d-4933-4c3c-b4b0-4272ca7ba279,"[7,12)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,Esteem,Ambiguous,Question;Reflection of Feelings,N/A,1,"For the one support type, it contains multiple like steam, appraisal, and emotional. "
+ESConv_9,52c387cc-17cd-4169-b037-facfe699563f,"[2,7)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,None,None,Others,N/A,2,
+ESConv_9,4afd4e48-dd58-4a9e-bfc8-a36b17c47750,"[7,12)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,Emotional,Listener,Question,aligned,1,Advice given doesn't seem very helpful
+ESConv_10,c43e7cef-1059-443d-b09b-4253c63045c9,"[2,7)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,None,None,Others,N/A,2,
+ESConv_10,2866f0a4-26da-4441-925f-1afbd7bd7479,"[7,12)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,Esteem,Reflective Partner,Restatement/Paraphrasing;Affirmation and Reassurance,misfit,2,
+ESConv_11,af618bf3-c71b-44ba-ad0a-89d1a6028940,"[2,7)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,Informational,Advisor,Providing Suggestions,misaligned_paradox_risk,2,
+ESConv_1,4ff96039-fae0-475a-a046-8d58cb1720da,"[2,7)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,None,Listener,,misfit,3,
+ESConv_11,8d7b24fa-9886-4231-b87c-3a1195db00aa,"[7,12)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,Esteem,Coach,Affirmation and Reassurance;Question,misaligned,2,Focused on coaching and understanding the seeker's past and building up their self esteem
+ESConv_12,0ff86499-9786-4eb1-845d-7293630c67a5,"[2,7)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,Emotional,Listener,Affirmation and Reassurance,misfit,2,
+ESConv_1,c5e6c09b-0c35-46fa-9215-bbfd9dcb4d28,"[7,12)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,None,Reflective Partner,Question;Restatement/Paraphrasing,mild_misfit,3,The agent is asking the user to confirm the problem. 
+ESConv_12,08687149-4e3e-4ebc-8b3a-a3eef500fd72,"[7,12)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,Emotional,Listener,Affirmation and Reassurance;Question,misfit,3,
+ESConv_13,4187bc51-71af-471c-9909-21d621dac393,"[2,7)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,Emotional,Listener,Question;Affirmation and Reassurance,aligned,3,
+ESConv_13,8fdf0ab5-8dd0-40d6-ada3-6e096878d421,"[7,12)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,Emotional,Listener,Question,aligned,3,
+ESConv_14,5bcd60c8-24eb-4af0-93d1-d090b0cb80f3,"[2,7)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,Emotional,Listener,Question,aligned,2,
+ESConv_2,5c55ef68-9635-47a5-a0bd-3dceb60bcb06,"[2,7)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,Emotional,Reflective Partner,Question;Reflection of Feelings,misfit,3,
+ESConv_14,ca101dbe-c08e-4300-850d-7f591108abd0,"[7,12)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,Emotional,Advisor,Question;Providing Suggestions,misaligned_paradox_risk,2,
+ESConv_15,9ca8ae7d-d106-495a-9f90-e54da5e5fae9,"[2,7)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,Informational,Advisor,Providing Suggestions,misaligned_paradox_risk,2,
+ESConv_15,851d2036-8f97-481c-8300-25b24c083995,"[7,12)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,Informational,Coach,Providing Suggestions;Self-disclosure,misaligned,3,
+ESConv_16,07495c58-b7f8-4135-bf45-4f8f3dc2eae9,"[2,7)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,Emotional,Reflective Partner,Question;Restatement/Paraphrasing,misfit,3,
+ESConv_16,89465216-38b2-4d82-ac70-cfa775b1fe69,"[7,12)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,Emotional,Listener,Affirmation and Reassurance,aligned,2,
+ESConv_17,35697fe2-df57-406c-ad53-f65eec80db24,"[2,7)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,None,None,Others,N/A,2,
+ESConv_2,6b31c574-add4-4558-90bc-8eb4afa82aa3,"[7,12)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,Emotional,Listener,Question;Reflection of Feelings,aligned,2,
+ESConv_17,37a3d916-b3da-4fc6-a485-9e2aaf08f30d,"[7,12)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,Emotional,Reflective Partner,Affirmation and Reassurance,misfit,2,
+ESConv_18,2ff9fb5f-fb0b-4149-82d7-1bfd2d19f0fc,"[2,7)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,Emotional,Reflective Partner,Restatement/Paraphrasing,misfit,2,
+ESConv_18,3c7f3f0f-8a56-4491-a5bf-6b9f6f51f36a,"[7,12)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,Emotional,Reflective Partner,Question,misfit,2,"Use visualisation as a method of providing support, ""what do you want to do once this is over"""
+ESConv_19,68b123e7-1565-4303-b628-c8ade42ca6b0,"[2,7)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,Emotional,Reflective Partner,Question,misfit,3,
+ESConv_3,78bcce09-2954-4b80-938a-3c5f373dee53,"[2,7)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,Network,Navigator,Question;Reflection of Feelings,misaligned_paradox_risk,2,"The AI is navigating to other resources by mentioning it. And when we move the resource, we will just be pure emotional, which is not the feature in this conversation, so I choose Navigator. "
+ESConv_3,ed7a9f4d-4ed1-4426-a8e5-d2dc5d597fc2,"[7,12)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,Network,Advisor,Reflection of Feelings;Question;Self-disclosure,misaligned_paradox_risk,2,"So here, the AI is giving advice by suggesting that the user find a community. "
+ESConv_4,310b6798-365a-470c-82c5-d382e86e63f1,"[2,7)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,Emotional,Listener,Question,aligned,2,
+ESConv_4,a09e2a91-0b89-4601-adbb-cd8c8ca3dfb2,"[7,12)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,Ambiguous,Reflective Partner,Question;Reflection of Feelings,misfit,2,
+ESConv_5,979d700e-8c28-4a21-ba62-40c9b15298a6,"[2,7)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,Emotional,Listener,Question;Reflection of Feelings,aligned,2,
+ESConv_5,d2eded2f-0c0d-4992-b2cf-2ff849ecfe33,"[7,12)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,Informational,Reflective Partner,Question,misfit,2,
+ESConv_4,a09e2a91-0b89-4601-adbb-cd8c8ca3dfb2,"[7,12)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,Emotional,Reflective Partner,Question,misfit,2,
+ESConv_20,978d0d2b-68c6-41d7-9149-9a38f60e7269,"[2,7)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,Emotional,Reflective Partner,Question,misfit,2,
+ESConv_20,2f984489-b8dc-4350-a176-352ea03e400d,"[7,12)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,Tangible,Advisor,Providing Suggestions;Affirmation and Reassurance,misaligned_paradox_risk,3,
+ESConv_21,91345cd8-c511-404b-8db1-5c88c7057993,"[2,7)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,Emotional,Listener,Affirmation and Reassurance;Question;Reflection of Feelings,aligned,2,
+ESConv_21,689936e4-bee9-4ffb-967e-128e7a7fa4c1,"[7,12)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,Emotional,Reflective Partner,Affirmation and Reassurance;Reflection of Feelings;Providing Suggestions,misfit,2,
+ESConv_22,7c292aae-ecbe-466f-b596-7f64b0aa2f01,"[2,7)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,Emotional,Listener,Question,aligned,2,
+ESConv_22,4eeb5306-2e52-4300-88d8-c19897981d65,"[7,12)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,Informational,Advisor,Question;Providing Suggestions,misaligned_paradox_risk,2,
+ESConv_23,0957ad51-b545-4e0c-9f5e-12098c7e0e7e,"[2,7)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,None,Listener,Question;Restatement/Paraphrasing,misfit,2,
+ESConv_23,bfe3cebe-88aa-41ac-b00d-7b1c08acbc9a,"[7,12)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,Tangible,Advisor,Question,aligned,3,
+ESConv_24,739d7c33-e2fa-45e2-af6b-f684f2b3676c,"[2,7)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,Emotional,Listener,Question,aligned,2,
+ESConv_6,75a33208-a941-494d-a71a-c92efed85165,"[2,7)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,Informational,Advisor,Question;Self-disclosure;Affirmation and Reassurance,misaligned_paradox_risk,2,
+ESConv_24,30341800-7fa2-4396-8e48-83120341f424,"[7,12)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,Esteem,Advisor,,misaligned_paradox_risk,2,
+ESConv_6,af7634d3-b1c1-4d60-867d-3cbb15c3cc65,"[7,12)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,Emotional,Advisor,Question;Reflection of Feelings;Providing Suggestions,misaligned_paradox_risk,2,
+ESConv_1,4ff96039-fae0-475a-a046-8d58cb1720da,"[2,7)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,None,None,,N/A,2,
+ESConv_1,c5e6c09b-0c35-46fa-9215-bbfd9dcb4d28,"[7,12)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,Emotional,Listener,Question,misfit,2,
+ESConv_7,b587e214-5d7f-465f-964e-40e88fd52f82,"[2,7)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,Emotional,Listener,Question,aligned,2,
+ESConv_7,c3401816-b867-47c9-a341-e86b88743589,"[7,12)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,Emotional,Listener,Reflection of Feelings,aligned,2,
+ESConv_8,deea06b4-0980-4a4e-a1c0-3d4d9b49123d,"[2,7)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,Ambiguous,Advisor,Question,aligned,2,"Even though there is no advice going on, I can see that the AI is prepared for more information to provide useful advice. "
+ESConv_8,19b62080-e33b-47ee-8b30-db6bc651190f,"[7,12)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,Emotional,Listener,Question,misfit,2,
+ESConv_8,19b62080-e33b-47ee-8b30-db6bc651190f,"[7,12)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,Emotional,Reflective Partner,Reflection of Feelings;Question,mild_misfit,1,"We can see that the user is seeking some advice, but here the AI is just giving feedback and keeps asking questions, which reveals that the problem might not be ideal and they might not be aligned with each other. "
+ESConv_9,52c387cc-17cd-4169-b037-facfe699563f,"[2,7)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,Emotional,Reflective Partner,Question,misfit,2,
+ESConv_9,4afd4e48-dd58-4a9e-bfc8-a36b17c47750,"[7,12)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,Emotional,Listener,Question;Reflection of Feelings,aligned,2,"Didn't give any advice so far. Seems like asking the user a question to help it understand the question, help both sides understand the question. "
+ESConv_10,c43e7cef-1059-443d-b09b-4253c63045c9,"[2,7)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,None,None,Question,N/A,2,
+ESConv_10,2866f0a4-26da-4441-925f-1afbd7bd7479,"[7,12)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,Emotional,Listener,,aligned,2,
+ESConv_11,af618bf3-c71b-44ba-ad0a-89d1a6028940,"[2,7)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,Informational,Advisor,Providing Suggestions;Information,misaligned_paradox_risk,2,
+ESConv_11,8d7b24fa-9886-4231-b87c-3a1195db00aa,"[7,12)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,None,Advisor,Question,misaligned_paradox_risk,2,
+ESConv_12,0ff86499-9786-4eb1-845d-7293630c67a5,"[2,7)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,None,None,Question,N/A,2,
+ESConv_12,08687149-4e3e-4ebc-8b3a-a3eef500fd72,"[7,12)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,Emotional,Listener,Restatement/Paraphrasing;Reflection of Feelings,aligned,2,
+ESConv_13,4187bc51-71af-471c-9909-21d621dac393,"[2,7)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,Emotional,None,,N/A,2,
+ESConv_13,8fdf0ab5-8dd0-40d6-ada3-6e096878d421,"[7,12)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,Emotional,Listener,,aligned,2,
+ESConv_19,11530ed7-d7ed-4ce7-a635-53e9c9bb45f9,"[7,12)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,None,Ambiguous,Self-disclosure;Question,N/A,2,
+ESConv_2,6b31c574-add4-4558-90bc-8eb4afa82aa3,"[7,12)",bf32f904-50b3-4abb-9e0a-11aa1e2fb942,Informational,Advisor,Question;Providing Suggestions,misaligned_paradox_risk,2,
+ESConv_14,5bcd60c8-24eb-4af0-93d1-d090b0cb80f3,"[2,7)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,None,None,Question,N/A,2,
+ESConv_14,ca101dbe-c08e-4300-850d-7f591108abd0,"[7,12)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,Emotional,Reflective Partner,Question;Self-disclosure,misfit,2,
+ESConv_15,9ca8ae7d-d106-495a-9f90-e54da5e5fae9,"[2,7)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,Emotional,Advisor,Providing Suggestions,aligned,2,
+ESConv_15,851d2036-8f97-481c-8300-25b24c083995,"[7,12)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,Informational,Coach,,aligned,2,
+ESConv_16,07495c58-b7f8-4135-bf45-4f8f3dc2eae9,"[2,7)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,None,None,Question;Reflection of Feelings,N/A,2,
+ESConv_16,89465216-38b2-4d82-ac70-cfa775b1fe69,"[7,12)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,Esteem,Listener,,aligned,2,
+ESConv_17,35697fe2-df57-406c-ad53-f65eec80db24,"[2,7)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,None,None,Question,N/A,2,
+ESConv_17,37a3d916-b3da-4fc6-a485-9e2aaf08f30d,"[7,12)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,Emotional,Listener,,aligned,2,
+ESConv_18,2ff9fb5f-fb0b-4149-82d7-1bfd2d19f0fc,"[2,7)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,None,None,Question,N/A,2,
+ESConv_18,3c7f3f0f-8a56-4491-a5bf-6b9f6f51f36a,"[7,12)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,None,Listener,Question,aligned,2,
+ESConv_19,68b123e7-1565-4303-b628-c8ade42ca6b0,"[2,7)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,None,None,Question,N/A,2,
+ESConv_19,11530ed7-d7ed-4ce7-a635-53e9c9bb45f9,"[7,12)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,None,None,Question,N/A,2,
+ESConv_20,978d0d2b-68c6-41d7-9149-9a38f60e7269,"[2,7)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,None,None,Question,N/A,2,
+ESConv_20,2f984489-b8dc-4350-a176-352ea03e400d,"[7,12)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,Emotional,Advisor,Reflection of Feelings,misaligned_paradox_risk,2,
+ESConv_21,91345cd8-c511-404b-8db1-5c88c7057993,"[2,7)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,None,None,Question,N/A,2,
+ESConv_21,689936e4-bee9-4ffb-967e-128e7a7fa4c1,"[7,12)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,Emotional,Listener,Question,aligned,2,
+ESConv_22,7c292aae-ecbe-466f-b596-7f64b0aa2f01,"[2,7)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,None,None,Question,N/A,2,
+ESConv_22,4eeb5306-2e52-4300-88d8-c19897981d65,"[7,12)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,None,Listener,Question,aligned,2,
+ESConv_23,0957ad51-b545-4e0c-9f5e-12098c7e0e7e,"[2,7)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,None,None,Question,N/A,2,
+ESConv_23,bfe3cebe-88aa-41ac-b00d-7b1c08acbc9a,"[7,12)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,Esteem,Reflective Partner,Question;Reflection of Feelings,misfit,2,
+ESConv_24,739d7c33-e2fa-45e2-af6b-f684f2b3676c,"[2,7)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,None,None,,N/A,2,
+ESConv_24,30341800-7fa2-4396-8e48-83120341f424,"[7,12)",41f829d6-9b5c-4fac-bfae-340a90fd8b25,Emotional,None,Reflection of Feelings,N/A,2,

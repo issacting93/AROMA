@@ -15,12 +15,27 @@
 
 | Dimension | Exact Agreement | Cohen's κ | Interpretation |
 |---|---|---|---|
+| **Phase 1: Seeker Stance** | *TBD* | *TBD* | *Requires export* |
 | **D1 Support Type** | 20/50 (40%) | 0.163 | Slight |
 | **D2 Care Role** | 15/50 (30%) | 0.112 | Slight |
 | **Stance Mismatch** | 11/50 (22%) | — | Poor |
 | **D3 Strategy (Jaccard)** | Mean 0.34 | — | Low overlap |
 
 Both D1 and D2 kappas are below acceptable thresholds (κ > 0.60 for CHI-quality annotation). This is a calibration problem, not a taxonomy problem — the disagreement patterns are systematic and addressable.
+
+---
+
+## 0. Phase 1 — Seeker Stance (Phase 1)
+
+![Seeker Stance Distribution](fig0_stance_distribution.png)
+
+Phase 1 requires coders to judge the seeker's relational posture (Passive, Exploratory, or Active) before seeing the AI responses. This is the foundational categorization that governs downstream alignment logic.
+
+### Stance Confusion Matrix
+
+![Seeker Stance Confusion Matrix](fig5c_stance_confusion_matrix.png)
+
+*Note: Initial analysis of Phase 1 was conducted via downstream mismatch flags. This section provides the first direct comparison of seeker stance labels between coders.*
 
 ---
 
@@ -239,9 +254,56 @@ Coders are equally confident in agreed and disagreed cases. The calibration sess
 
 ---
 
+## 11. D1 Taxonomy Review: Should We Remove Sparse Categories?
+
+Appraisal (0 instances), Tangible (2), and Network (3) are barely present. The instinct is to cut them. **Don't.** The absence is a property of ESConv, not the taxonomy.
+
+### Why D1 is underperforming
+
+D1 is operationally coupled to D2. The codebook maps each D2 role to a primary D1 type (Listener → Emotional, Advisor → Informational, Reflective Partner → Appraisal, etc.). In practice, coders code D2 first via the decision tree, then D1 is largely determined by D2. The D1 distribution mirrors D2 almost exactly. This is a **Nickerson conciseness risk** — the same issue that killed old D3 (Core Function).
+
+### Why the sparse categories are absent
+
+| Category | Why absent in ESConv | Would appear in... |
+|---|---|---|
+| **Appraisal** | Reflective Partner under-coded (confused with Listener). ESConv crowd-workers rarely do genuine meaning-making. | Clinical therapy transcripts, CBT-oriented chatbots |
+| **Tangible** | Text-chat — no material resources exchanged. AI structurally cannot provide tangible support. | Navigator referrals in crisis settings (barely) |
+| **Network** | ESConv supporters don't refer seekers to communities. Single-session design prevents it. | Multi-session AI companions, peer support platforms |
+
+### Literature cross-reference
+
+| Framework | Categories |
+|---|---|
+| **House (1981)** | Emotional, Appraisal, Informational, Instrumental |
+| **Cutrona & Suhr (1992) SSBC** | Emotional, Informational, Esteem, Network, Tangible |
+| **AROMA (current)** | Emotional, Informational, Esteem, Network, Tangible, Appraisal |
+
+AROMA takes the union. House already included Appraisal (meaning-making) as a first-class category. The Lazarus & Folkman (1984) extension is well-precedented.
+
+### Three options considered
+
+**Option A — D1 becomes a derived variable (not independently coded).** Compute D1 from D2 + D3 mapping. Eliminates D1 as a source of κ drag. Loses the theoretical claim that D1 is independent of D2.
+
+**Option B — Collapse to 3 super-categories for annotation.** Emotional + Esteem → "Emotional"; Informational + Appraisal → "Cognitive"; Network + Tangible → "Instrumental" (aligns with House 1981). Higher base rates, higher κ. Loses granularity — Esteem and Emotional are distinct interventions (Coach delivers Esteem, Listener delivers Emotional).
+
+**Option C (recommended) — Keep all 6, fix the threshold problem.** The data shows the real problem is the **Emotional ↔ None boundary** (14/30 D1 disagreements = 47%). Fix this, and κ jumps significantly.
+
+Specific threshold fixes:
+1. **None** only when the sequence contains zero support-oriented behavior — pure small talk, logistics, or meta-conversation. Any question about the seeker's state = at minimum Emotional.
+2. **Appraisal** gets an explicit trigger: code when the supporter helps the seeker *reinterpret* their situation (cognitive reframing). Currently absent because the codebook only mentions it as Reflective Partner's primary D1, and coders rarely code Reflective Partner.
+3. **Accept sparsity** for Network/Tangible. Acknowledge in the paper that ESConv validates the *framework*, not full coverage. The embedding model (C3) will need supplementary corpora.
+4. **Add a D1-only calibration exercise** before Phase 2 — 10 sequences coded for D1 without D2, to test whether D1 is genuinely independent.
+
+### Suggested paper language
+
+> *The Cutrona & Suhr (1992) SSBC provides 5 categories; we extend to 6 with Appraisal (Lazarus & Folkman, 1984). In our ESConv validation, 3 of 6 types (Emotional, Informational, Esteem) account for 97% of non-None labels. Appraisal, Network, and Tangible are structurally sparse in ESConv: Appraisal requires explicit cognitive reframing (rare in crowd-sourced support), Network requires community referral (absent in single-session design), and Tangible requires material resource exchange (impossible in text chat). We retain all 6 in the taxonomy because they are theoretically necessary for describing the full space of AI-mediated care — their absence in ESConv is a property of the corpus, not the taxonomy.*
+
+---
+
 ## Next Steps
 
 1. **Adjudication session** — walk through the 35 D2 disagreements together. Priority: the 22 in the None/Listener/Reflective Partner triad.
-2. **Codebook v0.3** — implement recommendations 1-4 above.
-3. **Re-code 10 sequences** post-adjudication to measure κ improvement.
-4. **Plan supplementary corpus** for underrepresented roles (Companion, Navigator, Coach).
+2. **Codebook v0.3** — implement recommendations 1-4 above, plus the D1 threshold fixes from §11.
+3. **D1 independence test** — code 10 sequences for D1 only (no D2) to check whether D1 adds signal beyond what D2 predicts.
+4. **Re-code 10 sequences** post-adjudication to measure κ improvement.
+5. **Plan supplementary corpus** for underrepresented roles (Companion, Navigator, Coach) and support types (Appraisal, Network).
