@@ -19,7 +19,7 @@ interface AnnotationRow {
   primary_d2_role: string;
   d1_support_type: string;
   d3_strategies: string[];
-  stance_mismatch: string;
+  seeker_stance: string;
   confidence: number;
   notes: string;
   created_at: string;
@@ -94,10 +94,22 @@ export default function AnnotationTable({ onNavigateToSequence }: AnnotationTabl
       d1_support_type: r.d1_support_type ?? '',
       d3_strategies: Array.isArray(r.d3_strategies) ? r.d3_strategies : [],
       stance_mismatch: r.stance_mismatch ?? '',
+      seeker_stance: 'N/A', // Will be populated next
       confidence: r.confidence ?? 2,
       notes: r.notes ?? '',
       created_at: r.created_at,
     }));
+
+    // Fetch stances and merge
+    const { data: stanceData } = await api.fetchAllStances();
+    if (stanceData) {
+      mapped.forEach(row => {
+        const match = (stanceData as any[]).find(s => 
+          s.conversation_id === row.conversation_id && s.coder_id === row.coder_id
+        );
+        if (match) row.seeker_stance = match.user_stance;
+      });
+    }
 
     setRows(mapped);
 
@@ -151,7 +163,7 @@ export default function AnnotationTable({ onNavigateToSequence }: AnnotationTabl
 
   // IRR Statistics & Grouping
   const irrStats = useMemo(() => {
-    if (!rows.length) return { total: 0, shared: 0, d1_kappa: 0, d2_kappa: 0, groups: [] };
+    if (!rows.length) return { total: 0, shared: 0, st_agreement_rate: 0, d1_agreement_rate: 0, d2_agreement_rate: 0, groups: [] };
 
     const groups: Record<string, AnnotationRow[]> = {};
     rows.forEach(r => {
@@ -161,16 +173,20 @@ export default function AnnotationTable({ onNavigateToSequence }: AnnotationTabl
 
     const sharedGroups = Object.entries(groups).filter(([_, annos]) => annos.length > 1);
     
+    let st_agreed = 0;
     let d1_agreed = 0;
     let d2_agreed = 0;
 
     const irrGroups = sharedGroups.map(([sid, annos]) => {
+      const sts = new Set(annos.map(a => a.seeker_stance));
       const d1s = new Set(annos.map(a => a.d1_support_type));
       const d2s = new Set(annos.map(a => a.primary_d2_role));
       
+      const st_agree = sts.size === 1;
       const d1_agree = d1s.size === 1;
       const d2_agree = d2s.size === 1;
 
+      if (st_agree) st_agreed++;
       if (d1_agree) d1_agreed++;
       if (d2_agree) d2_agreed++;
 
@@ -180,6 +196,7 @@ export default function AnnotationTable({ onNavigateToSequence }: AnnotationTabl
         turn_range: annos[0].turn_range,
         conversation_id: annos[0].conversation_id,
         annotations: annos,
+        st_agreement: st_agree,
         d1_agreement: d1_agree,
         d2_agreement: d2_agree
       };
@@ -188,6 +205,7 @@ export default function AnnotationTable({ onNavigateToSequence }: AnnotationTabl
     return {
       total: Object.keys(groups).length,
       shared: sharedGroups.length,
+      st_agreement_rate: sharedGroups.length ? (st_agreed / sharedGroups.length) * 100 : 0,
       d1_agreement_rate: sharedGroups.length ? (d1_agreed / sharedGroups.length) * 100 : 0,
       d2_agreement_rate: sharedGroups.length ? (d2_agreed / sharedGroups.length) * 100 : 0,
       groups: irrGroups
@@ -288,9 +306,10 @@ export default function AnnotationTable({ onNavigateToSequence }: AnnotationTabl
       {/* IRR Summary Card */}
       {irrMode && (
         <div className="grid-3" style={{ gap: 12 }}>
-          <div className="panel panel-pad stack" style={{ gap: 8, border: '1px solid var(--line)', background: 'rgba(79, 70, 229, 0.03)' }}>
-             <h4 style={{ fontSize: 10, textTransform: 'uppercase', color: 'var(--muted)', margin: 0 }}>Shared Sequences</h4>
-             <div style={{ fontSize: 24, fontWeight: 900 }}>{irrStats.shared} <span style={{fontSize: 14, fontWeight: 500, color: 'var(--muted)'}}>of {irrStats.total}</span></div>
+          <div className="panel panel-pad stack" style={{ gap: 8, border: '1px solid var(--line)', background: 'rgba(52, 115, 230, 0.03)' }}>
+             <h4 style={{ fontSize: 10, textTransform: 'uppercase', color: 'var(--muted)', margin: 0 }}>Stance Agreement</h4>
+             <div style={{ fontSize: 24, fontWeight: 900, color: 'var(--blue)' }}>{Math.round(Number(irrStats.st_agreement_rate || 0))}%</div>
+             <p style={{fontSize: 10, color: 'var(--muted)', margin: 0}}>Phase 1 (Seeker Stance) Concordance</p>
           </div>
           <div className="panel panel-pad stack" style={{ gap: 8, border: '1px solid var(--line)', background: 'rgba(16, 185, 129, 0.03)' }}>
              <h4 style={{ fontSize: 10, textTransform: 'uppercase', color: 'var(--muted)', margin: 0 }}>D1 Agreement</h4>
@@ -299,7 +318,7 @@ export default function AnnotationTable({ onNavigateToSequence }: AnnotationTabl
           </div>
           <div className="panel panel-pad stack" style={{ gap: 8, border: '1px solid var(--line)', background: 'rgba(79, 70, 229, 0.03)' }}>
              <h4 style={{ fontSize: 10, textTransform: 'uppercase', color: 'var(--muted)', margin: 0 }}>D2 Agreement</h4>
-             <div style={{ fontSize: 24, fontWeight: 900, color: 'var(--blue)' }}>{Math.round(Number(irrStats.d2_agreement_rate || 0))}%</div>
+             <div style={{ fontSize: 24, fontWeight: 900, color: 'var(--purple)' }}>{Math.round(Number(irrStats.d2_agreement_rate || 0))}%</div>
              <p style={{fontSize: 10, color: 'var(--muted)', margin: 0}}>Care Role Concordance</p>
           </div>
         </div>
@@ -341,6 +360,7 @@ export default function AnnotationTable({ onNavigateToSequence }: AnnotationTabl
               <Th field="external_id" label="Conv" onSort={handleSort} sortField={sortField} sortAsc={sortAsc} />
               <Th field="turn_range" label="Turns" onSort={handleSort} sortField={sortField} sortAsc={sortAsc} />
               {irrMode && <th style={thStyle}>Coder</th>}
+              <th style={thStyle}>Stance</th>
               <Th field="primary_d2_role" label="D2 Role" onSort={handleSort} sortField={sortField} sortAsc={sortAsc} />
               <Th field="d1_support_type" label="D1 Type" onSort={handleSort} sortField={sortField} sortAsc={sortAsc} />
               <th style={thStyle}>D3 Strategies</th>
@@ -391,6 +411,7 @@ export default function AnnotationTable({ onNavigateToSequence }: AnnotationTabl
                         editData={editData}
                         saving={saving}
                         irrMode={true}
+                        st_conflict={!group.st_agreement}
                         d1_conflict={!group.d1_agreement}
                         d2_conflict={!group.d2_agreement}
                         onEdit={startEdit}
@@ -444,6 +465,7 @@ interface AnnotationRowComponentProps {
   editData: Partial<AnnotationRow>;
   saving: boolean;
   irrMode: boolean;
+  st_conflict?: boolean;
   d1_conflict?: boolean;
   d2_conflict?: boolean;
   onEdit: (row: AnnotationRow) => void;
@@ -456,7 +478,7 @@ interface AnnotationRowComponentProps {
 }
 
 function AnnotationRowComponent({ 
-  row, isEditing, editData, saving, irrMode, d1_conflict, d2_conflict,
+  row, isEditing, editData, saving, irrMode, st_conflict, d1_conflict, d2_conflict,
   onEdit, onCancel, onSave, onSetEditData, onToggleD3, onNavigate, coders 
 }: AnnotationRowComponentProps) {
   const coder = coders.find(c => c.id === row.coder_id);
@@ -477,6 +499,24 @@ function AnnotationRowComponent({
           {coderName}
         </td>
       )}
+
+      {/* Seeker Stance */}
+      <td style={{ 
+        ...tdStyle, 
+        background: (irrMode && st_conflict) ? 'rgba(52, 115, 230, 0.05)' : undefined,
+        borderLeft: (irrMode && st_conflict) ? '2px solid var(--blue)' : undefined
+      }}>
+        <span style={{ 
+          fontSize: 11, 
+          padding: '2px 6px', 
+          borderRadius: 4, 
+          background: (irrMode && st_conflict) ? 'rgba(52, 115, 230, 0.1)' : 'var(--bg-alt)',
+          color: (irrMode && st_conflict) ? 'var(--blue)' : 'var(--text)',
+          fontWeight: (irrMode && st_conflict) ? 700 : 400
+        }}>
+          {row.seeker_stance}
+        </span>
+      </td>
 
       {/* D2 Role */}
       <td style={{ 
