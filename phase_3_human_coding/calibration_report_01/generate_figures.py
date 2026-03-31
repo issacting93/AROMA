@@ -22,7 +22,7 @@ matplotlib.rcParams.update({
 })
 
 OUT = os.path.dirname(os.path.abspath(__file__))
-CSV_PATH = os.path.join(OUT, "..", "..", "aroma_annotations_2026-03-28.csv")
+CSV_PATH = os.path.join(OUT, "..", "..", "aroma_annotations_2026-03-29.csv")
 
 # ---------- Load data ----------
 rows = []
@@ -542,4 +542,174 @@ plt.savefig(os.path.join(OUT, "fig14_d2_d3_crosstab.png"))
 plt.close()
 
 
-print(f"\nAll figures saved to: {OUT}")
+# ============================================================
+# NEW ANALYSES — Issues from calibration report review
+# ============================================================
+
+# ---------- Issue 1: Conditional κ (D2 given Stance agreement) ----------
+if "seeker_stance" in rows_a[0]:
+    stance_agree_keys = [k for k, v in both.items()
+                         if v[CODER_A]["seeker_stance"].strip() == v[CODER_B]["seeker_stance"].strip()]
+    stance_disagree_keys = [k for k, v in both.items()
+                            if v[CODER_A]["seeker_stance"].strip() != v[CODER_B]["seeker_stance"].strip()]
+
+    n_agree = len(stance_agree_keys)
+    n_disagree = len(stance_disagree_keys)
+
+    if n_agree >= 5:
+        cond_d1_a = [both[k][CODER_A]["d1_support_type"].strip() for k in stance_agree_keys]
+        cond_d1_b = [both[k][CODER_B]["d1_support_type"].strip() for k in stance_agree_keys]
+        cond_d2_a = [both[k][CODER_A]["primary_d2_role"].strip() for k in stance_agree_keys]
+        cond_d2_b = [both[k][CODER_B]["primary_d2_role"].strip() for k in stance_agree_keys]
+
+        cond_d1_kappa = cohens_kappa_nominal(cond_d1_a, cond_d1_b)
+        cond_d2_kappa = cohens_kappa_nominal(cond_d2_a, cond_d2_b)
+        cond_d1_agree = sum(1 for a, b in zip(cond_d1_a, cond_d1_b) if a == b)
+        cond_d2_agree = sum(1 for a, b in zip(cond_d2_a, cond_d2_b) if a == b)
+
+        # Also for stance-disagree subset
+        dis_d2_a = [both[k][CODER_A]["primary_d2_role"].strip() for k in stance_disagree_keys]
+        dis_d2_b = [both[k][CODER_B]["primary_d2_role"].strip() for k in stance_disagree_keys]
+        dis_d2_agree = sum(1 for a, b in zip(dis_d2_a, dis_d2_b) if a == b)
+
+        print(f"\n{'='*60}")
+        print("ISSUE 1: Conditional κ (given Stance agreement)")
+        print(f"{'='*60}")
+        print(f"Stance agrees: {n_agree}/{N} sequences")
+        print(f"Stance disagrees: {n_disagree}/{N} sequences")
+        print(f"  D1 | Stance agrees:    {cond_d1_agree}/{n_agree} = {cond_d1_agree/n_agree*100:.1f}%, κ = {cond_d1_kappa:.3f}")
+        print(f"  D2 | Stance agrees:    {cond_d2_agree}/{n_agree} = {cond_d2_agree/n_agree*100:.1f}%, κ = {cond_d2_kappa:.3f}")
+        print(f"  D2 | Stance disagrees: {dis_d2_agree}/{n_disagree} = {dis_d2_agree/n_disagree*100:.1f}%")
+        print(f"  D2 overall:            {d2_agree}/{N} = {d2_agree/N*100:.1f}%, κ = {d2_kappa:.3f}")
+
+
+# ---------- Issue 7: Bootstrap CIs for κ ----------
+import random
+random.seed(42)
+
+def bootstrap_kappa_ci(labels_a, labels_b, n_boot=2000, alpha=0.05):
+    """Bootstrap 95% CI for Cohen's κ."""
+    n = len(labels_a)
+    kappas = []
+    for _ in range(n_boot):
+        idx = [random.randint(0, n - 1) for _ in range(n)]
+        boot_a = [labels_a[i] for i in idx]
+        boot_b = [labels_b[i] for i in idx]
+        kappas.append(cohens_kappa_nominal(boot_a, boot_b))
+    kappas.sort()
+    lo = kappas[int(alpha / 2 * n_boot)]
+    hi = kappas[int((1 - alpha / 2) * n_boot)]
+    return lo, hi
+
+d1_ci = bootstrap_kappa_ci(d1_labels_a, d1_labels_b)
+d2_ci = bootstrap_kappa_ci(d2_labels_a, d2_labels_b)
+
+print(f"\n{'='*60}")
+print("ISSUE 7: Bootstrap 95% CIs for κ")
+print(f"{'='*60}")
+print(f"D1 κ = {d1_kappa:.3f}  [{d1_ci[0]:.3f}, {d1_ci[1]:.3f}]")
+print(f"D2 κ = {d2_kappa:.3f}  [{d2_ci[0]:.3f}, {d2_ci[1]:.3f}]")
+
+if "seeker_stance" in rows_a[0]:
+    stance_ci = bootstrap_kappa_ci(stance_labels_a, stance_labels_b)
+    print(f"Stance κ = {stance_kappa:.3f}  [{stance_ci[0]:.3f}, {stance_ci[1]:.3f}]")
+
+
+# ---------- Issue 4: Stance Mismatch decomposition ----------
+if "seeker_stance" in rows_a[0]:
+    # (a) Stance agreed -> did mismatch agree?
+    # (b) Stance disagreed -> mismatch was doomed
+    mismatch_agree_given_stance_agree = 0
+    mismatch_disagree_given_stance_agree = 0
+    mismatch_agree_given_stance_disagree = 0
+    mismatch_disagree_given_stance_disagree = 0
+
+    for k, v in both.items():
+        stance_same = (v[CODER_A]["seeker_stance"].strip() == v[CODER_B]["seeker_stance"].strip())
+        mismatch_same = (v[CODER_A]["stance_mismatch"].strip() == v[CODER_B]["stance_mismatch"].strip())
+        if stance_same and mismatch_same:
+            mismatch_agree_given_stance_agree += 1
+        elif stance_same and not mismatch_same:
+            mismatch_disagree_given_stance_agree += 1
+        elif not stance_same and mismatch_same:
+            mismatch_agree_given_stance_disagree += 1
+        else:
+            mismatch_disagree_given_stance_disagree += 1
+
+    print(f"\n{'='*60}")
+    print("ISSUE 4: Stance Mismatch Decomposition")
+    print(f"{'='*60}")
+    print(f"Stance AGREED ({n_agree}):")
+    print(f"  Alignment also agreed:    {mismatch_agree_given_stance_agree}")
+    print(f"  Alignment disagreed:      {mismatch_disagree_given_stance_agree}  (← pure Role-level problem)")
+    print(f"Stance DISAGREED ({n_disagree}):")
+    print(f"  Alignment agreed anyway:  {mismatch_agree_given_stance_disagree}")
+    print(f"  Alignment also disagreed: {mismatch_disagree_given_stance_disagree}  (← Phase 1 cascade)")
+
+
+# ---------- Issue 8: Back-test codebook recommendations ----------
+print(f"\n{'='*60}")
+print("ISSUE 8: Back-test Codebook Recommendations")
+print(f"{'='*60}")
+
+# Rule 1: If >= 2 "Question" in D3 strategies → code Listener not None
+# Check Listener↔None disagreements
+rule1_would_resolve = 0
+rule1_total = 0
+for k, v in both.items():
+    r_a = v[CODER_A]["primary_d2_role"].strip()
+    r_b = v[CODER_B]["primary_d2_role"].strip()
+    if set([r_a, r_b]) == {"Listener", "None"}:
+        rule1_total += 1
+        # Check if the "None" coder's D3 includes Question
+        none_coder = CODER_A if r_a == "None" else CODER_B
+        strats = [s.strip() for s in v[none_coder]["d3_strategies"].split(";") if s.strip()]
+        question_count = strats.count("Question")
+        if question_count >= 1:  # even 1 Question in a 5-turn sequence suggests engagement
+            rule1_would_resolve += 1
+
+print(f"Rule 1 (Question → Listener not None):")
+print(f"  Listener↔None disagreements: {rule1_total}")
+print(f"  Would resolve (None coder assigned Question in D3): {rule1_would_resolve}/{rule1_total}")
+
+# Rule 3: Any emotional D3 strategy → code Emotional not None for D1
+rule3_would_resolve = 0
+rule3_total = 0
+EMOTIONAL_D3 = {"Reflection of Feelings", "Affirmation and Reassurance", "Self-disclosure"}
+for k, v in both.items():
+    t_a = v[CODER_A]["d1_support_type"].strip()
+    t_b = v[CODER_B]["d1_support_type"].strip()
+    if set([t_a, t_b]) == {"Emotional", "None"}:
+        rule3_total += 1
+        none_coder = CODER_A if t_a == "None" else CODER_B
+        strats = set(s.strip() for s in v[none_coder]["d3_strategies"].split(";") if s.strip())
+        if strats & EMOTIONAL_D3:
+            rule3_would_resolve += 1
+
+print(f"\nRule 3 (Emotional D3 → Emotional not None for D1):")
+print(f"  Emotional↔None disagreements: {rule3_total}")
+print(f"  Would resolve (None coder assigned emotional D3): {rule3_would_resolve}/{rule3_total}")
+
+# Rule 2: Restatement/Paraphrasing → Reflective Partner not Listener
+rule2_would_resolve = 0
+rule2_total = 0
+for k, v in both.items():
+    r_a = v[CODER_A]["primary_d2_role"].strip()
+    r_b = v[CODER_B]["primary_d2_role"].strip()
+    if set([r_a, r_b]) == {"Listener", "Reflective Partner"}:
+        rule2_total += 1
+        listener_coder = CODER_A if r_a == "Listener" else CODER_B
+        strats = set(s.strip() for s in v[listener_coder]["d3_strategies"].split(";") if s.strip())
+        if "Restatement/Paraphrasing" in strats or "Reflection of Feelings" in strats:
+            rule2_would_resolve += 1
+
+print(f"\nRule 2 (Restatement/Reflection → Reflective Partner not Listener):")
+print(f"  Listener↔Reflective Partner disagreements: {rule2_total}")
+print(f"  Would resolve (Listener coder assigned restatement/reflection D3): {rule2_would_resolve}/{rule2_total}")
+
+
+# ---------- Summary ----------
+print(f"\n{'='*60}")
+print("ALL FIGURES + NEW ANALYSES COMPLETE")
+print(f"{'='*60}")
+print(f"All figures saved to: {OUT}")

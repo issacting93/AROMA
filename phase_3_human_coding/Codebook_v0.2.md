@@ -17,6 +17,7 @@
 - **Coding rule:** Identify the **stable relational stance** that governs the sequence. If the stance shifts within the sequence, mark a **Role Transition** and code each segment separately.
 - **What counts as a "turn":** One continuous message from one speaker. Multiple sentences within a single message = one turn.
 
+
 ### 1.2 Decision Tree
 
 To identify the care role for a sequence, ask these three questions in order:

@@ -30,7 +30,7 @@ matplotlib.rcParams.update({
 })
 
 OUT = os.path.dirname(os.path.abspath(__file__))
-CSV_PATH = os.path.join(OUT, "..", "..", "aroma_annotations_2026-03-28.csv")
+CSV_PATH = os.path.join(OUT, "..", "..", "aroma_annotations_2026-03-29.csv")
 ESCONV_PATH = os.path.join(OUT, "..", "..",
     "phase_5_computational_operationalization", "data", "ESConv.json")
 
