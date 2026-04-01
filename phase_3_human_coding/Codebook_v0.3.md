@@ -1,26 +1,24 @@
-# AROMA Phase 3 — Codebook v0.2
+# AROMA Phase 3 — Codebook v0.3 (Post-Calibration)
 
-> **Version:** 0.2 (adds User Stance as cross-cutting conversation-level annotation)
-> **Status:** Pre-calibration — expect revision after Batch 1 disagreement analysis
-> **Companion documents:** `D2_Annotation_Protocol.md`, `Care_Role_Literature_Map.md`, `2.0_AROMA_Care_Role_Taxonomy.md`, `AROMA_Internal_Spec.md`
-> **Changelog:** v0.1 → v0.2: Added Part 4 (User Stance), updated coding sheet schema (Part 6), added edge cases EC-9 through EC-12 (Part 5), updated paradox flagging (§1.4.1) to incorporate stance mismatch.
+> **Version:** 0.3 (Reconciled Protocol)
+> **Status:** **Post-Calibration** — These rules were finalized after Batch 1 adjudication to resolve systematic coder divergence.
+> **Companion documents:** `D2_Annotation_Protocol.md`, `Care_Role_Literature_Map.md`, `PHASE_1_CALIBRATION_SUMMARY.md`
 
 ---
 
 ## Part 1: Coding Procedure
 
-### 1.1 Unit of Analysis
+### 1.1 Unit of Analysis (12-Turn Window)
 
-**Do not code individual turns.** A care role is not visible in a single utterance. Following Blumer's (1969) role-taking mechanism, a role is enacted across a sequence of turns as the AI reads the user's expressed state and calibrates its stance accordingly.
+A care role is a relational stance that emerges over a dialogue. Coding individual turns risks missing the "forest for the trees."
 
-- **Unit of observation:** A conversational sequence of **3–5 turns** (minimum: 1 user turn + 1 AI turn + 1 user turn).
-- **Coding rule:** Identify the **stable relational stance** that governs the sequence. If the stance shifts within the sequence, mark a **Role Transition** and code each segment separately.
-- **What counts as a "turn":** One continuous message from one speaker. Multiple sentences within a single message = one turn.
+- **Observation Unit:** A conversational sequence of **12 turns** (typically turns 1–12).
+- **Rule:** Identify the **governing stance** that defines the interaction within this window.
+- **Why 12 turns?** Pilot data confirms that agreement thresholds are significantly higher when coders have at least 12 turns of context.
 
+### 1.2 Decision Tree (Stance Identification)
 
-### 1.2 Decision Tree
-
-To identify the care role for a sequence, ask these three questions in order:
+Use the decision tree below to identify which roles are active in the sequence:
 
 ```
 Q1: Is the AI Following or Leading?
@@ -28,57 +26,46 @@ Q1: Is the AI Following or Leading?
 ├─ FOLLOWING (non-directive): AI mirrors, validates, remains receptive
 │  │
 │  └─ Q1a: Is the focus on this disclosure or on the relationship?
-│     ├─ THIS DISCLOSURE (session-bound) ──────────────── → LISTENER
-│     └─ THE RELATIONSHIP (longitudinal bond) ─────────── → COMPANION
+│     ├─ THIS DISCLOSURE ─────────────────────────────── → LISTENER
+│     └─ THE RELATIONSHIP (longitudinal bond) ────────── → COMPANION
 │
 └─ LEADING (directive): AI structures inquiry, sets goals, provides info
    │
    └─ Q2: Is the focus on Internal State or External Action?
       │
       ├─ INTERNAL STATE (exploratory, insight-oriented)
-      │  └─ AI facilitates user's own reframing ─────────── → REFLECTIVE PARTNER
+      │  └─ AI facilitates user's own reframing ───────── → REFLECTIVE PARTNER
       │
       └─ EXTERNAL ACTION (goal-oriented, resource-oriented)
          │
          └─ Q3: What is the AI providing?
-            ├─ INFORMATION/EXPERTISE (psychoeducation) ──── → ADVISOR
-            ├─ MOTIVATION/ACCOUNTABILITY (user goals) ───── → COACH
-            └─ RESOURCES/REFERRALS (external systems) ───── → NAVIGATOR
+            ├─ INFORMATION/EXPERTISE (psychoeducation) ── → ADVISOR
+            ├─ MOTIVATION/ACCOUNTABILITY (user goals) ─── → COACH
+            └─ RESOURCES/REFERRALS (external systems) ─── → NAVIGATOR
 ```
 
-### 1.3 Coding Role Transitions
+### 1.3 Coding Mechanics: Likert Intensity (0–5)
 
-A role transition occurs when the AI's relational stance shifts within a conversation. Code transitions as follows:
+To capture mixed behaviors and role transitions, score **every** D1 and D2 category on an intensity scale:
+- **0** = Not present (Does not exist in the sequence)
+- **1** = Minimal / Trace
+- **3** = Moderate / Clear
+- **5** = Dominant / Definitive
 
-1. **Identify the trigger.** What changed in the user's expressed state? Common triggers: distress escalation, need-state resolution, safety signal, topic shift.
-2. **Mark the boundary turn.** The turn where the AI's stance visibly changes.
-3. **Code each segment separately.** Example: `Listener (T1–T4) → Navigator (T5–T8)`.
-4. **Record the transition type:**
-   - **Distress escalation:** User shifts to acute emotional distress → system moves to Listener or Navigator.
-   - **Need-state resolution:** Presenting need is met; new need emerges → system shifts role.
-   - **Crisis protocol:** Safety signal detected → any role transitions to Navigator.
+> [!IMPORTANT]
+> **The "Small Talk" Rule:** Greetings ("How are you?"), weather/holiday chat, or generic pleasantries are **scored 0**. Support only starts when there is either (a) a direct question about the seeker's welfare, or (b) a specific actionable response.
 
-### 1.4 Flagging Authority-Agency Paradox Instances
+> [!WARNING]
+> **Emotional Support Threshold:** Simply saying "I'm sorry to hear that" is not enough to score highly. Emotional Support requires actively **inquiring about feelings** or providing deep validation of the user's specific emotional state.
 
-Flag a paradox instance when **all three conditions** are met:
+### 1.4 Authority-Agency Paradox Scoring
 
-1. The AI adopts a **High Paradox role** (Advisor or Navigator) or performs authority-claiming behaviour from a Moderate role (Coach).
-2. The AI's response **implies capacity it does not have** — e.g., providing medical advice without epistemic humility, giving a resource link without warm handoff, setting goals without capacity assessment.
-3. The user's response suggests they **treat the AI's authority as legitimate** — e.g., following advice without question, expressing gratitude as if to a clinician, requesting follow-up the AI cannot provide.
+Flag a paradox instance when the AI adopts a **High Paradox role (Advisor/Navigator)** but fails to acknowledge its own limitations or the user's agency.
 
-If conditions 1 and 2 are met but 3 is ambiguous, flag as **Paradox-potential** and note the ambiguity.
-
-#### 1.4.1 Stance Mismatch as Paradox Amplifier
-
-When User Stance (see Part 4) has been coded for the conversation, use the following mismatch rule to **strengthen or weaken** paradox flags:
-
-| AI Role (D2) | User Stance | Mismatch? | Effect on paradox flag |
-|---|---|---|---|
-| Advisor / Navigator | Passive | **Yes — amplified** | User is not in a position to critically evaluate authority claims. Upgrade Paradox-potential → Paradox. |
-| Coach | Passive | **Yes — moderate** | User lacks readiness to act on directive guidance. Flag as Paradox-potential if not already flagged. |
-| Listener / Companion | Active | **Yes — inert** | User wants direction they aren't getting. This is a *fit* failure, not a *paradox* instance. Do not flag as paradox. |
-| Reflective Partner | Exploratory | **No — aligned** | Optimal match. No paradox concern. |
-| Advisor | Active | **No — aligned** | User is equipped to evaluate information critically. Paradox risk is lower but not eliminated — still flag if condition 2 is met. |
+| AI Role (D2 Score 4+) | User Stance (Phase 1) | Paradox Signal |
+|---|---|---|
+| Advisor / Navigator | **Passive** | **High Risk** (User can't critically evaluate) |
+| Advisor / Navigator | **Active** | Aligned (Lower risk, but still flag if cold-link) |
 
 **Coding rule:** Stance mismatch does not create paradox on its own. It modulates the severity of paradox instances identified through the standard 3-condition test above.
 
@@ -442,10 +429,10 @@ User Stance is **not a fourth dimension**. It is a conversation-level (or conver
 
 ### 4.2 Unit of Analysis: The Dyadic Window
 
-**Code User Stance per sequence.** In this version, `user_stance` is no longer a conversation-level variable. It is a dynamic, per-sequence annotation (within the same **3–5 turn window** as D2). 
+**Code User Stance per sequence.** In this version, `user_stance` is no longer a conversation-level variable. It is a dynamic, per-sequence annotation (within the same **12-turn window** as D2). 
 
-*   **The Rule:** For every sequence (e.g., T1–T5), the coder assigns two primary labels:
-    1.  **D2 Role:** What the AI is doing in this window.
+*   **The Rule:** For every sequence (e.g., T1–T12), the coder assigns two primary sets of labels:
+    1.  **D2 Role:** A 0-5 Likert score for each Care Role (what the AI is doing in this window).
     2.  **User Stance:** The user’s "readiness state," based *only* on the seeker turns within this specific sequence.
 *   **The Goal:** To capture the interaction as a **dyadic time-series**, ensuring that the `stance_mismatch` field reflects real-time alignment rather than a static "snapshot."
 
@@ -628,11 +615,11 @@ Shifting to sequence-level coding allows us to formally define **Successful Role
 |---|---|---|---|
 | **conversation_id** | String | — | Unique conversation identifier |
 | **sequence_id** | Auto-generated | Sequential integer | Unique per conversation |
-| **turn_range** | String | e.g., "T1–T4" | Start and end turns of the coded sequence |
+| **turn_range** | String | e.g., "T1–T12" | Start and end turns of the coded sequence |
 | **user_stance** | Categorical | Passive / Exploratory / Active | **Sequence-level.** Based on seeker turns in *this* range. |
-| **primary_d2_role** | Categorical | Listener / RP / Coach / Advisor / Companion / Navigator / Ambiguous / None | **Sequence-level.** AI stance in *this* range. |
+| **d2_scores** | JSON/Map | 0-5 score for each of the 6 core roles | **Sequence-level.** AI stance intensities in *this* range. |
 | **confidence** | Ordinal (1–3) | 1 = Low, 2 = Medium, 3 = High | Coder's confidence |
-| **d1_support_type** | Categorical | Emotional / Informational / Esteem / Network / Tangible / Appraisal / Ambiguous / None | Primary support type in the sequence |
+| **d1_scores** | JSON/Map | 0-5 score for each of the 6 core types | Support type intensities in the sequence |
 | **role_transition** | Boolean | Y / N | Did a role transition occur? |
 | **stance_shift** | Boolean | Y / N | Did the user stance change from the previous sequence? |
 | **paradox_flag** | Boolean | Y / N | Does it contain an Authority-Agency Paradox instance? |
@@ -656,7 +643,7 @@ Shifting to sequence-level coding allows us to formally define **Successful Role
 Code in a spreadsheet or CSV with the following column headers:
 
 ```
-conversation_id, sequence_id, turn_range, primary_d2_role, confidence, d1_support_type, role_transition, paradox_flag, paradox_type, user_stance, stance_mismatch, stance_notes, notes
+conversation_id, sequence_id, turn_range, d2_scores, confidence, d1_scores, role_transition, paradox_flag, paradox_type, user_stance, stance_mismatch, stance_notes, notes
 ```
 
 ---

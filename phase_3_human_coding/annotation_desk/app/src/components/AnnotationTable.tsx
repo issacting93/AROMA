@@ -5,8 +5,8 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { Save, X, Pencil, Filter, ChevronDown, ChevronUp, ExternalLink } from 'lucide-react';
 import * as api from '../supabase';
 import {
-  D2_ROLES, D1_SUPPORT_TYPES, D3_STRATEGIES,
-  type D3Strategy,
+  D3_STRATEGIES,
+  type D3Strategy, type D2Role, type D1SupportType, getPrimaryRole
 } from '../types';
 
 interface AnnotationRow {
@@ -16,8 +16,8 @@ interface AnnotationRow {
   sequence_id: string;
   conversation_id: string;
   coder_id: string;
-  primary_d2_role: string;
-  d1_support_type: string;
+  d2_scores: Record<D2Role, number>;
+  d1_scores: Record<D1SupportType, number>;
   d3_strategies: string[];
   seeker_stance: string;
   confidence: number;
@@ -25,7 +25,7 @@ interface AnnotationRow {
   created_at: string;
 }
 
-type SortField = 'external_id' | 'turn_range' | 'primary_d2_role' | 'd1_support_type' | 'confidence' | 'created_at';
+type SortField = 'external_id' | 'turn_range' | 'd2_scores' | 'd1_scores' | 'confidence' | 'created_at';
 
 // All known coders — will be populated dynamically
 interface CoderInfo {
@@ -56,8 +56,8 @@ export default function AnnotationTable({ onNavigateToSequence }: AnnotationTabl
       .from('annotations')
       .select(`
         id,
-        primary_d2_role,
-        d1_support_type,
+        d2_scores,
+        d1_scores,
         d3_strategies,
         stance_mismatch,
         confidence,
@@ -90,8 +90,8 @@ export default function AnnotationTable({ onNavigateToSequence }: AnnotationTabl
       sequence_id: r.sequence_id,
       conversation_id: r.sequences?.conversation_id ?? '',
       coder_id: r.coder_id,
-      primary_d2_role: r.primary_d2_role ?? '',
-      d1_support_type: r.d1_support_type ?? '',
+      d2_scores: r.d2_scores || {},
+      d1_scores: r.d1_scores || {},
       d3_strategies: Array.isArray(r.d3_strategies) ? r.d3_strategies : [],
       stance_mismatch: r.stance_mismatch ?? '',
       seeker_stance: 'N/A', // Will be populated next
@@ -145,6 +145,12 @@ export default function AnnotationTable({ onNavigateToSequence }: AnnotationTabl
         const na = parseInt(va.split('_')[1] ?? '0');
         const nb = parseInt(vb.split('_')[1] ?? '0');
         va = na; vb = nb;
+      } else if (sortField === 'd2_scores') {
+        va = getPrimaryRole(a.d2_scores) || '';
+        vb = getPrimaryRole(b.d2_scores) || '';
+      } else if (sortField === 'd1_scores') {
+        va = Object.entries(a.d1_scores).filter(([, v]) => v > 0).map(([k]) => k).join(', ');
+        vb = Object.entries(b.d1_scores).filter(([, v]) => v > 0).map(([k]) => k).join(', ');
       } else {
         va = String(va).toLowerCase();
         vb = String(vb).toLowerCase();
@@ -179,8 +185,8 @@ export default function AnnotationTable({ onNavigateToSequence }: AnnotationTabl
 
     const irrGroups = sharedGroups.map(([sid, annos]) => {
       const sts = new Set(annos.map(a => a.seeker_stance));
-      const d1s = new Set(annos.map(a => a.d1_support_type));
-      const d2s = new Set(annos.map(a => a.primary_d2_role));
+      const d1s = new Set(annos.map(a => JSON.stringify(a.d1_scores)));
+      const d2s = new Set(annos.map(a => getPrimaryRole(a.d2_scores)));
       
       const st_agree = sts.size === 1;
       const d1_agree = d1s.size === 1;
@@ -224,8 +230,6 @@ export default function AnnotationTable({ onNavigateToSequence }: AnnotationTabl
   const startEdit = (row: AnnotationRow) => {
     setEditingId(row.id);
     setEditData({
-      primary_d2_role: row.primary_d2_role,
-      d1_support_type: row.d1_support_type,
       d3_strategies: [...row.d3_strategies],
       confidence: row.confidence,
       notes: row.notes,
@@ -242,8 +246,6 @@ export default function AnnotationTable({ onNavigateToSequence }: AnnotationTabl
     const { error } = await api.supabase
       .from('annotations')
       .update({
-        primary_d2_role: editData.primary_d2_role,
-        d1_support_type: editData.d1_support_type || null,
         d3_strategies: editData.d3_strategies,
         confidence: editData.confidence,
         notes: editData.notes || null,
@@ -361,8 +363,8 @@ export default function AnnotationTable({ onNavigateToSequence }: AnnotationTabl
               <Th field="turn_range" label="Turns" onSort={handleSort} sortField={sortField} sortAsc={sortAsc} />
               {irrMode && <th style={thStyle}>Coder</th>}
               <th style={thStyle}>Stance</th>
-              <Th field="primary_d2_role" label="D2 Role" onSort={handleSort} sortField={sortField} sortAsc={sortAsc} />
-              <Th field="d1_support_type" label="D1 Type" onSort={handleSort} sortField={sortField} sortAsc={sortAsc} />
+              <Th field="d2_scores" label="D2 Role" onSort={handleSort} sortField={sortField} sortAsc={sortAsc} />
+              <Th field="d1_scores" label="D1 Type" onSort={handleSort} sortField={sortField} sortAsc={sortAsc} />
               <th style={thStyle}>D3 Strategies</th>
               <Th field="confidence" label="Conf" onSort={handleSort} sortField={sortField} sortAsc={sortAsc} />
               <th style={thStyle}>Notes</th>
@@ -524,20 +526,9 @@ function AnnotationRowComponent({
         background: (irrMode && d2_conflict) ? 'rgba(239, 68, 68, 0.03)' : undefined,
         borderLeft: (irrMode && d2_conflict) ? '2px solid var(--red)' : undefined
       }}>
-        {isEditing ? (
-          <select
-            value={editData.primary_d2_role ?? ''}
-            onChange={e => onSetEditData({ ...editData, primary_d2_role: e.target.value })}
-            style={editSelectStyle}
-          >
-            <option value="">—</option>
-            {D2_ROLES.map(r => <option key={r} value={r}>{r}</option>)}
-          </select>
-        ) : (
-          <span style={{ color: (irrMode && d2_conflict) ? 'var(--red)' : 'inherit', fontWeight: (irrMode && d2_conflict) ? 700 : 400 }}>
-            {row.primary_d2_role || '—'}
-          </span>
-        )}
+        <span style={{ color: (irrMode && d2_conflict) ? 'var(--red)' : 'inherit', fontWeight: (irrMode && d2_conflict) ? 700 : 400 }}>
+          {getPrimaryRole(row.d2_scores) || '—'}
+        </span>
       </td>
 
       {/* D1 Type */}
@@ -546,20 +537,9 @@ function AnnotationRowComponent({
         background: (irrMode && d1_conflict) ? 'rgba(239, 68, 68, 0.03)' : undefined,
         borderLeft: (irrMode && d1_conflict) ? '2px solid var(--red)' : undefined
       }}>
-        {isEditing ? (
-          <select
-            value={editData.d1_support_type ?? ''}
-            onChange={e => onSetEditData({ ...editData, d1_support_type: e.target.value as any })}
-            style={editSelectStyle}
-          >
-            <option value="">—</option>
-            {D1_SUPPORT_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
-          </select>
-        ) : (
-          <span style={{ color: (irrMode && d1_conflict) ? 'var(--red)' : 'inherit', fontWeight: (irrMode && d1_conflict) ? 700 : 400 }}>
-            {row.d1_support_type || '—'}
-          </span>
-        )}
+        <span style={{ color: (irrMode && d1_conflict) ? 'var(--red)' : 'inherit', fontWeight: (irrMode && d1_conflict) ? 700 : 400 }}>
+          {Object.entries(row.d1_scores).filter(([, v]) => v > 0).map(([k]) => k).join(', ') || '—'}
+        </span>
       </td>
 
       {/* D3 Strategies */}

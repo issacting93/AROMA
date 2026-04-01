@@ -1,15 +1,28 @@
-# D2 Care Role Annotation Protocol (v1.0)
+# D2 Care Role Annotation Protocol (v1.1)
 
 This protocol defines the procedure for identifying and coding **D2 Care Roles** in conversational data. 
 
-## 1. The Unit of Analysis (Sequence vs. Turn)
-- **Do not code roles turn-by-turn.** A single utterance (D4) does not constitute a role.
-- **Unit of observation:** A conversational sequence of **3–5 turns**. 
-- **Coding rule:** Identify the **stable relational stance** that governs the sequence. If the stance shifts, mark a *Role Transition*.
+## 1. The Unit of Analysis (12-Turn Window)
+- **Do not code roles turn-by-turn.** A care role is a relational stance that emerges over time.
+- **Unit of observation:** A conversational sequence of **12 turns**. 
+- **Rationale:** Pilot data shows that agreement doubles when sequences are extended to 12 turns, as early turns (1-5) are often too ambiguous for role-emergence.
 
-## 2. The D2 Decision Tree
+## 2. Scoring Logic: Likert Intensity (0–5)
+Instead of selecting a single "primary" role, coders score **each** of the 6 core roles on an intensity scale:
+- **0 (None):** The role is entirely absent.
+- **1 (Trace):** Minimal/incipient presence of the role.
+- **3 (Moderate):** Clear evidence of the role's stance.
+- **5 (Dominant):** The role is the primary driver of the sequence.
 
-To identify the role, ask these three questions in order:
+### The "Small Talk" Threshold
+- **Small Talk = 0 Across All Categories.** Generic greetings ("How are you?"), weather, or holiday chat do not constitute support.
+- **Support Trigger:** Support requires either (a) a direct question about the seeker's welfare/feelings, or (b) a specific actionable suggestion.
+
+---
+
+## 3. The D2 Decision Tree (Threshold Guide)
+
+To identify the role intensity, evaluate the AI's stance along three axes:
 
 ### Q1: Is the AI Following or Leading?
 - **Following (Non-directive):** AI mirrors the user, validates, and remains receptive.
@@ -33,11 +46,11 @@ To identify the role, ask these three questions in order:
 
 ---
 
-## 3. Marker Move Signatures (D4 → D2)
+## 4. Marker Move Signatures (D3 → D2)
 
-While a single move isn't a role, these clusters are strong predictors:
+While a single move isn't a role, these clusters are strong predictors for scoring intensity:
 
-| Care Role | D4 Marker Move Cluster (The "Signature") |
+| Care Role | D3 Marker Move Cluster (The "Signature") |
 | :--- | :--- |
 | **Listener** | Empathetic Reflection + Paraphrasing + Minimal Encouragers |
 | **Reflective Partner** | Socratic Questioning + Reappraisal Prompts + Summary w/ Invitation |
@@ -48,10 +61,9 @@ While a single move isn't a role, these clusters are strong predictors:
 
 ---
 
-## 4. Coding Role Transitions
-A transition occurs when the AI's stance shifts (e.g., from validating to advising). 
-- **Identify the Trigger:** Did the user's distress level change? Did a safety signal appear?
-- **Code the Flow:** `Listener (T1-T4) -> Navigator (T5-T7)`.
-
 ## 5. Identifying the Authority-Agency Paradox
-When coding, flag instances where the AI adopts a **High Paradox** role (*Advisor/Navigator*) but fails to provide the necessary "agency" (e.g., gives a cold link for a crisis or provides medical advice without caveats).
+When coding, flag instances where the AI adopts a **High Paradox** role (*Advisor/Navigator*) but fails to provide the necessary "agency" (e.g., provides clinical advice without humble inquiry). 
+
+> [!CAUTION]
+> **Paradox Risk:** Scores of 4+ in Advisor/Navigator paired with Passive user stances (Phase 1) trigger a critical Paradox Flag.
+

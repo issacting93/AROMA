@@ -3,7 +3,7 @@ import type {
   Conversation, Sequence, Turn, ConversationStance,
   AnnotationFormData, AlignmentLevel,
 } from './types';
-import { getAlignment } from './types';
+import { getAlignment, getPrimaryRole } from './types';
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
@@ -126,7 +126,8 @@ export async function saveAnnotation(
   conversationStance: string,
   data: AnnotationFormData,
 ) {
-  const alignment: AlignmentLevel | null = getAlignment(data.primary_d2_role, conversationStance as any);
+  const primaryRole = getPrimaryRole(data.d2_scores);
+  const alignment: AlignmentLevel | null = primaryRole ? getAlignment(primaryRole, conversationStance as any) : null;
   
   // Check for existing annotation
   const { data: existing } = await supabase
@@ -139,8 +140,8 @@ export async function saveAnnotation(
   const payload = {
     sequence_id: sequenceId,
     coder_id: coderId,
-    primary_d2_role: data.primary_d2_role,
-    d1_support_type: data.d1_support_type || null,
+    d2_scores: data.d2_scores,
+    d1_scores: data.d1_scores,
     d3_strategies: data.d3_strategies,
     stance_mismatch: alignment,
     confidence: data.confidence,
@@ -159,8 +160,8 @@ export async function fetchAllAnnotations() {
     .from('annotations')
     .select(`
       id,
-      primary_d2_role,
-      d1_support_type,
+      d2_scores,
+      d1_scores,
       d3_strategies,
       stance_mismatch,
       confidence,

@@ -1,9 +1,9 @@
 import React from 'react';
-import { D2_ROLES } from '../types';
+import { D2_ROLES, getPrimaryRole, type D2Role } from '../types';
 import ExportButton from './ExportButton';
 
 interface Annotation {
-  primary_d2_role: string;
+  d2_scores: Record<D2Role, number>;
   stance_mismatch: string;
 }
 
@@ -16,7 +16,7 @@ const TurningPointDashboard: React.FC<TurningPointDashboardProps> = ({ annotatio
   const roles = D2_ROLES.filter(r => r !== 'Ambiguous' && r !== 'None');
   
   const calculateEffectiveness = (role: string) => {
-    const roleOccurrences = annotations.filter(a => a.primary_d2_role === role);
+    const roleOccurrences = annotations.filter(a => getPrimaryRole(a.d2_scores) === role);
     if (roleOccurrences.length === 0) return 0;
     
     // For v0.2.2 calibration, "Effectiveness" is defined as % Aligned or Mild Misfit (Harmonious Interaction)

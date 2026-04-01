@@ -8,6 +8,9 @@ export const D2_ROLES = [
 ] as const;
 export type D2Role = typeof D2_ROLES[number];
 
+/** The 6 core roles eligible for Likert scoring (excludes Ambiguous/None). */
+export const D2_CORE_ROLES = D2_ROLES.filter(r => r !== 'Ambiguous' && r !== 'None');
+
 export const USER_STANCES = ['Passive', 'Exploratory', 'Active'] as const;
 export type UserStance = typeof USER_STANCES[number];
 
@@ -16,6 +19,9 @@ export const D1_SUPPORT_TYPES = [
   'Ambiguous', 'None',
 ] as const;
 export type D1SupportType = typeof D1_SUPPORT_TYPES[number];
+
+/** The 6 core support types eligible for Likert scoring (excludes Ambiguous/None). */
+export const D1_CORE_TYPES = D1_SUPPORT_TYPES.filter(t => t !== 'Ambiguous' && t !== 'None');
 
 export const D3_STRATEGIES = [
   'Question',
@@ -62,6 +68,20 @@ export function isParadoxRisk(level: AlignmentLevel | null): boolean {
   return level === 'misaligned_paradox_risk';
 }
 
+export function getPrimaryRole(scores: Record<D2Role, number>): D2Role | null {
+  let maxScore = -1;
+  let primaryRole: D2Role | null = null;
+  // Convert roles into an array and iterate to avoid type issues with Object.entries
+  for (const r of D2_ROLES) {
+    const score = scores[r] || 0;
+    if (score > maxScore) {
+      maxScore = score;
+      primaryRole = r;
+    }
+  }
+  return maxScore > 0 ? primaryRole : null;
+}
+
 // --- Data Models ---
 
 export interface Turn {
@@ -93,8 +113,8 @@ export interface ConversationStance {
 }
 
 export interface AnnotationFormData {
-  primary_d2_role: D2Role | '';
-  d1_support_type: D1SupportType | '';
+  d2_scores: Record<D2Role, number>;
+  d1_scores: Record<D1SupportType, number>;
   d3_strategies: D3Strategy[];
   stance_mismatch: AlignmentLevel | null;
   confidence: 1 | 2 | 3;

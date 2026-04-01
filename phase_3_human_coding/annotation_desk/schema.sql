@@ -41,15 +41,8 @@ CREATE TABLE public.annotations (
     sequence_id uuid REFERENCES public.sequences(id) ON DELETE CASCADE,
     coder_id uuid REFERENCES auth.users(id) ON DELETE CASCADE,
 
-    primary_d2_role TEXT NOT NULL CHECK (primary_d2_role IN (
-        'Listener', 'Reflective Partner', 'Coach', 'Advisor',
-        'Companion', 'Navigator', 'Ambiguous', 'None'
-    )),
-
-    d1_support_type TEXT CHECK (d1_support_type IN (
-        'Emotional', 'Informational', 'Esteem', 'Network', 'Tangible', 'Appraisal',
-        'Ambiguous', 'None'
-    )),
+    d2_scores JSONB DEFAULT '{}'::jsonb,
+    d1_scores JSONB DEFAULT '{}'::jsonb,
 
     d3_strategies TEXT[],
     stance_mismatch TEXT CHECK (

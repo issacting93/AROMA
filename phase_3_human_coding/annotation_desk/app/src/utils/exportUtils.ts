@@ -3,6 +3,8 @@
  * Handles flattening of Supabase nested records and CSV conversion.
  */
 
+import { getPrimaryRole } from '../types';
+
 export function flattenAnnotation(annotation: any, stances: any[] = []) {
   const seq = annotation.sequence_id;
   const conv = seq?.conversation_id;
@@ -18,8 +20,9 @@ export function flattenAnnotation(annotation: any, stances: any[] = []) {
     turn_range: seq?.turn_range || 'N/A',
     is_calibration: seq?.is_calibration ? 'TRUE' : 'FALSE',
     seeker_stance: seekerStance,
-    primary_d2_role: annotation.primary_d2_role,
-    d1_support_type: annotation.d1_support_type || 'None',
+    primary_d2_role: getPrimaryRole(annotation.d2_scores || {}) || 'None',
+    d2_scores: JSON.stringify(annotation.d2_scores || {}),
+    d1_scores: JSON.stringify(annotation.d1_scores || {}),
     d3_strategies: (annotation.d3_strategies || []).join('; '),
     stance_mismatch: annotation.stance_mismatch || 'N/A',
     confidence: annotation.confidence,

@@ -7,9 +7,9 @@
 import { useState } from 'react';
 import { ShieldCheck, Zap, MessageSquare, Save } from 'lucide-react';
 import {
-  D2_ROLES, D1_SUPPORT_TYPES, D3_STRATEGIES, USER_STANCES,
-  getAlignment,
-  type D1SupportType, type D3Strategy,
+  D2_CORE_ROLES, D1_CORE_TYPES, D3_STRATEGIES, USER_STANCES,
+  getAlignment, getPrimaryRole,
+  type D1SupportType, type D3Strategy, type D2Role,
   type UserStance,
 } from '../types';
 
@@ -65,16 +65,17 @@ const SeekerFirstForm: React.FC<SeekerFirstFormProps> = ({
   });
 
   const [formData, setFormData] = useState({
-    primary_d2_role: '' as string,
-    d1_support_type: '' as D1SupportType | '',
+    d2_scores: Object.fromEntries(D2_CORE_ROLES.map(r => [r, 0])) as Record<D2Role, number>,
+    d1_scores: Object.fromEntries(D1_CORE_TYPES.map(t => [t, 0])) as Record<D1SupportType, number>,
     d3_strategies: [] as D3Strategy[],
     confidence: 2 as 1 | 2 | 3,
     notes: '',
   });
 
+  const primaryRole = getPrimaryRole(formData.d2_scores);
   // Computed alignment
-  const alignment = formData.primary_d2_role && stanceData.user_stance
-    ? getAlignment(formData.primary_d2_role, stanceData.user_stance as UserStance)
+  const alignment = primaryRole && stanceData.user_stance
+    ? getAlignment(primaryRole, stanceData.user_stance as UserStance)
     : null;
 
   const seekerTurns = sequence.turns.filter(t => t.speaker === 'seeker');
@@ -216,53 +217,56 @@ const SeekerFirstForm: React.FC<SeekerFirstFormProps> = ({
 
           {/* D1: Support Type */}
           <div className="stack" style={{ gap: 8, marginBottom: 20 }}>
-            <label className="subtle" style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>D1: Support Type · select one</label>
-            <div className="row wrap" style={{ gap: 8, flexWrap: 'wrap' }}>
-              {D1_SUPPORT_TYPES.map(opt => (
-                <button
-                  key={opt}
-                  title={D1_HINTS[opt]}
-                  onClick={() => setFormData({ ...formData, d1_support_type: opt })}
-                  style={{
-                    padding: '8px 12px', fontSize: 12, borderRadius: 12,
-                    border: '1px solid var(--line)',
-                    background: formData.d1_support_type === opt ? 'var(--blue)' : '#fff',
-                    color: formData.d1_support_type === opt ? '#fff' : 'var(--text)',
-                    cursor: 'pointer', flex: '1 0 calc(50% - 8px)', 
-                    boxShadow: formData.d1_support_type === opt ? '0 4px 12px rgba(79, 70, 229, 0.2)' : 'none'
-                  }}
-                >
-                  {opt}
-                </button>
+            <label className="subtle" style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>D1: Support Type (0-5)</label>
+            <div className="stack" style={{ gap: 8 }}>
+              {D1_CORE_TYPES.map(opt => (
+                <div key={opt} className="row between" style={{ alignItems: 'center', background: '#fff', padding: '6px 12px', borderRadius: 8, border: '1px solid var(--line)' }}>
+                  <div style={{ flex: 1, paddingRight: 8 }}>
+                    <div style={{ fontSize: 12, fontWeight: 600 }}>{opt}</div>
+                    <div style={{ fontSize: 10, color: 'var(--muted)', lineHeight: 1.2 }}>{D1_HINTS[opt]}</div>
+                  </div>
+                  <input 
+                    type="range" 
+                    min="0" max="5" 
+                    value={formData.d1_scores[opt] || 0}
+                    onChange={(e) => setFormData({ 
+                      ...formData, 
+                      d1_scores: { ...formData.d1_scores, [opt]: parseInt(e.target.value) } 
+                    })}
+                    style={{ width: '80px', margin: '0 8px' }}
+                  />
+                  <div style={{ minWidth: 20, textAlign: 'center', fontWeight: 'bold', fontSize: 13, color: formData.d1_scores[opt] > 0 ? 'var(--blue)' : 'var(--muted)' }}>
+                    {formData.d1_scores[opt] || 0}
+                  </div>
+                </div>
               ))}
             </div>
-            {formData.d1_support_type && (
-              <div style={{ fontSize: 11, color: 'var(--muted)', marginTop: 4, padding: '8px 12px', background: 'rgba(79, 70, 229, 0.03)', borderRadius: 8, border: '1px solid rgba(79, 70, 229, 0.1)' }}>
-                <strong>{formData.d1_support_type}:</strong> {D1_HINTS[formData.d1_support_type]}
-              </div>
-            )}
           </div>
 
           {/* D2: Care Role */}
           <div className="stack" style={{ gap: 8, marginBottom: 20 }}>
-            <label className="subtle" style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>D2: Care Role · select one</label>
-            <div className="row wrap" style={{ gap: 8, flexWrap: 'wrap' }}>
-              {D2_ROLES.map(opt => (
-                <button
-                  key={opt}
-                  title={D2_HINTS[opt]}
-                  onClick={() => setFormData({ ...formData, primary_d2_role: opt })}
-                  style={{
-                    padding: '8px 12px', fontSize: 12, borderRadius: 12,
-                    border: '1px solid var(--line)',
-                    background: formData.primary_d2_role === opt ? 'var(--blue)' : '#fff',
-                    color: formData.primary_d2_role === opt ? '#fff' : 'var(--text)',
-                    cursor: 'pointer', flex: '1 0 calc(50% - 8px)', 
-                    boxShadow: formData.primary_d2_role === opt ? '0 4px 12px rgba(79, 70, 229, 0.2)' : 'none'
-                  }}
-                >
-                  {opt}
-                </button>
+            <label className="subtle" style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>D2: Care Role (0-5)</label>
+            <div className="stack" style={{ gap: 8 }}>
+              {D2_CORE_ROLES.map(opt => (
+                <div key={opt} className="row between" style={{ alignItems: 'center', background: '#fff', padding: '6px 12px', borderRadius: 8, border: '1px solid var(--line)' }}>
+                  <div style={{ flex: 1, paddingRight: 8 }}>
+                    <div style={{ fontSize: 12, fontWeight: 600 }}>{opt}</div>
+                    <div style={{ fontSize: 10, color: 'var(--muted)', lineHeight: 1.2 }}>{D2_HINTS[opt]}</div>
+                  </div>
+                  <input 
+                    type="range" 
+                    min="0" max="5" 
+                    value={formData.d2_scores[opt] || 0}
+                    onChange={(e) => setFormData({ 
+                      ...formData, 
+                      d2_scores: { ...formData.d2_scores, [opt]: parseInt(e.target.value) } 
+                    })}
+                    style={{ width: '80px', margin: '0 8px' }}
+                  />
+                  <div style={{ minWidth: 20, textAlign: 'center', fontWeight: 'bold', fontSize: 13, color: formData.d2_scores[opt] > 0 ? 'var(--blue)' : 'var(--muted)' }}>
+                    {formData.d2_scores[opt] || 0}
+                  </div>
+                </div>
               ))}
             </div>
           </div>
@@ -329,8 +333,8 @@ const SeekerFirstForm: React.FC<SeekerFirstFormProps> = ({
             className="primary"
             style={{ marginTop: 20, padding: 16 }}
             disabled={
-              !formData.primary_d2_role
-              || !formData.d1_support_type
+              !primaryRole
+              || !Object.values(formData.d1_scores).some(v => v > 0)
               || (formData.confidence === 1 && !formData.notes.trim())
               || loading
             }
