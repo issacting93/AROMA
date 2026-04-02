@@ -78,9 +78,9 @@ const CoderGuide: React.FC = () => (
         <strong>Top-Down Coding:</strong> We use a 9-step systematic process to ensure high-reliability scientific results.
       </div>
       <ol style={{ fontSize: 13, lineHeight: 1.6, paddingLeft: 20 }}>
-        <li><strong>Establish Codes:</strong> Fixed definitions from the v0.5 codebook.</li>
-        <li><strong>Agree on Rules:</strong> Single-select D2 roles, multi-select D3 strategies.</li>
-        <li><strong>Independent Calibration:</strong> Group coding of shared sequences to find edge cases.</li>
+        <li><strong>Establish Codes:</strong> Fixed definitions from the v0.3 codebook.</li>
+        <li><strong>Agree on Rules:</strong> Likert intensity (0/1/3/5) per D2 role, multi-select D3 strategies.</li>
+        <li><strong>Independent Calibration:</strong> Group coding of shared sequences to find edge cases. Data is drawn from multiple sources and blinded — code based on what you see, not where you think the data came from.</li>
         <li><strong>Measure IRR:</strong> Statistics are run on the calibration batch.</li>
         <li><strong>Reconcile:</strong> Disagreements are discussed until consensus is reached.</li>
         <li><strong>Revise:</strong> Codebook definitions are refined based on reconciliation.</li>
@@ -88,6 +88,15 @@ const CoderGuide: React.FC = () => (
         <li><strong>Production:</strong> Non-overlapping batches assigned to individuals.</li>
         <li><strong>Complete:</strong> Data is finalized for analysis and model training.</li>
       </ol>
+    </Section>
+
+    {/* ── DATA SOURCES ── */}
+    <Section title="About the Data">
+      <p>Sequences are drawn from <strong>multiple conversational support datasets</strong> covering peer support, counseling, and motivational interviewing. Data sources are intentionally <strong>blinded</strong> — you will not know which dataset a sequence comes from.</p>
+      <Callout type="tip">
+        <strong>Why blinding matters.</strong> Knowing the source can bias your coding (e.g., expecting certain roles from certain datasets). Apply the same codebook criteria uniformly. If a sequence feels different from others, that's expected — the variety is deliberate to ensure the taxonomy generalises across support contexts.
+      </Callout>
+      <p>Some sequences feature peer supporters, others feature trained counselors. The speaker labels are normalised to <strong>seeker</strong> (person receiving support) and <strong>supporter</strong> (person providing support). Code the supporter's relational stance regardless of their training level.</p>
     </Section>
 
     {/* ── PHASE 1 ── */}
@@ -146,7 +155,7 @@ const CoderGuide: React.FC = () => (
           ['<strong>Appraisal</strong>', 'Reframing, meaning-making', '<em>"What would it look like from their perspective?"</em>'],
         ]}
       />
-      <p>Pick the <strong>primary</strong> type. If mixed, pick whichever governs the overall stance.</p>
+      <p>Score each type on the <strong>0/1/3/5</strong> scale. The primary type is the highest-scored. If mixed, the dominant type governs.</p>
     </Section>
 
     {/* ── D2 ── */}

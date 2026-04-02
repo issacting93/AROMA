@@ -8,7 +8,7 @@ import {
   D3_STRATEGIES, D2_CORE_ROLES, D1_CORE_TYPES,
   type D3Strategy, type D2Role, type D1SupportType, getPrimaryRole
 } from '../types';
-import { computeDimensionICC, type ICCResult } from '../utils/icc';
+import { computeDimensionICC } from '../utils/icc';
 
 interface AnnotationRow {
   id: string;
@@ -440,7 +440,7 @@ export default function AnnotationTable({ onNavigateToSequence }: AnnotationTabl
                         </div>
                       </td>
                     </tr>
-                    {group.annotations.map(row => (
+                    {group.annotations.map((row: AnnotationRow) => (
                       <AnnotationRowComponent 
                         key={row.id} 
                         row={row} 
