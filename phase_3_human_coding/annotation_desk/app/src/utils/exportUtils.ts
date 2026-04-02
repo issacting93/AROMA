@@ -13,9 +13,10 @@ export function flattenAnnotation(annotation: any, stances: any[] = []) {
     s.conversation_id === conv?.id && s.coder_id === annotation.coder_id
   )?.user_stance || 'N/A';
 
+  // Use conversation DB id (UUID) instead of external_id to blind source
   return {
     annotation_id: annotation.id,
-    external_id: conv?.external_id || 'N/A',
+    conversation_id: conv?.id || 'N/A',
     sequence_id: seq?.id || 'N/A',
     turn_range: seq?.turn_range || 'N/A',
     is_calibration: seq?.is_calibration ? 'TRUE' : 'FALSE',
@@ -24,6 +25,8 @@ export function flattenAnnotation(annotation: any, stances: any[] = []) {
     d2_scores: JSON.stringify(annotation.d2_scores || {}),
     d1_scores: JSON.stringify(annotation.d1_scores || {}),
     d3_strategies: (annotation.d3_strategies || []).join('; '),
+    role_transition: annotation.role_transition ? 'TRUE' : 'FALSE',
+    transition_turn: annotation.transition_turn ?? '',
     stance_mismatch: annotation.stance_mismatch || 'N/A',
     confidence: annotation.confidence,
     notes: annotation.notes || '',

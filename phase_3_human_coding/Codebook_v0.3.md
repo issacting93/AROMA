@@ -47,10 +47,12 @@ Q1: Is the AI Following or Leading?
 ### 1.3 Coding Mechanics: Likert Intensity (0–5)
 
 To capture mixed behaviors and role transitions, score **every** D1 and D2 category on an intensity scale:
-- **0** = Not present (Does not exist in the sequence)
-- **1** = Minimal / Trace
-- **3** = Moderate / Clear
-- **5** = Dominant / Definitive
+- **0** = Not present (does not exist in the sequence)
+- **1** = Trace / minimal
+- **3** = Moderate / clear
+- **5** = Dominant / definitive
+
+> Only these four levels are permitted. Intermediate values (2, 4) are excluded — they lack anchor definitions and cause unanchored drift between coders. Score only the **6 core categories** per dimension (Ambiguous/None are not scored; 0 already captures absence).
 
 > [!IMPORTANT]
 > **The "Small Talk" Rule:** Greetings ("How are you?"), weather/holiday chat, or generic pleasantries are **scored 0**. Support only starts when there is either (a) a direct question about the seeker's welfare, or (b) a specific actionable response.
@@ -617,10 +619,11 @@ Shifting to sequence-level coding allows us to formally define **Successful Role
 | **sequence_id** | Auto-generated | Sequential integer | Unique per conversation |
 | **turn_range** | String | e.g., "T1–T12" | Start and end turns of the coded sequence |
 | **user_stance** | Categorical | Passive / Exploratory / Active | **Sequence-level.** Based on seeker turns in *this* range. |
-| **d2_scores** | JSON/Map | 0-5 score for each of the 6 core roles | **Sequence-level.** AI stance intensities in *this* range. |
+| **d2_scores** | JSON/Map | 0/1/3/5 per core role (6 roles) | **Sequence-level.** AI stance intensities in *this* range. Discrete ordinal only. |
 | **confidence** | Ordinal (1–3) | 1 = Low, 2 = Medium, 3 = High | Coder's confidence |
-| **d1_scores** | JSON/Map | 0-5 score for each of the 6 core types | Support type intensities in the sequence |
-| **role_transition** | Boolean | Y / N | Did a role transition occur? |
+| **d1_scores** | JSON/Map | 0/1/3/5 per core type (6 types) | Support type intensities in the sequence. Discrete ordinal only. |
+| **role_transition** | Boolean | Y / N | Did the AI's role shift within this window? |
+| **transition_turn** | Integer (optional) | Turn number | Boundary turn where the shift occurred. Only populated when role_transition = Y. |
 | **stance_shift** | Boolean | Y / N | Did the user stance change from the previous sequence? |
 | **paradox_flag** | Boolean | Y / N | Does it contain an Authority-Agency Paradox instance? |
 | **paradox_type** | Categorical | Gap / Misconception / Obligation / Potential | Type of paradox signal |
@@ -630,7 +633,7 @@ Shifting to sequence-level coding allows us to formally define **Successful Role
 
 ### Coding Rules
 
-1. **One primary role per sequence.** If a sequence contains a genuine role transition, split it into two sequences.
+1. **One primary role per sequence.** The primary role is the highest-scored D2 category. If the AI's role shifts within the window, set `role_transition = Y` and record the boundary turn — do not split the sequence.
 2. **Ambiguous is a legitimate code.** Document what made it ambiguous.
 3. **None is for non-care turns.** (System messages, etc.)
 4. **Confidence reflects decision-tree clarity.** Confidence 3 = unambiguous result.
@@ -643,7 +646,7 @@ Shifting to sequence-level coding allows us to formally define **Successful Role
 Code in a spreadsheet or CSV with the following column headers:
 
 ```
-conversation_id, sequence_id, turn_range, d2_scores, confidence, d1_scores, role_transition, paradox_flag, paradox_type, user_stance, stance_mismatch, stance_notes, notes
+conversation_id, sequence_id, turn_range, d2_scores, confidence, d1_scores, role_transition, transition_turn, paradox_flag, paradox_type, user_stance, stance_mismatch, stance_notes, notes
 ```
 
 ---

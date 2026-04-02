@@ -8,11 +8,13 @@ This protocol defines the procedure for identifying and coding **D2 Care Roles**
 - **Rationale:** Pilot data shows that agreement doubles when sequences are extended to 12 turns, as early turns (1-5) are often too ambiguous for role-emergence.
 
 ## 2. Scoring Logic: Likert Intensity (0–5)
-Instead of selecting a single "primary" role, coders score **each** of the 6 core roles on an intensity scale:
+Instead of selecting a single "primary" role, coders score **each** of the 6 core roles on a discrete ordinal scale with four anchored levels:
 - **0 (None):** The role is entirely absent.
 - **1 (Trace):** Minimal/incipient presence of the role.
 - **3 (Moderate):** Clear evidence of the role's stance.
 - **5 (Dominant):** The role is the primary driver of the sequence.
+
+Intermediate values (2, 4) are **not permitted** — they lack anchor definitions and cause inter-rater drift. The **primary role** (highest score) is the analytical unit; the full vector provides diagnostic context.
 
 ### The "Small Talk" Threshold
 - **Small Talk = 0 Across All Categories.** Generic greetings ("How are you?"), weather, or holiday chat do not constitute support.

@@ -27,6 +27,13 @@ interface SeekerFirstFormProps {
   onSaveAnnotation: (data: any) => Promise<void>;
 }
 
+const LIKERT_LEVELS = [
+  { value: 0, label: '0 None' },
+  { value: 1, label: '1 Trace' },
+  { value: 3, label: '3 Mod' },
+  { value: 5, label: '5 Dom' },
+] as const;
+
 const D1_HINTS: Record<string, string> = {
   'Emotional': 'Empathy, sympathy, concern directed at alleviating emotional distress.',
   'Informational': 'Advice, suggestions, factual information, or guidance.',
@@ -68,6 +75,8 @@ const SeekerFirstForm: React.FC<SeekerFirstFormProps> = ({
     d2_scores: Object.fromEntries(D2_CORE_ROLES.map(r => [r, 0])) as Record<D2Role, number>,
     d1_scores: Object.fromEntries(D1_CORE_TYPES.map(t => [t, 0])) as Record<D1SupportType, number>,
     d3_strategies: [] as D3Strategy[],
+    role_transition: false,
+    transition_turn: null as number | null,
     confidence: 2 as 1 | 2 | 3,
     notes: '',
   });
@@ -217,26 +226,30 @@ const SeekerFirstForm: React.FC<SeekerFirstFormProps> = ({
 
           {/* D1: Support Type */}
           <div className="stack" style={{ gap: 8, marginBottom: 20 }}>
-            <label className="subtle" style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>D1: Support Type (0-5)</label>
-            <div className="stack" style={{ gap: 8 }}>
+            <label className="subtle" style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>D1: Support Type</label>
+            <div className="stack" style={{ gap: 6 }}>
               {D1_CORE_TYPES.map(opt => (
-                <div key={opt} className="row between" style={{ alignItems: 'center', background: '#fff', padding: '6px 12px', borderRadius: 8, border: '1px solid var(--line)' }}>
-                  <div style={{ flex: 1, paddingRight: 8 }}>
-                    <div style={{ fontSize: 12, fontWeight: 600 }}>{opt}</div>
-                    <div style={{ fontSize: 10, color: 'var(--muted)', lineHeight: 1.2 }}>{D1_HINTS[opt]}</div>
+                <div key={opt} style={{ background: '#fff', padding: '6px 12px', borderRadius: 8, border: '1px solid var(--line)' }}>
+                  <div style={{ marginBottom: 4 }}>
+                    <span style={{ fontSize: 12, fontWeight: 600 }}>{opt}</span>
+                    <span style={{ fontSize: 10, color: 'var(--muted)', marginLeft: 8 }}>{D1_HINTS[opt]}</span>
                   </div>
-                  <input 
-                    type="range" 
-                    min="0" max="5" 
-                    value={formData.d1_scores[opt] || 0}
-                    onChange={(e) => setFormData({ 
-                      ...formData, 
-                      d1_scores: { ...formData.d1_scores, [opt]: parseInt(e.target.value) } 
-                    })}
-                    style={{ width: '80px', margin: '0 8px' }}
-                  />
-                  <div style={{ minWidth: 20, textAlign: 'center', fontWeight: 'bold', fontSize: 13, color: formData.d1_scores[opt] > 0 ? 'var(--blue)' : 'var(--muted)' }}>
-                    {formData.d1_scores[opt] || 0}
+                  <div className="row" style={{ gap: 4 }}>
+                    {LIKERT_LEVELS.map(({ value, label }) => (
+                      <button
+                        key={value}
+                        onClick={() => setFormData({ ...formData, d1_scores: { ...formData.d1_scores, [opt]: value } })}
+                        style={{
+                          flex: 1, padding: '4px 2px', fontSize: 10, borderRadius: 6,
+                          border: '1px solid var(--line)', cursor: 'pointer',
+                          background: formData.d1_scores[opt] === value ? 'var(--blue)' : '#fff',
+                          color: formData.d1_scores[opt] === value ? '#fff' : 'var(--muted)',
+                          fontWeight: formData.d1_scores[opt] === value ? 700 : 400,
+                        }}
+                      >
+                        {label}
+                      </button>
+                    ))}
                   </div>
                 </div>
               ))}
@@ -245,26 +258,30 @@ const SeekerFirstForm: React.FC<SeekerFirstFormProps> = ({
 
           {/* D2: Care Role */}
           <div className="stack" style={{ gap: 8, marginBottom: 20 }}>
-            <label className="subtle" style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>D2: Care Role (0-5)</label>
-            <div className="stack" style={{ gap: 8 }}>
+            <label className="subtle" style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>D2: Care Role</label>
+            <div className="stack" style={{ gap: 6 }}>
               {D2_CORE_ROLES.map(opt => (
-                <div key={opt} className="row between" style={{ alignItems: 'center', background: '#fff', padding: '6px 12px', borderRadius: 8, border: '1px solid var(--line)' }}>
-                  <div style={{ flex: 1, paddingRight: 8 }}>
-                    <div style={{ fontSize: 12, fontWeight: 600 }}>{opt}</div>
-                    <div style={{ fontSize: 10, color: 'var(--muted)', lineHeight: 1.2 }}>{D2_HINTS[opt]}</div>
+                <div key={opt} style={{ background: '#fff', padding: '6px 12px', borderRadius: 8, border: '1px solid var(--line)' }}>
+                  <div style={{ marginBottom: 4 }}>
+                    <span style={{ fontSize: 12, fontWeight: 600 }}>{opt}</span>
+                    <span style={{ fontSize: 10, color: 'var(--muted)', marginLeft: 8 }}>{D2_HINTS[opt]}</span>
                   </div>
-                  <input 
-                    type="range" 
-                    min="0" max="5" 
-                    value={formData.d2_scores[opt] || 0}
-                    onChange={(e) => setFormData({ 
-                      ...formData, 
-                      d2_scores: { ...formData.d2_scores, [opt]: parseInt(e.target.value) } 
-                    })}
-                    style={{ width: '80px', margin: '0 8px' }}
-                  />
-                  <div style={{ minWidth: 20, textAlign: 'center', fontWeight: 'bold', fontSize: 13, color: formData.d2_scores[opt] > 0 ? 'var(--blue)' : 'var(--muted)' }}>
-                    {formData.d2_scores[opt] || 0}
+                  <div className="row" style={{ gap: 4 }}>
+                    {LIKERT_LEVELS.map(({ value, label }) => (
+                      <button
+                        key={value}
+                        onClick={() => setFormData({ ...formData, d2_scores: { ...formData.d2_scores, [opt]: value } })}
+                        style={{
+                          flex: 1, padding: '4px 2px', fontSize: 10, borderRadius: 6,
+                          border: '1px solid var(--line)', cursor: 'pointer',
+                          background: formData.d2_scores[opt] === value ? 'var(--blue)' : '#fff',
+                          color: formData.d2_scores[opt] === value ? '#fff' : 'var(--muted)',
+                          fontWeight: formData.d2_scores[opt] === value ? 700 : 400,
+                        }}
+                      >
+                        {label}
+                      </button>
+                    ))}
                   </div>
                 </div>
               ))}
@@ -290,6 +307,36 @@ const SeekerFirstForm: React.FC<SeekerFirstFormProps> = ({
                   {st}
                 </div>
               ))}
+            </div>
+          </div>
+
+          {/* Role Transition */}
+          <div className="stack" style={{ gap: 8, marginBottom: 20 }}>
+            <label className="subtle" style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Role Transition</label>
+            <div className="row" style={{ gap: 12, alignItems: 'center', background: '#fff', padding: '8px 12px', borderRadius: 8, border: '1px solid var(--line)' }}>
+              <button
+                onClick={() => setFormData({ ...formData, role_transition: !formData.role_transition, transition_turn: formData.role_transition ? null : formData.transition_turn })}
+                style={{
+                  padding: '6px 14px', fontSize: 11, borderRadius: 8, cursor: 'pointer',
+                  border: '1px solid var(--line)',
+                  background: formData.role_transition ? 'var(--orange, #f59e0b)' : '#fff',
+                  color: formData.role_transition ? '#fff' : 'var(--muted)',
+                  fontWeight: 700,
+                }}
+              >
+                {formData.role_transition ? 'Yes' : 'No'}
+              </button>
+              <span style={{ fontSize: 11, color: 'var(--muted)' }}>Did the AI's role shift within this window?</span>
+              {formData.role_transition && (
+                <input
+                  type="number"
+                  min={1}
+                  placeholder="Turn #"
+                  value={formData.transition_turn ?? ''}
+                  onChange={(e) => setFormData({ ...formData, transition_turn: e.target.value ? parseInt(e.target.value) : null })}
+                  style={{ width: 70, padding: '4px 8px', fontSize: 12, borderRadius: 6, border: '1px solid var(--line)', textAlign: 'center' }}
+                />
+              )}
             </div>
           </div>
 

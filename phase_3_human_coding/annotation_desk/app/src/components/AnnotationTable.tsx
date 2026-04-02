@@ -5,9 +5,10 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { Save, X, Pencil, Filter, ChevronDown, ChevronUp, ExternalLink } from 'lucide-react';
 import * as api from '../supabase';
 import {
-  D3_STRATEGIES,
+  D3_STRATEGIES, D2_CORE_ROLES, D1_CORE_TYPES,
   type D3Strategy, type D2Role, type D1SupportType, getPrimaryRole
 } from '../types';
+import { computeDimensionICC, type ICCResult } from '../utils/icc';
 
 interface AnnotationRow {
   id: string;
@@ -133,7 +134,7 @@ export default function AnnotationTable({ onNavigateToSequence }: AnnotationTabl
     }
     if (filterConv.trim()) {
       const q = filterConv.trim().toLowerCase();
-      result = result.filter(r => r.external_id.toLowerCase().includes(q));
+      result = result.filter(r => r.sequence_id.toLowerCase().includes(q));
     }
     result = [...result].sort((a, b) => {
       let va = (a as any)[sortField] ?? '';
@@ -141,10 +142,9 @@ export default function AnnotationTable({ onNavigateToSequence }: AnnotationTabl
       if (sortField === 'confidence') {
         va = Number(va); vb = Number(vb);
       } else if (sortField === 'external_id') {
-        // Sort ESConv_0, ESConv_1, ..., ESConv_24 numerically
-        const na = parseInt(va.split('_')[1] ?? '0');
-        const nb = parseInt(vb.split('_')[1] ?? '0');
-        va = na; vb = nb;
+        // Sort numerically by the suffix after underscore
+        va = va.localeCompare(vb, undefined, { numeric: true });
+        vb = 0;
       } else if (sortField === 'd2_scores') {
         va = getPrimaryRole(a.d2_scores) || '';
         vb = getPrimaryRole(b.d2_scores) || '';
@@ -169,7 +169,14 @@ export default function AnnotationTable({ onNavigateToSequence }: AnnotationTabl
 
   // IRR Statistics & Grouping
   const irrStats = useMemo(() => {
-    if (!rows.length) return { total: 0, shared: 0, st_agreement_rate: 0, d1_agreement_rate: 0, d2_agreement_rate: 0, groups: [] };
+    const empty = {
+      total: 0, shared: 0,
+      st_agreement_rate: 0, d1_agreement_rate: 0, d2_agreement_rate: 0,
+      d1_icc: null as ReturnType<typeof computeDimensionICC> | null,
+      d2_icc: null as ReturnType<typeof computeDimensionICC> | null,
+      groups: [] as any[],
+    };
+    if (!rows.length) return empty;
 
     const groups: Record<string, AnnotationRow[]> = {};
     rows.forEach(r => {
@@ -178,16 +185,22 @@ export default function AnnotationTable({ onNavigateToSequence }: AnnotationTabl
     });
 
     const sharedGroups = Object.entries(groups).filter(([_, annos]) => annos.length > 1);
-    
+
     let st_agreed = 0;
     let d1_agreed = 0;
     let d2_agreed = 0;
 
     const irrGroups = sharedGroups.map(([sid, annos]) => {
       const sts = new Set(annos.map(a => a.seeker_stance));
-      const d1s = new Set(annos.map(a => JSON.stringify(a.d1_scores)));
       const d2s = new Set(annos.map(a => getPrimaryRole(a.d2_scores)));
-      
+      // D1 primary-type agreement (highest-scored type)
+      const d1Primaries = annos.map(a => {
+        const entries = Object.entries(a.d1_scores).filter(([, v]) => v > 0);
+        entries.sort(([, a], [, b]) => b - a);
+        return entries[0]?.[0] ?? 'None';
+      });
+      const d1s = new Set(d1Primaries);
+
       const st_agree = sts.size === 1;
       const d1_agree = d1s.size === 1;
       const d2_agree = d2s.size === 1;
@@ -208,12 +221,26 @@ export default function AnnotationTable({ onNavigateToSequence }: AnnotationTabl
       };
     });
 
+    // ICC(2,1) computation for D1 and D2
+    // Build paired score arrays for sequences with exactly 2 coders
+    const pairedD1 = sharedGroups
+      .filter(([, annos]) => annos.length === 2)
+      .map(([, annos]) => ({ scores: annos.map(a => a.d1_scores as Record<string, number>) }));
+    const pairedD2 = sharedGroups
+      .filter(([, annos]) => annos.length === 2)
+      .map(([, annos]) => ({ scores: annos.map(a => a.d2_scores as Record<string, number>) }));
+
+    const d1_icc = pairedD1.length >= 2 ? computeDimensionICC(pairedD1, D1_CORE_TYPES) : null;
+    const d2_icc = pairedD2.length >= 2 ? computeDimensionICC(pairedD2, D2_CORE_ROLES) : null;
+
     return {
       total: Object.keys(groups).length,
       shared: sharedGroups.length,
       st_agreement_rate: sharedGroups.length ? (st_agreed / sharedGroups.length) * 100 : 0,
       d1_agreement_rate: sharedGroups.length ? (d1_agreed / sharedGroups.length) * 100 : 0,
       d2_agreement_rate: sharedGroups.length ? (d2_agreed / sharedGroups.length) * 100 : 0,
+      d1_icc,
+      d2_icc,
       groups: irrGroups
     };
   }, [rows]);
@@ -307,21 +334,29 @@ export default function AnnotationTable({ onNavigateToSequence }: AnnotationTabl
 
       {/* IRR Summary Card */}
       {irrMode && (
-        <div className="grid-3" style={{ gap: 12 }}>
-          <div className="panel panel-pad stack" style={{ gap: 8, border: '1px solid var(--line)', background: 'rgba(52, 115, 230, 0.03)' }}>
-             <h4 style={{ fontSize: 10, textTransform: 'uppercase', color: 'var(--muted)', margin: 0 }}>Stance Agreement</h4>
-             <div style={{ fontSize: 24, fontWeight: 900, color: 'var(--blue)' }}>{Math.round(Number(irrStats.st_agreement_rate || 0))}%</div>
-             <p style={{fontSize: 10, color: 'var(--muted)', margin: 0}}>Phase 1 (Seeker Stance) Concordance</p>
+        <div className="stack" style={{ gap: 12 }}>
+          {/* Row 1: Primary-role agreement (categorical) */}
+          <div className="grid-3" style={{ gap: 12 }}>
+            <div className="panel panel-pad stack" style={{ gap: 8, border: '1px solid var(--line)', background: 'rgba(52, 115, 230, 0.03)' }}>
+               <h4 style={{ fontSize: 10, textTransform: 'uppercase', color: 'var(--muted)', margin: 0 }}>Stance Agreement</h4>
+               <div style={{ fontSize: 24, fontWeight: 900, color: 'var(--blue)' }}>{Math.round(Number(irrStats.st_agreement_rate || 0))}%</div>
+               <p style={{fontSize: 10, color: 'var(--muted)', margin: 0}}>Phase 1 (Seeker Stance) Concordance</p>
+            </div>
+            <div className="panel panel-pad stack" style={{ gap: 8, border: '1px solid var(--line)', background: 'rgba(16, 185, 129, 0.03)' }}>
+               <h4 style={{ fontSize: 10, textTransform: 'uppercase', color: 'var(--muted)', margin: 0 }}>D1 Primary Agreement</h4>
+               <div style={{ fontSize: 24, fontWeight: 900, color: 'var(--green)' }}>{Math.round(Number(irrStats.d1_agreement_rate || 0))}%</div>
+               <p style={{fontSize: 10, color: 'var(--muted)', margin: 0}}>Highest-scored support type match</p>
+            </div>
+            <div className="panel panel-pad stack" style={{ gap: 8, border: '1px solid var(--line)', background: 'rgba(79, 70, 229, 0.03)' }}>
+               <h4 style={{ fontSize: 10, textTransform: 'uppercase', color: 'var(--muted)', margin: 0 }}>D2 Primary Agreement</h4>
+               <div style={{ fontSize: 24, fontWeight: 900, color: 'var(--purple)' }}>{Math.round(Number(irrStats.d2_agreement_rate || 0))}%</div>
+               <p style={{fontSize: 10, color: 'var(--muted)', margin: 0}}>Highest-scored care role match</p>
+            </div>
           </div>
-          <div className="panel panel-pad stack" style={{ gap: 8, border: '1px solid var(--line)', background: 'rgba(16, 185, 129, 0.03)' }}>
-             <h4 style={{ fontSize: 10, textTransform: 'uppercase', color: 'var(--muted)', margin: 0 }}>D1 Agreement</h4>
-             <div style={{ fontSize: 24, fontWeight: 900, color: 'var(--green)' }}>{Math.round(Number(irrStats.d1_agreement_rate || 0))}%</div>
-             <p style={{fontSize: 10, color: 'var(--muted)', margin: 0}}>Support Type Concordance</p>
-          </div>
-          <div className="panel panel-pad stack" style={{ gap: 8, border: '1px solid var(--line)', background: 'rgba(79, 70, 229, 0.03)' }}>
-             <h4 style={{ fontSize: 10, textTransform: 'uppercase', color: 'var(--muted)', margin: 0 }}>D2 Agreement</h4>
-             <div style={{ fontSize: 24, fontWeight: 900, color: 'var(--purple)' }}>{Math.round(Number(irrStats.d2_agreement_rate || 0))}%</div>
-             <p style={{fontSize: 10, color: 'var(--muted)', margin: 0}}>Care Role Concordance</p>
+          {/* Row 2: ICC(2,1) for ordinal Likert scores */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+            <ICCCard label="D1 Support Type" iccData={irrStats.d1_icc} />
+            <ICCCard label="D2 Care Role" iccData={irrStats.d2_icc} />
           </div>
         </div>
       )}
@@ -359,7 +394,7 @@ export default function AnnotationTable({ onNavigateToSequence }: AnnotationTabl
         <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
           <thead>
             <tr style={{ borderBottom: '2px solid var(--line)', textAlign: 'left' }}>
-              <Th field="external_id" label="Conv" onSort={handleSort} sortField={sortField} sortAsc={sortAsc} />
+              <Th field="external_id" label="Seq" onSort={handleSort} sortField={sortField} sortAsc={sortAsc} />
               <Th field="turn_range" label="Turns" onSort={handleSort} sortField={sortField} sortAsc={sortAsc} />
               {irrMode && <th style={thStyle}>Coder</th>}
               <th style={thStyle}>Stance</th>
@@ -381,7 +416,7 @@ export default function AnnotationTable({ onNavigateToSequence }: AnnotationTabl
                     <tr style={{ background: (group.d1_agreement && group.d2_agreement) ? 'rgba(16, 185, 129, 0.05)' : 'rgba(239, 68, 68, 0.05)' }}>
                       <td style={{ ...tdStyle, fontWeight: '900', color: 'var(--text)' }} colSpan={2}>
                         <div className="row" style={{ gap: 8, alignItems: 'center' }}>
-                          <span style={{ fontSize: 13 }}>{group.external_id}</span>
+                          <span style={{ fontSize: 13 }}>{group.sequence_id?.slice(0, 6) || '?'}</span>
                           <span style={{ fontSize: 11, color: 'var(--muted)', fontWeight: 400 }}>({group.turn_range})</span>
                         </div>
                       </td>
@@ -493,7 +528,7 @@ function AnnotationRowComponent({
         background: isEditing ? 'rgba(79, 70, 229, 0.05)' : undefined,
       }}
     >
-      {!irrMode && <td style={tdStyle}>{row.external_id.replace('ESConv_', '#')}</td>}
+      {!irrMode && <td style={tdStyle} title={row.sequence_id}>{row.sequence_id.slice(0, 6)}</td>}
       {!irrMode && <td style={{ ...tdStyle, fontFamily: 'monospace', fontSize: 12 }}>{row.turn_range}</td>}
       
       {irrMode && (
@@ -676,6 +711,58 @@ function Th({ field, label, onSort, sortField, sortAsc }: {
         )}
       </span>
     </th>
+  );
+}
+
+function iccInterpretation(icc: number): { label: string; color: string } {
+  if (icc < 0.50) return { label: 'Poor', color: 'var(--red, #ef4444)' };
+  if (icc < 0.75) return { label: 'Moderate', color: 'var(--orange, #f59e0b)' };
+  if (icc < 0.90) return { label: 'Good', color: 'var(--green, #10b981)' };
+  return { label: 'Excellent', color: 'var(--green, #10b981)' };
+}
+
+function ICCCard({ label, iccData }: {
+  label: string;
+  iccData: ReturnType<typeof computeDimensionICC> | null;
+}) {
+  if (!iccData || !iccData.overall) {
+    return (
+      <div className="panel panel-pad stack" style={{ gap: 8, border: '1px solid var(--line)' }}>
+        <h4 style={{ fontSize: 10, textTransform: 'uppercase', color: 'var(--muted)', margin: 0 }}>{label} ICC(2,1)</h4>
+        <div style={{ fontSize: 13, color: 'var(--muted)' }}>Insufficient paired data</div>
+      </div>
+    );
+  }
+
+  const { overall, perCategory } = iccData;
+  const interp = iccInterpretation(overall.icc);
+
+  return (
+    <div className="panel panel-pad stack" style={{ gap: 8, border: '1px solid var(--line)' }}>
+      <div className="row between" style={{ alignItems: 'baseline' }}>
+        <h4 style={{ fontSize: 10, textTransform: 'uppercase', color: 'var(--muted)', margin: 0 }}>{label} ICC(2,1)</h4>
+        <span style={{ fontSize: 10, color: 'var(--muted)' }}>n={overall.n} pairs, k={overall.k} raters</span>
+      </div>
+      <div className="row" style={{ gap: 8, alignItems: 'baseline' }}>
+        <span style={{ fontSize: 28, fontWeight: 900, color: interp.color }}>{overall.icc.toFixed(2)}</span>
+        <span style={{ fontSize: 11, fontWeight: 700, color: interp.color }}>{interp.label}</span>
+        <span style={{ fontSize: 10, color: 'var(--muted)' }}>
+          [{overall.lowerCI.toFixed(2)}, {overall.upperCI.toFixed(2)}]
+        </span>
+      </div>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 4 }}>
+        {Object.entries(perCategory).map(([cat, result]) => (
+          <span key={cat} style={{
+            fontSize: 10, padding: '2px 8px', borderRadius: 4,
+            background: result ? (result.icc >= 0.5 ? 'rgba(16, 185, 129, 0.1)' : 'rgba(239, 68, 68, 0.1)') : 'var(--bg)',
+            color: result ? (result.icc >= 0.5 ? 'var(--green, #10b981)' : 'var(--red, #ef4444)') : 'var(--muted)',
+            border: '1px solid var(--line)',
+          }}>
+            {cat}: {result ? result.icc.toFixed(2) : '—'}
+          </span>
+        ))}
+      </div>
+    </div>
   );
 }
 

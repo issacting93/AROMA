@@ -45,6 +45,8 @@ CREATE TABLE public.annotations (
     d1_scores JSONB DEFAULT '{}'::jsonb,
 
     d3_strategies TEXT[],
+    role_transition BOOLEAN DEFAULT FALSE,
+    transition_turn INT,
     stance_mismatch TEXT CHECK (
         stance_mismatch IS NULL OR stance_mismatch IN (
             'aligned', 'mild_misfit', 'misfit',

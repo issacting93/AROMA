@@ -74,7 +74,7 @@ const TurningPointDashboard: React.FC<TurningPointDashboardProps> = ({ annotatio
         <div className="row between" style={{alignItems: 'center'}}>
           <div>
             <h2>Turning Point Summary</h2>
-            <p className="subtle">This view correlates AI Care Roles (D2) with User Stance (Codebook §4), identifying the 'Relational Catalysts' in the ESConv corpus.</p>
+            <p className="subtle">This view correlates AI Care Roles (D2) with User Stance (Codebook §4), identifying the 'Relational Catalysts' in the annotation corpus.</p>
           </div>
           <div className="row" style={{gap: 8}}>
             <ExportButton format="json" />

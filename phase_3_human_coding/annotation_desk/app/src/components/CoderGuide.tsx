@@ -182,7 +182,7 @@ const CoderGuide: React.FC = () => (
           ['Reflective Partner vs Coach', 'Holding the question <em>open</em> (understanding) or driving toward <em>closure</em> (action)? Open → RP. Closure → Coach.'],
           ['Coach vs Advisor', 'Building capacity to act (<em>how</em>), or delivering information (<em>what</em>)? Capacity → Coach. Info → Advisor.'],
           ['Advisor vs Navigator', 'Remove the referral — does the response still work? <strong>Yes → Advisor.</strong> Empty → Navigator.'],
-          ['Listener vs Companion', 'Listener is session-bound. Companion needs relational history. In ESConv, default to Listener.'],
+          ['Listener vs Companion', 'Listener is session-bound. Companion needs relational history. In single-session data, default to Listener.'],
           ['Coach vs Companion', 'Affirmation tied to <em>specific actions</em> → Coach. About <em>the person/bond</em> → Companion.'],
         ]}
       />

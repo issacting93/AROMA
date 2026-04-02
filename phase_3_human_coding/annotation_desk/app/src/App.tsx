@@ -196,7 +196,7 @@ function App() {
                <div className="sidebar-card">
                  <h4>Conversation</h4>
                  <div className="sidebar-card-value">
-                   {currentConversation?.external_id || 'None Selected'}
+                   {currentConversation ? 'Active' : 'None Selected'}
                  </div>
                </div>
                <div className="sidebar-card">

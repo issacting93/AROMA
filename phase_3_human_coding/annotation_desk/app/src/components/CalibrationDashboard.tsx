@@ -76,18 +76,32 @@ const CalibrationDashboard: React.FC<CalibrationDashboardProps> = ({ onSelectSeq
     fetchSequences();
   }, []);
 
-  const filteredItems = items.filter(item => {
-    const matchesSearch = item.external_id.toLowerCase().includes(search.toLowerCase());
-    if (!matchesSearch) return false;
+  const getPhase = (externalId: string): 1 | 2 | 3 => {
+    const prefix = externalId.split('_')[0];
+    const num = parseInt(externalId.split('_')[1] || '0');
 
-    // Phase logic: 
-    // Phase 1 = ESConv_0 to ESConv_24 (50 seqs)
-    // Phase 2 = ESConv_25 to ESConv_29 (10 seqs)
-    // Phase 3 = ESConv_30 to ESConv_34 (10 seqs)
-    const num = parseInt(item.external_id.split('_')[1] || '0');
-    if (activePhase === 1) return num < 25;
-    if (activePhase === 2) return num >= 25 && num < 30;
-    return num >= 30;
+    if (prefix === 'ESConv') {
+      if (num < 25) return 1;
+      if (num < 30) return 2;
+      return 3;
+    }
+    if (prefix === 'AnnoMI') {
+      // AnnoMI 0–9 → Phase 2, 10–19 → Phase 3
+      if (num < 10) return 2;
+      return 3;
+    }
+    return 1; // fallback
+  };
+
+  const filteredItems = items.filter(item => {
+    if (search && !item.turns?.some((t: any) => t.text?.toLowerCase().includes(search.toLowerCase()))) return false;
+    return getPhase(item.external_id) === activePhase;
+  }).sort((a, b) => {
+    // Interleave data sources: alternate by source, then by ID within source
+    const srcA = a.external_id.split('_')[0];
+    const srcB = b.external_id.split('_')[0];
+    if (srcA !== srcB) return srcA.localeCompare(srcB) * -1; // AnnoMI before ESConv, then alternates via index
+    return a.external_id.localeCompare(b.external_id, undefined, { numeric: true });
   });
 
   return (
@@ -120,9 +134,9 @@ const CalibrationDashboard: React.FC<CalibrationDashboardProps> = ({ onSelectSeq
           </div>
           <div className="search-box row" style={{ background: '#fff', padding: '6px 12px', borderRadius: 8, border: '1px solid var(--line)' }}>
             <Search size={14} color="var(--muted)" />
-            <input 
-              type="text" 
-              placeholder="Search conversations..." 
+            <input
+              type="text"
+              placeholder="Search sequences..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               style={{ border: 'none', outline: 'none', fontSize: 13, marginLeft: 8 }}
@@ -193,10 +207,10 @@ const CalibrationDashboard: React.FC<CalibrationDashboardProps> = ({ onSelectSeq
               <tr><td colSpan={5} style={{ padding: 40, textAlign: 'center' }}>Loading sequences...</td></tr>
             ) : filteredItems.length === 0 ? (
               <tr><td colSpan={5} style={{ padding: 40, textAlign: 'center' }}>No conversations found.</td></tr>
-            ) : filteredItems.map((item) => (
+            ) : filteredItems.map((item, idx) => (
               <tr key={item.id} style={{ borderBottom: '1px solid var(--line-alt)', background: currentSequenceId === item.id ? 'rgba(52, 115, 230, 0.05)' : 'white' }}>
                 <td style={{ padding: '16px 20px' }}>
-                  <div style={{ fontWeight: 700, fontSize: 13 }}>{item.external_id}</div>
+                  <div style={{ fontWeight: 700, fontSize: 13 }}>SEQ-{String(idx + 1).padStart(3, '0')}</div>
                 </td>
                 <td style={{ padding: '16px 20px', fontSize: 12 }}>{item.turn_range}</td>
                 <td style={{ padding: '16px 20px' }}>

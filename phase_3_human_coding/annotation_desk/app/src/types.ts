@@ -116,6 +116,8 @@ export interface AnnotationFormData {
   d2_scores: Record<D2Role, number>;
   d1_scores: Record<D1SupportType, number>;
   d3_strategies: D3Strategy[];
+  role_transition: boolean;
+  transition_turn: number | null;
   stance_mismatch: AlignmentLevel | null;
   confidence: 1 | 2 | 3;
   notes: string;
