@@ -73,24 +73,13 @@ export function computeICC21(ratings: number[][]): ICCResult | null {
 
   const icc = (BMS - EMS) / denom;
 
-  // 95% CI using F-distribution approximation (Shrout & Fleiss 1979, eq. 6)
-  const FL = BMS / (k * JMS + (n - k) * EMS) !== 0
-    ? (BMS / EMS) / fCritical(0.025, n - 1, (n - 1) * (k - 1))
-    : 0;
-  const FU = (BMS / EMS) * fCritical(0.025, (n - 1) * (k - 1), n - 1);
-
-  // Simplified CI using the approach from McGraw & Wong (1996)
-  // Lower bound
-  const vn = k * (BMS - EMS) / (k * JMS + (n - k) * EMS);
-  const vd = 1 + k * (BMS - EMS) / (n * EMS);
-
-  // Use simpler Shrout-Fleiss approximate CI
+  // 95% CI — Shrout-Fleiss (1979) F-ratio approximation
   const Fobs = BMS / EMS;
   const dfN = n - 1;
   const dfD = dfN * (k - 1);
 
-  const Flower = Fobs / fCritical(0.025, dfN, dfD);
-  const Fupper = Fobs * fCritical(0.025, dfD, dfN);
+  const Flower = Fobs / fCritical(dfN, dfD);
+  const Fupper = Fobs * fCritical(dfD, dfN);
 
   const lowerCI = Math.max(-1, (Flower - 1) / (Flower + (k - 1) + (k * (JMS - EMS)) / (BMS)));
   const upperCI = Math.min(1, (Fupper - 1) / (Fupper + (k - 1) + (k * (JMS - EMS)) / (BMS)));
@@ -109,11 +98,11 @@ function clamp(v: number, min: number, max: number): number {
 }
 
 /**
- * Approximate F critical value using Wilson-Hilferty approximation
- * for the inverse chi-square CDF. Good enough for CI display.
+ * Approximate F critical value (alpha = 0.025, two-tailed 95% CI) using
+ * the Wilson-Hilferty chi-square approximation. Good enough for CI display.
  */
-function fCritical(alpha: number, df1: number, df2: number): number {
-  // Use z_{1-alpha} ≈ 1.96 for alpha=0.025
+function fCritical(df1: number, df2: number): number {
+  // z_{0.975} ≈ 1.96
   const z = 1.96;
 
   // Wilson-Hilferty approximation for chi-square quantile
