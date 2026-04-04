@@ -5,7 +5,7 @@
  * Last Refactor: March 2026
  */
 import { useState } from 'react';
-import { ShieldCheck, Zap, MessageSquare, Save } from 'lucide-react';
+import { ShieldCheck, Zap, MessageSquare, Save, HelpCircle, ChevronDown, ChevronRight } from 'lucide-react';
 import {
   D2_CORE_ROLES, D1_CORE_TYPES, D3_STRATEGIES, USER_STANCES,
   getAlignment, getPrimaryRole,
@@ -54,6 +54,35 @@ const D2_HINTS: Record<string, string> = {
   'Navigator': 'Practical, resource-oriented. Connects users to external care systems.',
   'Ambiguous': 'Decision tree does not resolve to a single role.',
   'None': 'Non-care turn (greetings, technical troubleshooting, system messages).',
+};
+
+const InlineGuide: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => {
+  const [open, setOpen] = useState(false);
+  return (
+    <div style={{ marginBottom: 8 }}>
+      <button
+        onClick={() => setOpen(!open)}
+        style={{
+          display: 'flex', alignItems: 'center', gap: 6, padding: '4px 0',
+          background: 'none', border: 'none', cursor: 'pointer',
+          fontSize: 11, color: 'var(--blue)', fontWeight: 600,
+        }}
+      >
+        <HelpCircle size={12} />
+        {title}
+        {open ? <ChevronDown size={12} /> : <ChevronRight size={12} />}
+      </button>
+      {open && (
+        <div style={{
+          padding: '10px 14px', marginTop: 4, borderRadius: 10,
+          background: 'rgba(79, 70, 229, 0.04)', border: '1px solid rgba(79, 70, 229, 0.1)',
+          fontSize: 12, lineHeight: 1.6, color: 'var(--text)',
+        }}>
+          {children}
+        </div>
+      )}
+    </div>
+  );
 };
 
 const SeekerFirstForm: React.FC<SeekerFirstFormProps> = ({
@@ -166,9 +195,18 @@ const SeekerFirstForm: React.FC<SeekerFirstFormProps> = ({
 
         {/* ── SECTION 1: STANCE ── */}
         <div className="form-section panel-pad" style={{ borderBottom: '1px solid var(--line)' }}>
-          <h4 className="row" style={{ gap: 6, fontSize: 13, marginBottom: 12 }}>
+          <h4 className="row" style={{ gap: 6, fontSize: 13, marginBottom: 8 }}>
             <ShieldCheck size={14} /> 1. Seeker Stance
           </h4>
+          <InlineGuide title="How do I choose a stance?">
+            <p style={{ margin: '0 0 6px' }}>Read <strong>only the seeker's messages</strong> (the person asking for help). Ask yourself:</p>
+            <ul style={{ margin: '0 0 6px', paddingLeft: 18 }}>
+              <li><strong>Passive</strong> — They're venting or sharing feelings but not asking for anything specific. ("I just feel so lost.")</li>
+              <li><strong>Exploratory</strong> — They're thinking out loud, trying to understand their situation. ("Why do I keep doing this?")</li>
+              <li><strong>Active</strong> — They're directly asking for help, advice, or resources. ("What should I do about this?")</li>
+            </ul>
+            <p style={{ margin: 0, fontStyle: 'italic', color: 'var(--muted)' }}>Tip: Rhetorical questions ("Why me?") are Passive, not Active. Code the mood, not the grammar.</p>
+          </InlineGuide>
 
           <div className="row wrap" style={{ gap: 8, marginBottom: 16, flexWrap: 'wrap' }}>
             {USER_STANCES.map(s => (
@@ -227,6 +265,18 @@ const SeekerFirstForm: React.FC<SeekerFirstFormProps> = ({
           {/* D1: Support Type */}
           <div className="stack" style={{ gap: 8, marginBottom: 20 }}>
             <label className="subtle" style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>D1: Support Type</label>
+            <InlineGuide title="What kind of help is being given?">
+              <p style={{ margin: '0 0 6px' }}>Score how much of each type of support the helper is providing. Use 0 if absent, 5 if it's the main thing they're doing.</p>
+              <ul style={{ margin: '0 0 6px', paddingLeft: 18 }}>
+                <li><strong>Emotional</strong> — Showing care about feelings. "That sounds really tough."</li>
+                <li><strong>Informational</strong> — Giving facts or advice. "Anxiety often causes that."</li>
+                <li><strong>Esteem</strong> — Building confidence. "You handled that well."</li>
+                <li><strong>Network</strong> — Connecting to people. "Have you talked to anyone about this?"</li>
+                <li><strong>Tangible</strong> — Providing practical resources. "Here's a helpline number."</li>
+                <li><strong>Appraisal</strong> — Helping them see things differently. "What would it look like from their side?"</li>
+              </ul>
+              <p style={{ margin: 0, fontStyle: 'italic', color: 'var(--muted)' }}>Tip: Generic questions like "How are you?" don't count as support. Score 0 for small talk.</p>
+            </InlineGuide>
             <div className="stack" style={{ gap: 6 }}>
               {D1_CORE_TYPES.map(opt => (
                 <div key={opt} style={{ background: '#fff', padding: '6px 12px', borderRadius: 8, border: '1px solid var(--line)' }}>
@@ -259,6 +309,25 @@ const SeekerFirstForm: React.FC<SeekerFirstFormProps> = ({
           {/* D2: Care Role */}
           <div className="stack" style={{ gap: 8, marginBottom: 20 }}>
             <label className="subtle" style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>D2: Care Role</label>
+            <InlineGuide title="What role is the helper playing?">
+              <p style={{ margin: '0 0 6px' }}>Ask: is the helper <strong>following</strong> the seeker's lead, or <strong>leading</strong> the conversation?</p>
+              <p style={{ margin: '0 0 6px' }}><strong>Following:</strong></p>
+              <ul style={{ margin: '0 0 6px', paddingLeft: 18 }}>
+                <li><strong>Listener</strong> — Just mirrors and validates. Doesn't add new ideas.</li>
+                <li><strong>Companion</strong> — Warm ongoing presence. Cares about the relationship itself.</li>
+              </ul>
+              <p style={{ margin: '0 0 6px' }}><strong>Leading → focused on feelings:</strong></p>
+              <ul style={{ margin: '0 0 6px', paddingLeft: 18 }}>
+                <li><strong>Reflective Partner</strong> — Helps the seeker think deeper. Asks "why" questions, offers new angles.</li>
+              </ul>
+              <p style={{ margin: '0 0 6px' }}><strong>Leading → focused on action:</strong></p>
+              <ul style={{ margin: '0 0 6px', paddingLeft: 18 }}>
+                <li><strong>Coach</strong> — Motivates and builds confidence to act. "You can do this, here's how."</li>
+                <li><strong>Advisor</strong> — Delivers expert knowledge. "Research shows that..."</li>
+                <li><strong>Navigator</strong> — Points to outside resources. "You should call this service."</li>
+              </ul>
+              <p style={{ margin: 0, fontStyle: 'italic', color: 'var(--muted)' }}>Tip: Score the highest role as 5 (dominant). If a second role is clearly present, give it 1 or 3.</p>
+            </InlineGuide>
             <div className="stack" style={{ gap: 6 }}>
               {D2_CORE_ROLES.map(opt => (
                 <div key={opt} style={{ background: '#fff', padding: '6px 12px', borderRadius: 8, border: '1px solid var(--line)' }}>
@@ -291,6 +360,19 @@ const SeekerFirstForm: React.FC<SeekerFirstFormProps> = ({
           {/* D3: Support Strategies (multi-select) */}
           <div className="stack" style={{ gap: 8, marginBottom: 20 }}>
             <label className="subtle" style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>D3: Strategies · select all that apply</label>
+            <InlineGuide title="What specific moves is the helper making?">
+              <p style={{ margin: '0 0 6px' }}>Select <strong>every</strong> strategy you see in this sequence. Multiple can apply.</p>
+              <ul style={{ margin: '0 0 6px', paddingLeft: 18 }}>
+                <li><strong>Question</strong> — Any question aimed at the seeker.</li>
+                <li><strong>Restatement</strong> — Repeating back what the seeker said in different words.</li>
+                <li><strong>Reflection of Feelings</strong> — Naming emotions. "You seem frustrated."</li>
+                <li><strong>Self-disclosure</strong> — The helper shares something about themselves.</li>
+                <li><strong>Affirmation</strong> — Validating or normalising. "That's completely understandable."</li>
+                <li><strong>Providing Suggestions</strong> — Recommending something to try.</li>
+                <li><strong>Information</strong> — Stating facts or explaining something.</li>
+                <li><strong>Others</strong> — Anything that doesn't fit above.</li>
+              </ul>
+            </InlineGuide>
             <div className="row wrap" style={{ gap: 6, flexWrap: 'wrap' }}>
               {D3_STRATEGIES.map(st => (
                 <div
