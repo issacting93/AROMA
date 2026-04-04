@@ -5,13 +5,21 @@ import { Play, CheckCircle, Clock, Search, Layers, UserCheck } from 'lucide-reac
 interface CalibrationDashboardProps {
   onSelectSequence: (sequence: any) => void;
   currentSequenceId?: string;
+  activePhase?: 1 | 2 | 3;
+  onPhaseChange?: (phase: 1 | 2 | 3) => void;
 }
 
-const CalibrationDashboard: React.FC<CalibrationDashboardProps> = ({ onSelectSequence, currentSequenceId }) => {
+const CalibrationDashboard: React.FC<CalibrationDashboardProps> = ({ onSelectSequence, currentSequenceId, activePhase: externalPhase, onPhaseChange }) => {
   const [items, setItems] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
-  const [activePhase, setActivePhase] = useState<1 | 2 | 3>(1);
+  const [internalPhase, setInternalPhase] = useState<1 | 2 | 3>(2);
+
+  const activePhase = externalPhase ?? internalPhase;
+  const setActivePhase = (phase: 1 | 2 | 3) => {
+    setInternalPhase(phase);
+    onPhaseChange?.(phase);
+  };
 
   const fetchSequences = async () => {
     setLoading(true);

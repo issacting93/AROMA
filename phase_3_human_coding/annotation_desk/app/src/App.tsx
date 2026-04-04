@@ -18,6 +18,7 @@ import type { Conversation, Sequence, ConversationStance, User as SupaUser, Turn
 function App() {
   const [user, setUser] = useState<SupaUser | null>(null);
   const [activeTab, setActiveTab] = useState<'annotate' | 'batch' | 'insights' | 'guide' | 'data'>('annotate');
+  const [activePhase, setActivePhase] = useState<1 | 2 | 3>(2);
   const [currentConversation, setCurrentConversation] = useState<Conversation | null>(null);
   const [currentSequence, setCurrentSequence] = useState<Sequence | null>(null);
   const [coderStance, setCoderStance] = useState<ConversationStance | null>(null);
@@ -143,7 +144,7 @@ function App() {
             <div className="brand-icon">A</div>
             <h1>AROMA Annotation</h1>
           </div>
-          <p>Laboratory Session · v0.2.2</p>
+          <p>Laboratory Session · v0.3</p>
         </div>
 
         <div className="topnav">
@@ -193,6 +194,22 @@ function App() {
           <div className="panel panel-pad stack" style={{ border: 'none', boxShadow: 'none', background: 'transparent', padding: 0, gap: 16 }}>
             <h3 className="sidebar-title">Active Session</h3>
             <div className="stack" style={{ gap: 12 }}>
+               <div className="sidebar-card">
+                 <h4>Phase</h4>
+                 <select
+                   value={activePhase}
+                   onChange={(e) => setActivePhase(Number(e.target.value) as 1 | 2 | 3)}
+                   style={{
+                     width: '100%', padding: '8px 12px', fontSize: 14, fontWeight: 700,
+                     border: '1px solid var(--line)', borderRadius: 8, background: '#fff',
+                     color: 'var(--text)', cursor: 'pointer',
+                   }}
+                 >
+                   <option value={1}>Phase 1 — Calibration</option>
+                   <option value={2}>Phase 2 — Calibration</option>
+                   <option value={3}>Phase 3 — Calibration</option>
+                 </select>
+               </div>
                <div className="sidebar-card">
                  <h4>Conversation</h4>
                  <div className="sidebar-card-value">
@@ -287,9 +304,11 @@ function App() {
                 </div>
              )
           ) : activeTab === 'batch' ? (
-             <CalibrationDashboard 
-               onSelectSequence={handleSelectSequence} 
-               currentSequenceId={currentSequence?.id} 
+             <CalibrationDashboard
+               onSelectSequence={handleSelectSequence}
+               currentSequenceId={currentSequence?.id}
+               activePhase={activePhase}
+               onPhaseChange={setActivePhase}
              />
           ) : activeTab === 'data' ? (
              <AnnotationTable onNavigateToSequence={navigateToSequence} />
@@ -302,7 +321,7 @@ function App() {
       </main>
 
       <div className="footer-note">
-        © 2026 AROMA Research Lab · CHI '26 Submission Draft · Protocol v0.2.2
+        © 2026 AROMA Research Lab · CHI '27 Submission Draft · Protocol v0.3
       </div>
     </div>
   );
