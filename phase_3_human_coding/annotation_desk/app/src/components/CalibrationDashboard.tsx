@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { supabase, parseRange } from '../supabase';
+import { supabase, parseRange, getPhase as getPhaseFromId } from '../supabase';
 import { Play, CheckCircle, Clock, Search, Layers, UserCheck } from 'lucide-react';
 
 interface CalibrationDashboardProps {
@@ -84,26 +84,9 @@ const CalibrationDashboard: React.FC<CalibrationDashboardProps> = ({ onSelectSeq
     fetchSequences();
   }, []);
 
-  const getPhase = (externalId: string): 1 | 2 | 3 => {
-    const prefix = externalId.split('_')[0];
-    const num = parseInt(externalId.split('_')[1] || '0');
-
-    if (prefix === 'ESConv') {
-      if (num < 25) return 1;
-      if (num < 30) return 2;
-      return 3;
-    }
-    if (prefix === 'AnnoMI') {
-      // AnnoMI 0–9 → Phase 2, 10–19 → Phase 3
-      if (num < 10) return 2;
-      return 3;
-    }
-    return 1; // fallback
-  };
-
   const filteredItems = items.filter(item => {
     if (search && !item.turns?.some((t: any) => t.text?.toLowerCase().includes(search.toLowerCase()))) return false;
-    return getPhase(item.external_id) === activePhase;
+    return getPhaseFromId(item.external_id) === activePhase;
   }).sort((a, b) => {
     // Interleave data sources: alternate by source, then by ID within source
     const srcA = a.external_id.split('_')[0];

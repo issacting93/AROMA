@@ -39,7 +39,7 @@ function App() {
     if (!user) return;
     setLoading(true);
     try {
-      const conv = await api.fetchNextConversation(user.id);
+      const conv = await api.fetchNextConversation(user.id, activePhase);
       if (conv) {
         setCurrentConversation(conv);
         // Automatically start with the first sequence
@@ -60,7 +60,7 @@ function App() {
 
   const fetchStats = async () => {
     if (!user) return;
-    const s = await api.fetchRemainingWork(user.id);
+    const s = await api.fetchRemainingWork(user.id, activePhase);
     setStats(s);
   };
 
@@ -71,6 +71,17 @@ function App() {
       fetchStats();
     }
   }, [user]);
+
+  // Re-fetch when phase changes
+  useEffect(() => {
+    if (user) {
+      setCurrentConversation(null);
+      setCurrentSequence(null);
+      setCoderStance(null);
+      fetchNext();
+      fetchStats();
+    }
+  }, [activePhase]);
 
   const navigateToSequence = async (sequenceId: string, conversationId: string) => {
     if (!user) return;

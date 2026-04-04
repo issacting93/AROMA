@@ -30,10 +30,28 @@ export async function getUser(): Promise<User | null> {
   return data.user;
 }
 
+// ── Phase Logic ──
+
+/** Determine which calibration phase a conversation belongs to based on external_id. */
+export function getPhase(externalId: string): 1 | 2 | 3 {
+  const prefix = externalId.split('_')[0];
+  const num = parseInt(externalId.split('_')[1] || '0');
+  if (prefix === 'ESConv') {
+    if (num < 25) return 1;
+    if (num < 30) return 2;
+    return 3;
+  }
+  if (prefix === 'AnnoMI') {
+    if (num < 10) return 2;
+    return 3;
+  }
+  return 1;
+}
+
 // ── Conversations ──
 
-/** Fetch next uncoded conversation for this coder. */
-export async function fetchNextConversation(coderId: string): Promise<Conversation | null> {
+/** Fetch next uncoded conversation for this coder, filtered to a specific phase. */
+export async function fetchNextConversation(coderId: string, phase?: 1 | 2 | 3): Promise<Conversation | null> {
   // Find conversations where this coder hasn't submitted a stance yet
   const { data: coded } = await supabase
     .from('conversation_stances')
@@ -42,20 +60,24 @@ export async function fetchNextConversation(coderId: string): Promise<Conversati
 
   const codedIds = (coded ?? []).map(r => r.conversation_id);
 
-  let query = supabase
+  // Fetch all conversations, then filter by phase client-side
+  // (phase is derived from external_id, not a DB column)
+  const { data: allConvs } = await supabase
     .from('conversations')
     .select('id, external_id, raw_json')
-    .order('created_at', { ascending: true })
-    .limit(1);
+    .order('created_at', { ascending: true });
 
-  if (codedIds.length > 0) {
-    query = query.not('id', 'in', `(${codedIds.join(',')})`);
-  }
+  if (!allConvs || allConvs.length === 0) return null;
 
-  const { data } = await query;
-  if (!data || data.length === 0) return null;
+  const candidates = allConvs.filter(c => {
+    if (codedIds.includes(c.id)) return false;
+    if (phase && getPhase(c.external_id) !== phase) return false;
+    return true;
+  });
 
-  const row = data[0];
+  if (candidates.length === 0) return null;
+
+  const row = candidates[0];
   const turns = parseTurns(row.raw_json);
 
   // Fetch sequences for this conversation
@@ -193,23 +215,30 @@ export async function fetchAllStances() {
 }
 
 
-export async function fetchRemainingWork(coderId: string) {
-  const { data: allSeqs } = await supabase.from('sequences').select('id, turn_range');
+export async function fetchRemainingWork(coderId: string, phase?: 1 | 2 | 3) {
+  const { data: allSeqs } = await supabase.from('sequences').select('id, turn_range, conversation_id(external_id)');
   const { data: coded } = await supabase.from('annotations').select('sequence_id').eq('coder_id', coderId);
-  
+
   const codedIds = new Set((coded ?? []).map(a => a.sequence_id));
-  const remaining = (allSeqs ?? []).filter(s => !codedIds.has(s.id));
-  
-  const turns = remaining.reduce((acc, s) => {
+
+  // Filter to selected phase
+  const phaseSeqs = (allSeqs ?? []).filter((s: any) => {
+    if (!phase) return true;
+    const extId = s.conversation_id?.external_id;
+    return extId && getPhase(extId) === phase;
+  });
+
+  const remaining = phaseSeqs.filter((s: any) => !codedIds.has(s.id));
+
+  const turns = remaining.reduce((acc: number, s: any) => {
     const range = parseRange(s.turn_range);
-    // [lower, upper-1] -> (upper-1) - lower + 1 = upper - lower
     return acc + (range[1] - range[0] + 1);
   }, 0);
-  
-  return { 
-    total: allSeqs?.length || 0,
-    remainingSeqs: remaining.length, 
-    remainingTurns: turns 
+
+  return {
+    total: phaseSeqs.length,
+    remainingSeqs: remaining.length,
+    remainingTurns: turns
   };
 }
 
