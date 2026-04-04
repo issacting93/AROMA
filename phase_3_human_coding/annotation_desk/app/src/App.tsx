@@ -26,8 +26,9 @@ function App() {
   const [annotations, setAnnotations] = useState<any[]>([]);
   const [stats, setStats] = useState({ total: 0, remainingSeqs: 0, remainingTurns: 0 });
 
-  // Auth Initialization
+  // Auth Initialization + Phase Map
   useEffect(() => {
+    api.loadPhaseMap(); // populate phase lookup cache
     api.getUser().then(setUser);
     const { data: { subscription } } = api.supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);

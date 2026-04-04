@@ -32,20 +32,30 @@ export async function getUser(): Promise<User | null> {
 
 // ── Phase Logic ──
 
-/** Determine which calibration phase a conversation belongs to based on external_id. */
+/** Phase lookup cache: external_id → phase number. Populated by loadPhaseMap(). */
+const phaseMap: Record<string, 1 | 2 | 3> = {};
+
+/** Load phase assignments from conversation metadata. Call once at startup. */
+export async function loadPhaseMap(): Promise<void> {
+  const { data } = await supabase
+    .from('conversations')
+    .select('external_id, raw_json');
+  if (!data) return;
+  for (const c of data) {
+    const rj = typeof c.raw_json === 'object' && c.raw_json !== null ? c.raw_json : {};
+    const phase = (rj as any).phase;
+    if (phase === 2 || phase === 3) {
+      phaseMap[c.external_id] = phase as 2 | 3;
+    } else {
+      // Phase 1 fallback: ESConv 0-24 or anything without explicit phase tag
+      phaseMap[c.external_id] = 1;
+    }
+  }
+}
+
+/** Get phase for a conversation. Uses metadata if available, falls back to Phase 1. */
 export function getPhase(externalId: string): 1 | 2 | 3 {
-  const prefix = externalId.split('_')[0];
-  const num = parseInt(externalId.split('_')[1] || '0');
-  if (prefix === 'ESConv') {
-    if (num < 25) return 1;
-    if (num < 30) return 2;
-    return 3;
-  }
-  if (prefix === 'AnnoMI') {
-    if (num < 10) return 2;
-    return 3;
-  }
-  return 1;
+  return phaseMap[externalId] ?? 1;
 }
 
 // ── Conversations ──
